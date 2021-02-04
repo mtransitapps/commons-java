@@ -737,8 +737,12 @@ public final class CleanUtils {
 	private static final String BAY_REPLACEMENT = "$2B:$4$5";
 	private static final Pattern PLATFORM_ = Pattern.compile("((^|\\W)(platform #?(\\w{1,3}))(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String PLATFORM_REPLACEMENT = "$2P:$4$5";
+	private static final Pattern PRIMARY_SCHOOL_ = Pattern.compile("((\\w+) primary school)", Pattern.CASE_INSENSITIVE);
+	private static final String PRIMARY_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 PS");
 	private static final Pattern SECONDARY_SCHOOL_ = Pattern.compile("((\\w+) secondary school)", Pattern.CASE_INSENSITIVE);
 	private static final String SECONDARY_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 SS");
+	private static final Pattern MIDDLE_SCHOOL_ = Pattern.compile("((\\w+) middle school)", Pattern.CASE_INSENSITIVE);
+	private static final String MIDDLE_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 MS");
 	private static final Pattern HIGH_SCHOOL_ = Pattern.compile("((\\w+) high school)", Pattern.CASE_INSENSITIVE);
 	private static final String HIGH_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 HS");
 	private static final Pattern SCHOOL_ = Pattern.compile("((\\w+) school)", Pattern.CASE_INSENSITIVE);
@@ -826,7 +830,9 @@ public final class CleanUtils {
 		//
 		string = BAY_.matcher(string).replaceAll(BAY_REPLACEMENT);
 		string = PLATFORM_.matcher(string).replaceAll(PLATFORM_REPLACEMENT);
+		string = PRIMARY_SCHOOL_.matcher(string).replaceAll(PRIMARY_SCHOOL_REPLACEMENT);
 		string = SECONDARY_SCHOOL_.matcher(string).replaceAll(SECONDARY_SCHOOL_REPLACEMENT);
+		string = MIDDLE_SCHOOL_.matcher(string).replaceAll(MIDDLE_SCHOOL_REPLACEMENT);
 		string = HIGH_SCHOOL_.matcher(string).replaceAll(HIGH_SCHOOL_REPLACEMENT);
 		string = SCHOOL_.matcher(string).replaceAll(SCHOOL_REPLACEMENT);
 		string = UNIVERSITY_.matcher(string).replaceAll(UNIVERSITY_REPLACEMENT);
