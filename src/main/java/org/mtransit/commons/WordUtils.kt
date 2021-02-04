@@ -5,7 +5,7 @@ object WordUtils {
     // Apache Commons Lang
     @JvmStatic
     fun capitalize(str: String, vararg delimiters: Char): String {
-        val delimLen = delimiters.size ?: -1
+        val delimLen = delimiters.size
         if (StringUtils.isEmpty(str) || delimLen == 0) {
             return str
         }
