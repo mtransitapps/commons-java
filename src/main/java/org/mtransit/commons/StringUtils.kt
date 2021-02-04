@@ -7,14 +7,14 @@ object StringUtils {
     const val EMPTY = Constants.EMPTY
 
     @JvmStatic
-    fun isEmpty(string: String?) = string.isNullOrEmpty()
+    fun isEmpty(string: CharSequence?) = string.isNullOrEmpty()
 
     @JvmStatic
-    fun isBlank(string: String?) = string.isNullOrBlank()
+    fun isBlank(string: CharSequence?) = string.isNullOrBlank()
 
     @JvmStatic
-    fun equals(string1: String?, string2: String?) = string1.equals(string2)
+    fun equals(string1: CharSequence?, string2: CharSequence?) = string1 == string2
 
     @JvmStatic
-    fun isNumeric(string: String) = CharUtils.isDigitsOnly(string)
+    fun isNumeric(string: CharSequence) = CharUtils.isDigitsOnly(string)
 }
