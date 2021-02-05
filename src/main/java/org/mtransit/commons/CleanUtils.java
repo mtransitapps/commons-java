@@ -737,6 +737,8 @@ public final class CleanUtils {
 	private static final String BAY_REPLACEMENT = "$2B:$4$5";
 	private static final Pattern PLATFORM_ = Pattern.compile("((^|\\W)(platform #?(\\w{1,3}))(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String PLATFORM_REPLACEMENT = "$2P:$4$5";
+	private static final Pattern ELEMENTARY_SCHOOL_ = Pattern.compile("((\\w+) elementary school)", Pattern.CASE_INSENSITIVE);
+	private static final String ELEMENTARY_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 ES");
 	private static final Pattern PRIMARY_SCHOOL_ = Pattern.compile("((\\w+) primary school)", Pattern.CASE_INSENSITIVE);
 	private static final String PRIMARY_SCHOOL_REPLACEMENT = CleanUtils.cleanWordsReplacement("$2 PS");
 	private static final Pattern SECONDARY_SCHOOL_ = Pattern.compile("((\\w+) secondary school)", Pattern.CASE_INSENSITIVE);
@@ -830,6 +832,7 @@ public final class CleanUtils {
 		//
 		string = BAY_.matcher(string).replaceAll(BAY_REPLACEMENT);
 		string = PLATFORM_.matcher(string).replaceAll(PLATFORM_REPLACEMENT);
+		string = ELEMENTARY_SCHOOL_.matcher(string).replaceAll(ELEMENTARY_SCHOOL_REPLACEMENT);
 		string = PRIMARY_SCHOOL_.matcher(string).replaceAll(PRIMARY_SCHOOL_REPLACEMENT);
 		string = SECONDARY_SCHOOL_.matcher(string).replaceAll(SECONDARY_SCHOOL_REPLACEMENT);
 		string = MIDDLE_SCHOOL_.matcher(string).replaceAll(MIDDLE_SCHOOL_REPLACEMENT);
