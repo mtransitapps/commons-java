@@ -1,5 +1,6 @@
 package org.mtransit.commons;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -10,6 +11,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CleanUtilsTest {
+
+	@Before
+	public void setUp() {
+		CommonsApp.setup(false);
+	}
 
 	@Test(expected = RuntimeException.class)
 	public void testCleanWords_Null() {
