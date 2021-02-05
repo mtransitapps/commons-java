@@ -1,10 +1,34 @@
 package org.mtransit.commons
 
+import org.intellij.lang.annotations.JdkConstants.PatternFlags
 import java.util.regex.Pattern
 
 object RegexUtils {
 
-    const val UNICODE_CHARACTER_CLASS = 256; // java.util.regex.Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24)
+    var isAndroid: Boolean? = null
+
+    private const val CANON_EQ = java.util.regex.Pattern.CANON_EQ // Android: flag not supported
+    private const val UNICODE_CHARACTER_CLASS = 256 // Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24) & has no effect on Android.
+
+    @Suppress("FunctionName")
+    @PatternFlags
+    @JvmStatic
+    fun fCANON_EQ() = flag(CANON_EQ)
+
+    @Suppress("FunctionName")
+    @PatternFlags
+    @JvmStatic
+    fun fUNICODE_CHARACTER_CLASS() = flag(UNICODE_CHARACTER_CLASS)
+
+    private fun flag(flag: Int): Int {
+        return isAndroid?.let { androidPlatform ->
+            if (androidPlatform) {
+                0
+            } else {
+                flag
+            }
+        } ?: throw RuntimeException("Platform not set!")
+    }
 
     @JvmStatic
     fun replaceAll(string: String?, patterns: Array<Pattern>?, replacement: String): String? {

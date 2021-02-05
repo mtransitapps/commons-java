@@ -193,8 +193,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static Pattern cleanWordsFR(@Nullable String... words) {
-		return cleanWords(Pattern.CASE_INSENSITIVE | RegexUtils.UNICODE_CHARACTER_CLASS, words);
-		// TODO ? Pattern.CANON_EQ
+		return cleanWords(Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ(), words);
 	}
 
 	@NotNull
@@ -250,8 +249,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static Pattern cleanWordsPluralFR(@Nullable String... words) {
-		return cleanWordsPlural(Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE, words);
-		// TODO ?  | Pattern.CANON_EQ
+		return cleanWordsPlural(Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ(), words);
 	}
 
 	@NotNull
@@ -440,15 +438,13 @@ public final class CleanUtils {
 
 	private static final Pattern WORD_NON_WORDS = Pattern.compile(
 			"([^" + WORD_REGEX + "]*)([" + WORD_REGEX + "]+)([^" + WORD_REGEX + "]*)",
-			Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-	//  TODO ? | Pattern.CANON_EQ
+			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	private static final String WORD_REGEX_FR = "a-zA-ZÀ-ÿ"; // d'AYLMER
 
 	private static final Pattern WORD_NON_WORDS_FR = Pattern.compile(
 			"([^" + WORD_REGEX_FR + "]*)([" + WORD_REGEX_FR + "]+)([^" + WORD_REGEX_FR + "]*)",
-			Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-	//  TODO ? | Pattern.CANON_EQ
+			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	@NotNull
 	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
