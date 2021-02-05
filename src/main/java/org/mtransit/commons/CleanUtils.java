@@ -886,10 +886,10 @@ public final class CleanUtils {
 	private static final String FR_CA_QUAI_REPLACEMENT = "$2Q:$4$5";
 	private static final Pattern FR_CA_PORTE_ = Pattern.compile("((^|\\W)(porte #?(\\w{1,4}))(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String FR_CA_PORTE_REPLACEMENT = "$2P:$4$5";
-	private static final Pattern FR_CA_ECOLE_SECONDAIRE_ = cleanWordFR("((école secondaire|ecole secondaire|école sec|ecole sec)\\W+(\\w+))");
-	private static final String FR_CA_ECOLE_SECONDAIRE_REPLACEMENT = cleanWordsReplacement("ÉS $6");
-	private static final Pattern FR_CA_UNIVERSITE_ = cleanWordFR("((université|univ|u)\\W+(\\w+))");
-	private static final String FR_CA_UNIVERSITE_REPLACEMENT = cleanWordsReplacement("U $6");
+	private static final Pattern FR_CA_ECOLE_SECONDAIRE_ = cleanWordFR("((école secondaire|ecole secondaire|école sec|ecole sec)(\\.|\\s){1,2}(\\w+))");
+	private static final String FR_CA_ECOLE_SECONDAIRE_REPLACEMENT = cleanWordsReplacement("ÉS $7");
+	private static final Pattern FR_CA_UNIVERSITE_ = cleanWordFR("((université|univ|u)(\\.|\\s){1,2}(\\w+))");
+	private static final String FR_CA_UNIVERSITE_REPLACEMENT = cleanWordsReplacement("U $7");
 
 	@NotNull
 	public static String cleanStreetTypesFRCA(@NotNull String string) {

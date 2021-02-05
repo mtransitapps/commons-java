@@ -402,6 +402,26 @@ public class CleanUtilsTest {
 	}
 
 	@Test
+	public void testCleanStreetTypesFRCA_UniversiteNot() {
+		// Arrange
+		String string = "Université / Laval";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("Université / Laval", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_UniversiteNotP() {
+		// Arrange
+		String string = "Université (Laval)";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("Université (Laval)", result);
+	}
+
+	@Test
 	public void testCleanStreetTypesFRCA_UnivPointSpace() {
 		// Arrange
 		String string = "Univ. du Québec";
