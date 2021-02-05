@@ -369,7 +369,7 @@ public final class CleanUtils {
 		return capitalizedString;
 	}
 
-	private static final Pattern STARTS_WITH_VERS = Pattern.compile("((^|^.* )vers )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_VERS = Pattern.compile("((^|^.* )(vers|direction) )", Pattern.CASE_INSENSITIVE);
 
 	@SuppressWarnings("unused")
 	@NotNull
@@ -887,6 +887,10 @@ public final class CleanUtils {
 	private static final String FR_CA_PRO_REPLACEMENT = cleanWordsReplacement("Pro");
 	private static final Pattern FR_CA_INFO_ = cleanWordsPluralFR("information");
 	private static final String FR_CA_INFO_REPLACEMENT = cleanWordsReplacementPlural("Into");
+	private static final Pattern FR_CA_INDUSTRIEL_ = cleanWordsPluralFR("industriel");
+	private static final String FR_CA_INDUSTRIEL_REPLACEMENT = cleanWordsReplacementPlural("Ind");
+	private static final Pattern FR_CA_PARC_RELAIS_ = cleanWordsFR("parc relais", "stationnement incitatif", "stat incitatif");
+	private static final String FR_CA_PARC_RELAIS_REPLACEMENT = cleanWordsReplacement("P+R");
 	//
 	private static final Pattern FR_CA_QUAI_ = Pattern.compile("((^|\\W)(quai #?(\\w{1,4}))(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String FR_CA_QUAI_REPLACEMENT = "$2Q:$4$5";
@@ -918,6 +922,8 @@ public final class CleanUtils {
 		string = FR_CA_TERMINUS.matcher(string).replaceAll(FR_CA_TERMINUS_REPLACEMENT);
 		string = FR_CA_PRO_.matcher(string).replaceAll(FR_CA_PRO_REPLACEMENT);
 		string = FR_CA_INFO_.matcher(string).replaceAll(FR_CA_INFO_REPLACEMENT);
+		string = FR_CA_INDUSTRIEL_.matcher(string).replaceAll(FR_CA_INDUSTRIEL_REPLACEMENT);
+		string = FR_CA_PARC_RELAIS_.matcher(string).replaceAll(FR_CA_PARC_RELAIS_REPLACEMENT);
 		string = FR_CA_TEMPORAIRE.matcher(string).replaceAll(FR_CA_TEMPORAIRE_REPLACEMENT);
 		//
 		string = FR_CA_QUAI_.matcher(string).replaceAll(FR_CA_QUAI_REPLACEMENT);
