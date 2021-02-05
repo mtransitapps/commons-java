@@ -4,6 +4,8 @@ import java.util.regex.Pattern
 
 object RegexUtils {
 
+    const val UNICODE_CHARACTER_CLASS = 256; // java.util.regex.Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24)
+
     @JvmStatic
     fun replaceAll(string: String?, patterns: Array<Pattern>?, replacement: String): String? {
         if (string == null) {

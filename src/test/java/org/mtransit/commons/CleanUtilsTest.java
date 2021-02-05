@@ -374,4 +374,64 @@ public class CleanUtilsTest {
 		// Assert
 		assertEquals("JAMES opposite SIMCOE", result);
 	}
+
+	@Test
+	public void testCleanBoundsFRAccent() {
+		// Arrange
+		String string = "de l'Estérel";
+		// Act
+		String result = CleanUtils.cleanBounds(Locale.FRENCH, string);
+		// Assert
+		assertEquals("de l'Estérel", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_Universite() {
+		// Arrange
+		String string = "Université Laval";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("U Laval", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_UnivPointSpace() {
+		// Arrange
+		String string = "Univ. du Québec";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("U du Québec", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_UnivPoint() {
+		// Arrange
+		String string = "Univ.Laval";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("U Laval", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_EcoleSecondaire() {
+		// Arrange
+		String string = "École secondaire De Rochebelle";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("ÉS De Rochebelle", result);
+	}
+
+	@Test
+	public void testCleanStreetTypesFRCA_EcoleSecPoint() {
+		// Arrange
+		String string = "École sec. Polyvalente";
+		// Act
+		String result = CleanUtils.cleanStreetTypesFRCA(string);
+		// Assert
+		assertEquals("ÉS Polyvalente", result);
+	}
 }
