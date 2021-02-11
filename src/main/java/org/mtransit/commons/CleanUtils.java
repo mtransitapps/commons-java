@@ -386,11 +386,17 @@ public final class CleanUtils {
 		return string;
 	}
 
-	private static final Pattern STARTS_WITH_VIA = Pattern.compile("((^|^.* )via )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_VIA = Pattern.compile("((^|^.* )(via) )", Pattern.CASE_INSENSITIVE);
+	private static final String STARTS_WITH_VIA_KEEP_ = "$3 ";
 
 	@NotNull
 	public static String keepVia(@NotNull String string) {
-		string = STARTS_WITH_VIA.matcher(string).replaceAll(EMPTY);
+		return keepVia(string, false);
+	}
+
+	@NotNull
+	public static String keepVia(@NotNull String string, boolean keepVia) {
+		string = STARTS_WITH_VIA.matcher(string).replaceAll(keepVia ? STARTS_WITH_VIA_KEEP_ : EMPTY);
 		return string;
 	}
 
