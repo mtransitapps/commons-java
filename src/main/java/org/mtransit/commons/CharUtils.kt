@@ -14,6 +14,14 @@ object CharUtils {
     @JvmStatic
     fun countUpperCase(charArray: CharArray?) = charArray?.count { it.isUpperCase() } ?: 0
 
+    @JvmStatic
+    fun isDigitsOnly(str: CharSequence, notEmpty: Boolean): Boolean {
+        if (str.isEmpty()) {
+            return !notEmpty
+        }
+        return isDigitsOnly(str)
+    }
+
     // from the Android Open Source Project by Google
     @JvmStatic
     fun isDigitsOnly(str: CharSequence): Boolean {
