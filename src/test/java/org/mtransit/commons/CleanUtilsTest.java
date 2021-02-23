@@ -460,4 +460,14 @@ public class CleanUtilsTest {
 		// Assert
 		assertEquals("ÉS Polyvalente", result);
 	}
+
+	@Test
+	public void testRemoveVia_KeepOnlyVia() {
+		// Arrange
+		String string = "Via ABC";
+		// Act
+		String result = CleanUtils.removeVia(string);
+		// Assert
+		assertEquals("Via ABC", result);
+	}
 }
