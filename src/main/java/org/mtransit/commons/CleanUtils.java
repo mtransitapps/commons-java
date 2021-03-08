@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import static org.mtransit.commons.Constants.EMPTY;
 
-@SuppressWarnings({"RedundantSuppression", "unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class CleanUtils {
 
 	private CleanUtils() {
