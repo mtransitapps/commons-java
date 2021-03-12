@@ -159,8 +159,8 @@ object SQLUtils {
         return STRING_DELIMITER + string + STRING_DELIMITER
     }
 
-    private const val BOOLEAN_TRUE = 1
-    private const val BOOLEAN_FALSE = 0
+    const val BOOLEAN_TRUE = 1
+    const val BOOLEAN_FALSE = 0
 
     @JvmStatic
     fun fromSQLBoolean(intValue: Int): Boolean {
