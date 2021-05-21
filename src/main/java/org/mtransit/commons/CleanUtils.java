@@ -873,6 +873,8 @@ public final class CleanUtils {
 	private static final Pattern FR_CA_PLACE = cleanWordsFR("place");
 	private static final String FR_CA_PLACE_REPLACEMENT = cleanWordsReplacement("Pl");
 	// not official
+	private static final Pattern FR_CA_POINT = cleanWordsFR("point");
+	private static final String FR_CA_POINT_REPLACEMENT = cleanWordsReplacement("Pt");
 	private static final Pattern FR_CA_CENTRE_ = cleanWordsPluralFR("centre");
 	private static final String FR_CA_CENTRE_REPLACEMENT = cleanWordsReplacementPlural("Ctr");
 	private static final Pattern FR_CA_TERMINUS = cleanWordsFR("terminus");
