@@ -881,7 +881,7 @@ public final class CleanUtils {
 	private static final String FR_CA_TERMINUS_REPLACEMENT = cleanWordsReplacement("Term");
 	private static final Pattern FR_CA_TEMPORAIRE = cleanWordsFR("temporaire");
 	private static final String FR_CA_TEMPORAIRE_REPLACEMENT = cleanWordsReplacement("Temp");
-	private static final Pattern FR_CA_PRO_ = cleanWordsFR("professionelle", "professionel");
+	private static final Pattern FR_CA_PRO_ = cleanWordsFR("professionnelle", "professionnel", "professionelle", "professionel");
 	private static final String FR_CA_PRO_REPLACEMENT = cleanWordsReplacement("Pro");
 	private static final Pattern FR_CA_INFO_ = cleanWordsPluralFR("information");
 	private static final String FR_CA_INFO_REPLACEMENT = cleanWordsReplacementPlural("Into");
