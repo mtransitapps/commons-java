@@ -890,8 +890,8 @@ public final class CleanUtils {
 	private static final Pattern FR_CA_PARC_RELAIS_ = cleanWordsFR("parc relais", "stationnement incitatif", "stat incitatif");
 	private static final String FR_CA_PARC_RELAIS_REPLACEMENT = cleanWordsReplacement("P+R");
 	//
-	private static final Pattern FR_CA_QUAI_ = Pattern.compile("((^|\\W)(quai #?(\\w{1,4}))(\\W|$))", Pattern.CASE_INSENSITIVE);
-	private static final String FR_CA_QUAI_REPLACEMENT = "$2Q:$4$5";
+	private static final Pattern FR_CA_QUAI_ = Pattern.compile("((^|\\W)(quai( #?|: )(\\w{1,4}))(\\W|$))", Pattern.CASE_INSENSITIVE);
+	private static final String FR_CA_QUAI_REPLACEMENT = "$2Q:$5$6";
 	private static final Pattern FR_CA_PORTE_ = Pattern.compile("((^|\\W)(porte #?(\\w{1,4}))(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String FR_CA_PORTE_REPLACEMENT = "$2P:$4$5";
 	private static final Pattern FR_CA_ECOLE_SECONDAIRE_ = cleanWordFR("((école secondaire|ecole secondaire|école sec|ecole sec)(\\.|\\s){1,2}(\\w+))");
