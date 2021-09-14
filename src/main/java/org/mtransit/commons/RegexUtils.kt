@@ -7,6 +7,9 @@ object RegexUtils {
 
     var isAndroid: Boolean? = null
 
+    @JvmField
+    val DIGITS = Pattern.compile("[\\d]+")
+
     private const val CANON_EQ = java.util.regex.Pattern.CANON_EQ // Android: flag not supported
     private const val UNICODE_CHARACTER_CLASS = 256 // Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24) & has no effect on Android.
 
