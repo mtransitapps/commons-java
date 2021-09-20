@@ -840,8 +840,8 @@ public final class CleanUtils {
 	}
 
 	// FR-CA : http://www.toponymie.gouv.qc.ca/ct/normes-procedures/terminologie-geographique/liste-termes-geographiques.html
-	private static final Pattern FR_CA_AVENUE = cleanWordsFR("avenue");
-	private static final String FR_CA_AVENUE_REPLACEMENT = cleanWordsReplacement("Av");
+	private static final Pattern FR_CA_AVENUE = cleanWordsPluralFR("avenue");
+	private static final String FR_CA_AVENUE_REPLACEMENT = cleanWordsReplacementPlural("Av");
 	private static final Pattern FR_CA_AUTOROUTE = cleanWordsFR("autoroute");
 	private static final String FR_CA_AUTOROUTE_REPLACEMENT = cleanWordsReplacement("Aut");
 	private static final Pattern FR_CA_BOULEVARD = cleanWordsFR("boulevard");
