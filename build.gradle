@@ -19,8 +19,8 @@ compileTestKotlin {
 dependencies {
     implementation rootProject.ext.kotlinLibs.values()
 
-    testImplementation rootProject.ext.jUnitLibs.jUnit
-    testImplementation rootProject.ext.mockitoLibs.mockitoCore
+    testImplementation libs.bundles.JUnitLibs
+    testImplementation libs.bundles.mockitoLibs
 }
 
 test {
