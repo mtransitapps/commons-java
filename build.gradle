@@ -2,22 +2,22 @@ apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = rootProject.javaVersion
+    targetCompatibility = rootProject.javaVersion
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = rootProject.ext.kotlinOptionsJvmTarget
+        jvmTarget = libs.versions.kotlinOptionsJvmTarget.get()
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = rootProject.ext.kotlinOptionsJvmTarget
+        jvmTarget = libs.versions.kotlinOptionsJvmTarget.get()
     }
 }
 
 dependencies {
-    implementation rootProject.ext.kotlinLibs.values()
+    implementation libs.bundles.kotlinLibs
 
     testImplementation libs.bundles.JUnitLibs
     testImplementation libs.bundles.mockitoLibs
