@@ -17,4 +17,7 @@ object FeatureFlags {
 
     const val F_ALL_CAPS_OFF = false
     // const val F_ALL_CAPS_OFF = true // WIP
+
+    const val F_DIRECTION_IMG = false
+    // const val F_DIRECTION_IMG = true // WIP
 }
