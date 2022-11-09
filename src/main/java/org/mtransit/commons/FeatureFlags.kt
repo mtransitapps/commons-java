@@ -11,4 +11,7 @@ object FeatureFlags {
 
     const val F_NAVIGATION = false
     // const val F_NAVIGATION = true // WIP
+
+    const val F_SCHEDULE_DROP_OFF_ONLY = false
+    // const val F_SCHEDULE_DESCENT_ONLY = true // WIP
 }
