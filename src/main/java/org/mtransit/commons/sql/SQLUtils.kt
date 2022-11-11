@@ -58,9 +58,10 @@ object SQLUtils {
     fun getSQLPrimaryKeys(vararg columnNames: String): String {
         val sb = StringBuilder()
         if (columnNames.isNotEmpty()) {
-            sb.append(PRIMARY_KEY_).append(P1)
             for (columnName in columnNames) {
-                if (sb.isNotEmpty()) {
+                if (sb.isEmpty()) {
+                    sb.append(PRIMARY_KEY_).append(P1)
+                } else {
                     sb.append(COLUMN_SEPARATOR)
                 }
                 sb.append(columnName)
