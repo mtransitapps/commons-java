@@ -28,6 +28,7 @@ object SQLUtils {
     const val ON = " ON "
     const val INNER_JOIN = " INNER JOIN "
     const val FOREIGN_KEY_REFERENCES = " REFERENCES "
+    const val PRIMARY_KEY_ = "PRIMARY KEY "
     const val FOREIGN_KEY = " FOREIGN KEY "
     const val AS = " AS "
     const val ASC = " ASC"
@@ -41,6 +42,7 @@ object SQLUtils {
     const val CREATE_TABLE = "CREATE TABLE "
     const val CREATE_TABLE_IF_NOT_EXIST = CREATE_TABLE + "IF NOT EXISTS "
     const val INSERT_INTO = "INSERT INTO "
+    const val INSERT_OR_REPLACE_INTO = "INSERT OR REPLACE INTO "
     const val VALUES_P1 = " VALUES$P1"
     const val INSERT_INTO_VALUES = ")$VALUES_P1%s)"
     const val DROP_TABLE = "DROP TABLE "
@@ -50,6 +52,22 @@ object SQLUtils {
     @JvmStatic
     fun getSQLForeignKey(columnName: String, fkTable: String, fkColumn: String): String {
         return FOREIGN_KEY + P1 + columnName + P2 + FOREIGN_KEY_REFERENCES + fkTable + P1 + fkColumn + P2
+    }
+
+    @JvmStatic
+    fun getSQLPrimaryKeys(vararg columnNames: String): String {
+        val sb = StringBuilder()
+        if (columnNames.isNotEmpty()) {
+            sb.append(PRIMARY_KEY_).append(P1)
+            for (columnName in columnNames) {
+                if (sb.isNotEmpty()) {
+                    sb.append(COLUMN_SEPARATOR)
+                }
+                sb.append(columnName)
+            }
+            sb.append(P2)
+        }
+        return sb.toString()
     }
 
     @JvmStatic

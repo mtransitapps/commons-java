@@ -39,6 +39,15 @@ class SQLCreateBuilder private constructor(table: String) {
         return this
     }
 
+    fun appendPrimaryKeys(vararg columnNames: String): SQLCreateBuilder {
+        if (nbColumn > 0) {
+            sqlCreateSb.append(SQLUtils.COLUMN_SEPARATOR)
+        }
+        sqlCreateSb.append(SQLUtils.getSQLPrimaryKeys(*columnNames))
+        nbColumn++
+        return this
+    }
+
     fun build(): String {
         return sqlCreateSb.append(SQLUtils.P2).toString()
     }
