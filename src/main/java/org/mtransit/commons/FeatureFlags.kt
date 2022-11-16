@@ -2,6 +2,7 @@ package org.mtransit.commons
 
 @Suppress("unused", "SimplifyBooleanWithConstants")
 object FeatureFlags {
+    // @formatter:off
 
     const val F_PRE_FILLED_DB = false
     // const val F_PRE_FILLED_DB = true // WIP
@@ -21,4 +22,6 @@ object FeatureFlags {
     // const val F_HTML_POI_NAME_UI = true // WIP
     const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && false
     // const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && true // WIP
+
+    // @formatter:on
 }

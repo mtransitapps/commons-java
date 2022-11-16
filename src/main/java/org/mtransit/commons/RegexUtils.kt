@@ -7,7 +7,8 @@ import java.util.regex.Pattern
 @Suppress("unused")
 object RegexUtils {
 
-    const val WHITESPACE_CAR = "\\s";
+    const val WHITESPACE_CAR = "\\s"
+    const val DIGIT_CAR = "\\d"
 
     const val BEGINNING = "^"
 
@@ -18,7 +19,7 @@ object RegexUtils {
     var isAndroid: Boolean? = null
 
     @JvmField
-    val DIGITS = Pattern.compile("[\\d]+")
+    val DIGITS: Pattern = Pattern.compile("[\\d]+")
 
     private const val CANON_EQ = java.util.regex.Pattern.CANON_EQ // Android: flag not supported
     private const val UNICODE_CHARACTER_CLASS = 256 // Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24) & has no effect on Android.
@@ -78,7 +79,7 @@ object RegexUtils {
     fun except(string: String) = "[^$string]"
 
     @JvmStatic
-    fun or(string1: String, string2: String) = "$string1|$string2"
+    fun or(vararg strings: String): String = strings.joinToString(separator = "|") { it }
 
     @JvmStatic
     fun onceOrNot(string: String) = "$string?"
