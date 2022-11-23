@@ -354,12 +354,17 @@ public final class CleanUtils {
 	private static final Pattern ENDS_WITH_POINTS = Pattern.compile("((\\.+)(\\W*)$)");
 	private static final String ENDS_WITH_POINTS_REPLACEMENT = EMPTY;
 
+	/**
+	 * @deprecated remove call (now included in {@link #cleanLabel(String)}
+	 */
+	@SuppressWarnings("DeprecatedIsStillUsed") // WIP
 	@Deprecated
 	@NotNull
 	public static String removePoints(@NotNull String capitalizedString) {
 		return removePointsI(capitalizedString);
 	}
 
+	@SuppressWarnings("ProtectedMemberInFinalClass") // visible for test (?)
 	@NotNull
 	protected static String removePointsI(@NotNull String capitalizedString) {
 		capitalizedString = _3_POINTS.matcher(capitalizedString).replaceAll(_3_POINTS_REPLACEMENT);
