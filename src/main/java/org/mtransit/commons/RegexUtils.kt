@@ -12,7 +12,6 @@ object RegexUtils {
     const val WORD_CAR = "\\w"
 
     const val BEGINNING = "^"
-
     const val END = "$"
 
     const val ANY = "."
