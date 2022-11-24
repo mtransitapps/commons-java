@@ -7,14 +7,19 @@ import java.util.regex.Pattern
 @Suppress("unused")
 object RegexUtils {
 
+    const val ANY = "."
+
     const val WHITESPACE_CAR = "\\s"
+    const val NON_WHITESPACE_CAR = "\\S"
+
     const val DIGIT_CAR = "\\d"
+    const val NON_DIGIT_CAR = "\\D"
+
     const val WORD_CAR = "\\w"
+    const val NON_WORD_CAR = "\\W"
 
     const val BEGINNING = "^"
     const val END = "$"
-
-    const val ANY = "."
 
     var isAndroid: Boolean? = null
 
@@ -92,12 +97,14 @@ object RegexUtils {
 
     @JvmStatic
     fun any(string: String) = zeroOrMore(string)
+
     @Deprecated(message = "Use any() instead.", replaceWith = ReplaceWith("any(string)", "org.mtransit.commons.RegexUtils.any"))
     @JvmStatic
     fun many(string: String) = zeroOrMore(string)
 
     @JvmStatic
     fun oneOrMore(string: String) = "$string+"
+
     @JvmStatic
     fun atLeastOne(string: String) = oneOrMore(string)
 

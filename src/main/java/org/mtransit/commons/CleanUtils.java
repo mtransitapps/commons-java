@@ -8,6 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.mtransit.commons.Constants.EMPTY;
+import static org.mtransit.commons.RegexUtils.ANY;
+import static org.mtransit.commons.RegexUtils.BEGINNING;
+import static org.mtransit.commons.RegexUtils.END;
+import static org.mtransit.commons.RegexUtils.NON_WORD_CAR;
+import static org.mtransit.commons.RegexUtils.WHITESPACE_CAR;
+import static org.mtransit.commons.RegexUtils.atLeastOne;
+import static org.mtransit.commons.RegexUtils.group;
+import static org.mtransit.commons.RegexUtils.or;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class CleanUtils {
@@ -375,24 +383,33 @@ public final class CleanUtils {
 		return capitalizedString;
 	}
 
-	private static final Pattern STARTS_WITH_VERS = Pattern.compile("((^|^.* )(vers|direction) )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern BEGINNING_AND_VERS = Pattern.compile(group(
+			group(or(BEGINNING, BEGINNING + atLeastOne(ANY) + NON_WORD_CAR))
+					+ group(or("vers", "direction")) + NON_WORD_CAR
+	), Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	public static String keepToFR(@NotNull String string) {
-		string = STARTS_WITH_VERS.matcher(string).replaceAll(EMPTY);
+		string = BEGINNING_AND_VERS.matcher(string).replaceAll(EMPTY);
 		return string;
 	}
 
-	private static final Pattern STARTS_WITH_TO = Pattern.compile("((^|^.* )(towards|to) )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern BEGINNING_AND_TO = Pattern.compile(group(
+			group(or(BEGINNING, BEGINNING + atLeastOne(ANY) + NON_WORD_CAR))
+					+ group(or("towards", "to")) + NON_WORD_CAR
+	), Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	public static String keepTo(@NotNull String string) {
-		string = STARTS_WITH_TO.matcher(string).replaceAll(EMPTY);
+		string = BEGINNING_AND_TO.matcher(string).replaceAll(EMPTY);
 		return string;
 	}
 
-	private static final Pattern STARTS_WITH_VIA = Pattern.compile("((^|^.* )(via) )", Pattern.CASE_INSENSITIVE);
-	private static final String STARTS_WITH_VIA_KEEP_ = "$3 ";
+	private static final Pattern BEGINNING_AND_VIA = Pattern.compile(group(
+			group(or(BEGINNING, BEGINNING + atLeastOne(ANY) + NON_WORD_CAR))
+					+ group("via") + NON_WORD_CAR
+	), Pattern.CASE_INSENSITIVE);
+	private static final String BEGINNING_AND_VIA_KEEP_ = "$3 ";
 
 	@NotNull
 	public static String keepVia(@NotNull String string) {
@@ -401,15 +418,17 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String keepVia(@NotNull String string, boolean keepVia) {
-		string = STARTS_WITH_VIA.matcher(string).replaceAll(keepVia ? STARTS_WITH_VIA_KEEP_ : EMPTY);
+		string = BEGINNING_AND_VIA.matcher(string).replaceAll(keepVia ? BEGINNING_AND_VIA_KEEP_ : EMPTY);
 		return string;
 	}
 
-	private static final Pattern ENDS_WITH_VIA = Pattern.compile("( via .*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern VIA_AND_ENDS = Pattern.compile(group(
+			WHITESPACE_CAR + "via" + WHITESPACE_CAR + atLeastOne(ANY) + END
+	), Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	public static String removeVia(@NotNull String string) {
-		string = ENDS_WITH_VIA.matcher(string).replaceAll(EMPTY);
+		string = VIA_AND_ENDS.matcher(string).replaceAll(EMPTY);
 		return string;
 	}
 
