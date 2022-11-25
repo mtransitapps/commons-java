@@ -15,6 +15,7 @@ import static org.mtransit.commons.RegexUtils.NON_WORD_CAR;
 import static org.mtransit.commons.RegexUtils.WHITESPACE_CAR;
 import static org.mtransit.commons.RegexUtils.atLeastOne;
 import static org.mtransit.commons.RegexUtils.group;
+import static org.mtransit.commons.RegexUtils.mGroup;
 import static org.mtransit.commons.RegexUtils.or;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
@@ -442,6 +443,39 @@ public final class CleanUtils {
 	public static String keepToAndRemoveVia(@NotNull String string) {
 		string = keepTo(string);
 		string = removeVia(string);
+		return string;
+	}
+
+	@NotNull
+	public static String keepOrRemoveVia(@NotNull String tripHeadsign, @NotNull SameValidator validator) {
+		final String tripHeadsignBeforeVIA = CleanUtils.removeVia(tripHeadsign);
+		final String tripHeadsignAfterVIA = CleanUtils.keepVia(tripHeadsign, true);
+		if (!tripHeadsignBeforeVIA.equals(tripHeadsignAfterVIA)) {
+			if (validator.isSame(tripHeadsignBeforeVIA)) {
+				tripHeadsign = tripHeadsignAfterVIA;
+			} else if (validator.isSame(tripHeadsignAfterVIA)) {
+				tripHeadsign = tripHeadsignBeforeVIA;
+			} else {
+				tripHeadsign = tripHeadsignBeforeVIA;
+			}
+		}
+		return tripHeadsign;
+	}
+
+	public interface SameValidator {
+		boolean isSame(@NotNull String string);
+	}
+
+	private static final String KEEP_BEFORE_ALTER = mGroup(2) + mGroup(4);
+
+	@NotNull
+	public static String removeStrings(@NotNull String string, @NotNull String... stringsToRemove) {
+		string = Pattern.compile(group(
+						group(or(BEGINNING, NON_WORD_CAR)) +
+								group(or(stringsToRemove)) +
+								group(or(NON_WORD_CAR, END))
+				), Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ())
+				.matcher(string).replaceAll(KEEP_BEFORE_ALTER);
 		return string;
 	}
 
