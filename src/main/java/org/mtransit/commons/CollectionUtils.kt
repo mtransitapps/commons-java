@@ -12,8 +12,8 @@ object CollectionUtils {
     fun <T, V> getSize(map: Map<T, V>?): Int = map?.size ?: 0
 
     @JvmStatic
-    fun <T> sort(list: List<T>?, comparator: Comparator<in T>) {
-        list?.sortedWith(comparator)
+    fun <T> sort(list: MutableList<T>?, comparator: Comparator<in T>) {
+        list?.sortWith(comparator)
     }
 
     @JvmStatic
