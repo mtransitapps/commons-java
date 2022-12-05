@@ -22,13 +22,13 @@ object CollectionUtils {
     }
 
     @JvmStatic
-    fun <T> removeDuplicates(list: List<T>?): List<T>? {
-        return list?.distinct()
+    fun <T> removeDuplicates(iterable: Iterable<T>?): List<T>? {
+        return iterable?.distinct()
     }
 
     @JvmStatic
-    fun <T> removeDuplicatesNN(list: List<T>): List<T> {
-        return list.distinct()
+    fun <T> removeDuplicatesNN(iterable: Iterable<T>): List<T> {
+        return iterable.distinct()
     }
 
     @JvmStatic
@@ -37,6 +37,11 @@ object CollectionUtils {
         list.removeAll(removeIfSelector)
         val after = list.size
         return before - after
+    }
+
+    @JvmStatic
+    fun <T> count(iterable: Iterable<T>?, countSelector: (T) -> Boolean): Int {
+        return iterable?.count(countSelector) ?: 0
     }
 
     @JvmStatic
