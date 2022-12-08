@@ -97,7 +97,10 @@ object GTFSCommons {
     const val T_TRIP_STOPS_K_TRIP_ID = "trip_id"
     const val T_TRIP_STOPS_K_STOP_ID = "stop_id"
     const val T_TRIP_STOPS_K_STOP_SEQUENCE = "stop_sequence"
-    const val T_TRIP_STOPS_K_DESCENT_ONLY = "decent_only"
+    const val T_TRIP_STOPS_K_NO_PICKUP = "decent_only"
+
+    @Deprecated(message = "Use T_TRIP_STOPS_K_NO_PICKUP instead")
+    const val T_TRIP_STOPS_K_DESCENT_ONLY = T_TRIP_STOPS_K_NO_PICKUP
 
     @JvmStatic
     val T_TRIP_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP_STOPS)
@@ -105,7 +108,7 @@ object GTFSCommons {
         .appendColumn(T_TRIP_STOPS_K_TRIP_ID, SQLUtils.INT)
         .appendColumn(T_TRIP_STOPS_K_STOP_ID, SQLUtils.INT)
         .appendColumn(T_TRIP_STOPS_K_STOP_SEQUENCE, SQLUtils.INT)
-        .appendColumn(T_TRIP_STOPS_K_DESCENT_ONLY, SQLUtils.INT)
+        .appendColumn(T_TRIP_STOPS_K_NO_PICKUP, SQLUtils.INT)
         .appendForeignKey(T_TRIP_STOPS_K_TRIP_ID, T_TRIP, T_TRIP_K_ID)
         .appendForeignKey(T_TRIP_STOPS_K_STOP_ID, T_STOP, T_STOP_K_ID)
         .build()
@@ -115,7 +118,7 @@ object GTFSCommons {
         .appendColumn(T_TRIP_STOPS_K_TRIP_ID)
         .appendColumn(T_TRIP_STOPS_K_STOP_ID)
         .appendColumn(T_TRIP_STOPS_K_STOP_SEQUENCE)
-        .appendColumn(T_TRIP_STOPS_K_DESCENT_ONLY)
+        .appendColumn(T_TRIP_STOPS_K_NO_PICKUP)
         .build()
 
     @JvmStatic

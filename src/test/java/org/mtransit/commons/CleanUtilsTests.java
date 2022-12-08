@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CleanUtilsTest {
+public class CleanUtilsTests {
 
 	@Before
 	public void setUp() {
