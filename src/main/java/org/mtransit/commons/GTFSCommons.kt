@@ -99,9 +99,6 @@ object GTFSCommons {
     const val T_TRIP_STOPS_K_STOP_SEQUENCE = "stop_sequence"
     const val T_TRIP_STOPS_K_NO_PICKUP = "decent_only"
 
-    @Deprecated(message = "Use T_TRIP_STOPS_K_NO_PICKUP instead")
-    const val T_TRIP_STOPS_K_DESCENT_ONLY = T_TRIP_STOPS_K_NO_PICKUP
-
     @JvmStatic
     val T_TRIP_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP_STOPS)
         .appendColumn(T_TRIP_STOPS_K_ID, SQLUtils.INT_PK_AUTO)
