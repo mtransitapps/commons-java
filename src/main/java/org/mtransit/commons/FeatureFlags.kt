@@ -23,5 +23,8 @@ object FeatureFlags {
     // const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && false
     const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && true // WIP
 
+    const val F_SCHEDULE_INFINITE = false
+    // const val F_SCHEDULE_INFINITE = true // WIP
+
     // @formatter:on
 }
