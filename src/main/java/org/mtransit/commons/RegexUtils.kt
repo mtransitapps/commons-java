@@ -4,7 +4,7 @@ import org.intellij.lang.annotations.JdkConstants.PatternFlags
 import java.util.regex.Pattern
 
 // https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object RegexUtils {
 
     const val ANY = "."
@@ -15,7 +15,8 @@ object RegexUtils {
     const val DIGIT_CAR = "\\d"
     const val NON_DIGIT_CAR = "\\D"
 
-    const val WORD_CAR = "\\w"
+    const val WORD_CAR = "\\w" // [a-zA-Z_0-9]
+    const val ALPHA_NUM_CAR = WORD_CAR
     const val NON_WORD_CAR = "\\W"
 
     const val BEGINNING = "^"

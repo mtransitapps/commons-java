@@ -1,13 +1,7 @@
 package org.mtransit.commons;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.mtransit.commons.Constants.EMPTY;
+import static org.mtransit.commons.RegexUtils.ALPHA_NUM_CAR;
 import static org.mtransit.commons.RegexUtils.ANY;
 import static org.mtransit.commons.RegexUtils.BEGINNING;
 import static org.mtransit.commons.RegexUtils.END;
@@ -17,6 +11,13 @@ import static org.mtransit.commons.RegexUtils.atLeastOne;
 import static org.mtransit.commons.RegexUtils.group;
 import static org.mtransit.commons.RegexUtils.mGroup;
 import static org.mtransit.commons.RegexUtils.or;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class CleanUtils {
@@ -641,8 +642,10 @@ public final class CleanUtils {
 		return string;
 	}
 
-	private static final Pattern ID_MERGED = Pattern.compile("(([0-9]*)_merged_([0-9]*))", Pattern.CASE_INSENSITIVE);
-	private static final String ID_MERGED_REPLACEMENT = "$2";
+	private static final Pattern ID_MERGED = Pattern.compile(
+			group(group(atLeastOne(ALPHA_NUM_CAR)) + "_merged_" + group(atLeastOne(ALPHA_NUM_CAR)))
+			, Pattern.CASE_INSENSITIVE);
+	private static final String ID_MERGED_REPLACEMENT = mGroup(2);
 
 	@NotNull
 	public static String cleanMergedID(@NotNull String mergedId) {
