@@ -22,8 +22,6 @@ object RegexUtils {
     const val BEGINNING = "^"
     const val END = "$"
 
-    var isAndroid: Boolean? = null
-
     @JvmField
     val DIGITS: Pattern = Pattern.compile("[\\d]+")
 
@@ -41,7 +39,7 @@ object RegexUtils {
     fun fUNICODE_CHARACTER_CLASS() = flag(UNICODE_CHARACTER_CLASS)
 
     private fun flag(flag: Int): Int {
-        return isAndroid?.let { androidPlatform ->
+        return CommonsApp.isAndroid?.let { androidPlatform ->
             if (androidPlatform) {
                 0
             } else {
