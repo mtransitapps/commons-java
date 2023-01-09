@@ -14,14 +14,14 @@ object FeatureFlags {
     // const val F_NAVIGATION = true // WIP
 
     // const val F_SCHEDULE_DESCENT_ONLY_UI = false
-    const val F_SCHEDULE_DESCENT_ONLY_UI = true // WIP
+    const val F_SCHEDULE_DESCENT_ONLY_UI = true // WIP // TODO delete when :parser cleanup
     // const val F_SCHEDULE_DESCENT_ONLY = F_SCHEDULE_DESCENT_ONLY_UI && false
-    const val F_SCHEDULE_DESCENT_ONLY = F_SCHEDULE_DESCENT_ONLY_UI && true // WIP
+    const val F_SCHEDULE_DESCENT_ONLY = true // WIP // TODO delete when :parser cleanup
 
     // const val F_HTML_POI_NAME_UI = false
-    const val F_HTML_POI_NAME_UI = true // WIP
+    const val F_HTML_POI_NAME_UI = true // WIP // TODO delete when :parser cleanup
     // const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && false
-    const val F_HTML_POI_NAME = F_HTML_POI_NAME_UI && true // WIP
+    const val F_HTML_POI_NAME = true // WIP // TODO delete when :parser cleanup
 
     // const val F_SCHEDULE_INFINITE = false
     const val F_SCHEDULE_INFINITE = true // WIP
