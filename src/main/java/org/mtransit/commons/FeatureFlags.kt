@@ -16,5 +16,8 @@ object FeatureFlags {
     // const val F_SCHEDULE_INFINITE = false
     const val F_SCHEDULE_INFINITE = true // WIP
 
+    const val F_ACCESSIBILITY = false
+    // const val F_ACCESSIBILITY = true // WIP
+
     // @formatter:on
 }
