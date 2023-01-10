@@ -5,7 +5,7 @@ import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.getSQLDropIfExistsQuery
 
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 object GTFSCommons {
 
     const val DB_FILE_NAME = "gtfs_rts_db" // no extension in Android resources
@@ -70,9 +70,18 @@ object GTFSCommons {
     const val T_STOP_K_NAME = "name"
     const val T_STOP_K_LAT = "lat"
     const val T_STOP_K_LNG = "lng"
+    const val T_STOP_K_ACCESSIBLE = "a11y"
 
     @JvmStatic
-    var T_STOP_SQL_CREATE = SQLCreateBuilder.getNew(T_STOP)
+    var T_STOP_SQL_CREATE = if (FeatureFlags.F_ACCESSIBILITY_PRODUCER) SQLCreateBuilder.getNew(T_STOP)
+        .appendColumn(T_STOP_K_ID, SQLUtils.INT_PK)
+        .appendColumn(T_STOP_K_CODE, SQLUtils.TXT)
+        .appendColumn(T_STOP_K_NAME, SQLUtils.TXT)
+        .appendColumn(T_STOP_K_LAT, SQLUtils.REAL)
+        .appendColumn(T_STOP_K_LNG, SQLUtils.REAL)
+        .appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
+        .build()
+    else SQLCreateBuilder.getNew(T_STOP)
         .appendColumn(T_STOP_K_ID, SQLUtils.INT_PK)
         .appendColumn(T_STOP_K_CODE, SQLUtils.TXT)
         .appendColumn(T_STOP_K_NAME, SQLUtils.TXT)
@@ -81,7 +90,15 @@ object GTFSCommons {
         .build()
 
     @JvmStatic
-    var T_STOP_SQL_INSERT = SQLInsertBuilder.getNew(T_STOP)
+    var T_STOP_SQL_INSERT = if (FeatureFlags.F_ACCESSIBILITY_PRODUCER) SQLInsertBuilder.getNew(T_STOP)
+        .appendColumn(T_STOP_K_ID)
+        .appendColumn(T_STOP_K_CODE)
+        .appendColumn(T_STOP_K_NAME)
+        .appendColumn(T_STOP_K_LAT)
+        .appendColumn(T_STOP_K_LNG)
+        .appendColumn(T_STOP_K_ACCESSIBLE)
+        .build()
+    else SQLInsertBuilder.getNew(T_STOP)
         .appendColumn(T_STOP_K_ID)
         .appendColumn(T_STOP_K_CODE)
         .appendColumn(T_STOP_K_NAME)
