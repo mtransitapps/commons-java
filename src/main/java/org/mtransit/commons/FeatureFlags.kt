@@ -22,8 +22,8 @@ object FeatureFlags {
     const val F_ACCESSIBILITY_PRODUCER = false
     // const val F_ACCESSIBILITY_PRODUCER = true // WIP // data sources
 
-    const val F_ACCESSIBILITY_CONSUMER = false
-    // const val F_ACCESSIBILITY_CONSUMER = true // WIP // UI
+    // const val F_ACCESSIBILITY_CONSUMER = false
+    const val F_ACCESSIBILITY_CONSUMER = true // WIP // UI
 
     // @formatter:on
 }
