@@ -16,14 +16,13 @@ object FeatureFlags {
     // const val F_SCHEDULE_INFINITE = false
     const val F_SCHEDULE_INFINITE = true // WIP
 
-    const val F_ACCESSIBILITY = false
-    // const val F_ACCESSIBILITY = true // WIP
-
     const val F_ACCESSIBILITY_PRODUCER = false
     // const val F_ACCESSIBILITY_PRODUCER = true // WIP // data sources
-
     // const val F_ACCESSIBILITY_CONSUMER = false
     const val F_ACCESSIBILITY_CONSUMER = true // WIP // UI
+
+    const val F_EDGE_TO_EDGE = false
+    // const val F_EDGE_TO_EDGE = true // WIP
 
     // @formatter:on
 }
