@@ -1,6 +1,5 @@
 package org.mtransit.commons
 
-import org.intellij.lang.annotations.JdkConstants.PatternFlags
 import java.util.regex.Pattern
 
 // https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html
@@ -29,12 +28,10 @@ object RegexUtils {
     private const val UNICODE_CHARACTER_CLASS = 256 // Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24) & has no effect on Android.
 
     @Suppress("FunctionName")
-    @PatternFlags
     @JvmStatic
     fun fCANON_EQ() = flag(CANON_EQ)
 
     @Suppress("FunctionName")
-    @PatternFlags
     @JvmStatic
     fun fUNICODE_CHARACTER_CLASS() = flag(UNICODE_CHARACTER_CLASS)
 
