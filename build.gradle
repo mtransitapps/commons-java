@@ -9,13 +9,13 @@ java {
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = libs.versions.kotlinOptionsJvmTarget.get()
+        jvmTarget = rootProject.javaVersion
         allWarningsAsErrors = true
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = libs.versions.kotlinOptionsJvmTarget.get()
+        jvmTarget = rootProject.javaVersion
         allWarningsAsErrors = true
     }
 }
@@ -23,8 +23,7 @@ compileTestKotlin {
 dependencies {
     implementation libs.bundles.kotlin
 
-    testImplementation libs.bundles.JUnit
-    testImplementation libs.bundles.mockito
+    testImplementation libs.bundles.test.unit
 }
 
 test {
