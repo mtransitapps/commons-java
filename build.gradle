@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'kotlin'
+    alias libs.plugins.kotlin.jvm
 }
 
 java {
@@ -21,10 +21,10 @@ compileTestKotlin {
 }
 
 dependencies {
-    implementation libs.bundles.kotlinLibs
+    implementation libs.bundles.kotlin
 
-    testImplementation libs.bundles.JUnitLibs
-    testImplementation libs.bundles.mockitoLibs
+    testImplementation libs.bundles.JUnit
+    testImplementation libs.bundles.mockito
 }
 
 test {
