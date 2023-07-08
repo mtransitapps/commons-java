@@ -2,7 +2,7 @@ package org.mtransit.scratch
 
 import java.util.regex.Pattern
 
-@Suppress("JoinDeclarationAndAssignment", "CanBeVal", "UNUSED_VALUE")
+@Suppress("JoinDeclarationAndAssignment", "CanBeVal", "UNUSED_VALUE", "KotlinRedundantDiagnosticSuppress")
 internal object RegexScratch {
     @JvmStatic
     fun main(args: Array<String>) {
