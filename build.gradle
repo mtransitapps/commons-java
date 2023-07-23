@@ -1,7 +1,7 @@
 plugins {
-    id 'java-library'
-    alias libs.plugins.kotlin.jvm
-    alias libs.plugins.android.lint // dependency of commons-android
+    id("java-library")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.android.lint) // dependency of commons-android
 }
 
 java {
@@ -22,14 +22,14 @@ compileTestKotlin {
 }
 
 dependencies {
-    implementation libs.bundles.kotlin
+    implementation(libs.bundles.kotlin)
 
-    testImplementation libs.bundles.test.unit
+    testImplementation(libs.bundles.test.unit)
 }
 
 test {
     useJUnit()
     testLogging {
-        events 'passed', 'skipped', 'failed'
+        events("passed", "skipped", "failed")
     }
 }
