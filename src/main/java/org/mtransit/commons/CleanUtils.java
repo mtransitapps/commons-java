@@ -480,20 +480,29 @@ public final class CleanUtils {
 		return string;
 	}
 
-	private static final Pattern MC_ = Pattern.compile("((^|\\W)(((m)(c|ac))([a-z]))([a-z]+)(\\W|$))", Pattern.CASE_INSENSITIVE);
+	private static final Pattern MC_ = Pattern.compile("(" +
+			"(^|\\W)" +
+			"(" +
+			"(" +
+			"(m)" + // uppercase
+			"(c|ac)" + // lowercase
+			")" +
+			"([a-z])" + // uppercase
+			"([a-z]+)" + // lowercase
+			")" +
+			"(\\W|$)" +
+			")", Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	public static String fixMcXCase(@NotNull String string) { // Mccowan -> McCowan
 		final Matcher matcher = MC_.matcher(string);
 		while (matcher.find()) {
 			string = string.replaceAll(
-					matcher.group(1),
-					matcher.group(2) + // space
-							matcher.group(5).toUpperCase(Locale.ENGLISH) +
+					matcher.group(3),
+					matcher.group(5).toUpperCase(Locale.ENGLISH) +
 							matcher.group(6).toLowerCase(Locale.ENGLISH) +
 							matcher.group(7).toUpperCase(Locale.ENGLISH) +
-							matcher.group(8).toLowerCase(Locale.ENGLISH) +
-							matcher.group(9) // space
+							matcher.group(8).toLowerCase(Locale.ENGLISH)
 			);
 		}
 		return string;

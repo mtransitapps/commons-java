@@ -382,6 +382,16 @@ public class CleanUtilsTests {
 	}
 
 	@Test
+	public void testFixMcXCaseWithParenthesis() {
+		// Arrange
+		String string = "downtown (macnab)";
+		// Act
+		String result = CleanUtils.fixMcXCase(string);
+		// Assert
+		assertEquals("downtown (MacNab)", result);
+	}
+
+	@Test
 	public void testCleanBoundsFRAccent() {
 		// Arrange
 		String string = "de l'Estérel";
