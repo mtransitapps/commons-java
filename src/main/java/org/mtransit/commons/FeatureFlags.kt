@@ -27,5 +27,8 @@ object FeatureFlags {
     // const val F_MODULE_AUTO_OPEN = false
     const val F_MODULE_AUTO_OPEN = true // WIP
 
+    const val F_EXPORT_GTFS_ID_HASH_INT = false
+    // const val F_EXPORT_GTFS_ID_HASH_INT = true // WIP
+
     // @formatter:on
 }
