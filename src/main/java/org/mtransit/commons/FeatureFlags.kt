@@ -30,5 +30,8 @@ object FeatureFlags {
     const val F_EXPORT_GTFS_ID_HASH_INT = false
     // const val F_EXPORT_GTFS_ID_HASH_INT = true // WIP
 
+    const val F_USE_GTFS_ID_HASH_INT = false
+    // const val F_USE_GTFS_ID_HASH_INT = true // WIP
+
     // @formatter:on
 }

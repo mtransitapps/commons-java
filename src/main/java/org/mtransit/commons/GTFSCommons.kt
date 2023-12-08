@@ -162,12 +162,19 @@ object GTFSCommons {
     @JvmStatic
     val T_SERVICE_DATES_SQL_DROP = getSQLDropIfExistsQuery(T_SERVICE_DATES)
 
-    const val DEFAULT_ID_HASH: Int = 0
+    @JvmField
+    val DEFAULT_ID_HASH: Int? = null
 
-    fun stringIdToHash(originalId: String): Int {
+    @JvmStatic
+    fun stringIdToHashIfEnabled(originalId: String): Int? {
         if (!FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             return DEFAULT_ID_HASH
         }
+        return stringIdToHash(originalId)
+    }
+
+    @JvmStatic
+    fun stringIdToHash(originalId: String): Int {
         return CleanUtils.cleanMergedID(originalId).hashCode()
     }
 }
