@@ -19,6 +19,7 @@ object GTFSCommons {
     const val T_ROUTE_K_LONG_NAME = "long_name"
     const val T_ROUTE_K_COLOR = "color"
     const val T_ROUTE_K_ORIGINAL_ID_HASH = "o_id_hash"
+    const val T_ROUTE_K_TYPE = "type"
 
     @JvmStatic
     val T_ROUTE_SQL_CREATE = SQLCreateBuilder.getNew(T_ROUTE).apply {
@@ -28,6 +29,9 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_COLOR, SQLUtils.TXT)
         if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH, SQLUtils.INT)
+            if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
+                appendColumn(T_ROUTE_K_TYPE, SQLUtils.INT)
+            }
         }
     }.build()
 
@@ -177,4 +181,16 @@ object GTFSCommons {
     fun stringIdToHash(originalId: String): Int {
         return CleanUtils.cleanMergedID(originalId).hashCode()
     }
+
+    @JvmField
+    val DEFAULT_ROUTE_TYPE: Int? = null
+
+    // https://developers.google.com/transit/gtfs/reference/extended-route-types
+    // FR: Taxi collectif, (sur réservation)
+    @JvmField
+    val ROUTE_TYPES_REQUIRES_BOOKING = setOf(
+        715, // Demand and Response Bus Service
+        717, // Share Taxi Service // REMOVED
+        1501, // Communal Taxi Service
+    )
 }

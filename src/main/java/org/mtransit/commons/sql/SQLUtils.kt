@@ -1,5 +1,7 @@
 package org.mtransit.commons.sql
 
+import org.mtransit.commons.Constants.EMPTY
+
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object SQLUtils {
@@ -194,6 +196,11 @@ object SQLUtils {
     @JvmStatic
     fun getWhereBooleanNotTrue(tableColumn: String): String {
         return tableColumn + NE + BOOLEAN_TRUE
+    }
+
+    @JvmStatic
+    fun appendToSelection(selection: String?, append: String): String {
+        return selection?.let { it + AND + append } ?: append
     }
 
     private const val CONCATENATE_SEPARATOR = "||"
