@@ -43,6 +43,9 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_COLOR)
         if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH)
+            if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
+                appendColumn(T_ROUTE_K_TYPE)
+            }
         }
     }.build()
 
