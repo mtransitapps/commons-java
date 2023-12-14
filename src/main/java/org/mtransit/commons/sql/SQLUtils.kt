@@ -1,7 +1,5 @@
 package org.mtransit.commons.sql
 
-import org.mtransit.commons.Constants.EMPTY
-
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object SQLUtils {
@@ -147,33 +145,35 @@ object SQLUtils {
         return column + EQ + escapeString(value)
     }
 
+    @JvmOverloads
     @JvmStatic
-    fun getWhereIn(tableColumn: String, values: Collection<Any>?): String {
-        val sb = StringBuilder(tableColumn).append(IN).append(P1)
-        if (values != null) {
-            for ((i, value) in values.withIndex()) {
-                if (i > 0) {
-                    sb.append(COLUMN_SEPARATOR)
-                }
-                sb.append(value)
+    fun getWhereIn(tableColumn: String, values: Collection<Any>?, not: Boolean = false) =
+        buildString {
+            append(tableColumn)
+            if (not) append(NOT)
+            append(IN)
+            append(P1)
+            values?.forEachIndexed { index, value ->
+                if (index > 0) append(COLUMN_SEPARATOR)
+                append(value)
             }
+            append(P2)
         }
-        return sb.append(P2).toString()
-    }
 
+    @JvmOverloads
     @JvmStatic
-    fun getWhereInString(tableColumn: String, values: Collection<String>?): String {
-        val sb = StringBuilder(tableColumn).append(IN).append(P1)
-        if (values != null) {
-            for ((i, value) in values.withIndex()) {
-                if (i > 0) {
-                    sb.append(COLUMN_SEPARATOR)
-                }
-                sb.append(escapeString(value))
+    fun getWhereInString(tableColumn: String, values: Collection<String>?, not: Boolean = false) =
+        buildString {
+            append(tableColumn)
+            if (not) append(NOT)
+            append(IN)
+            append(P1)
+            values?.forEachIndexed { index, value ->
+                if (index > 0) append(COLUMN_SEPARATOR)
+                append(escapeString(value))
             }
+            append(P2)
         }
-        return sb.append(P2).toString()
-    }
 
     @JvmStatic
     fun escapeString(string: String): String {
