@@ -27,14 +27,14 @@ object FeatureFlags {
     // const val F_MODULE_AUTO_OPEN = false
     const val F_MODULE_AUTO_OPEN = true // WIP
 
-    const val F_EXPORT_GTFS_ID_HASH_INT = false
-    // const val F_EXPORT_GTFS_ID_HASH_INT = true // WIP
+    // const val F_EXPORT_GTFS_ID_HASH_INT = false
+    const val F_EXPORT_GTFS_ID_HASH_INT = true // WIP
 
     const val F_USE_GTFS_ID_HASH_INT = false
     // const val F_USE_GTFS_ID_HASH_INT = true // WIP
 
-    const val F_EXPORT_ORIGINAL_ROUTE_TYPE = false
-    // const val F_EXPORT_ORIGINAL_ROUTE_TYPE = true // WIP
+    // const val F_EXPORT_ORIGINAL_ROUTE_TYPE = false
+    const val F_EXPORT_ORIGINAL_ROUTE_TYPE = true // WIP
 
     const val F_USE_ROUTE_TYPE_FILTER = false
     // const val F_USE_ROUTE_TYPE_FILTER = true // WIP
