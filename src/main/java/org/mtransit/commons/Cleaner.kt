@@ -30,4 +30,9 @@ data class Cleaner @JvmOverloads constructor(
     )
 
     fun clean(input: CharSequence) = regex.replace(input, replacement) // replace ALL
+
+    @JvmOverloads
+    fun find(input: CharSequence, startIndex: Int = 0): Boolean = regex.find(input, startIndex) != null
+
+    fun matches(input: CharSequence): Boolean = regex.matches(input)
 }
