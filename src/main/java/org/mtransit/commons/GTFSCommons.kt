@@ -1,9 +1,11 @@
 package org.mtransit.commons
 
+import org.mtransit.commons.Constants.EMPTY
 import org.mtransit.commons.sql.SQLCreateBuilder
 import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.getSQLDropIfExistsQuery
+import java.util.regex.Pattern
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object GTFSCommons {
@@ -173,17 +175,28 @@ object GTFSCommons {
     val DEFAULT_ID_HASH: Int? = null
 
     @JvmStatic
-    fun stringIdToHashIfEnabled(originalId: String): Int? {
+    fun stringIdToHashIfEnabled(originalId: String, idCleanupRegex: Pattern? = null): Int? {
         if (!FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             return DEFAULT_ID_HASH
         }
-        return stringIdToHash(originalId)
+        return stringIdToHash(originalId, idCleanupRegex)
     }
 
     @JvmStatic
-    fun stringIdToHash(originalId: String): Int {
-        return CleanUtils.cleanMergedID(originalId).hashCode()
+    @JvmOverloads
+    fun stringIdToHash(originalId: String, idCleanupRegex: Pattern? = null): Int {
+        return CleanUtils.cleanMergedID(
+            cleanOriginalId(originalId, idCleanupRegex)
+        ).hashCode()
     }
+
+    @JvmStatic
+    fun cleanOriginalId(originalId: String, idCleanupRegex: Pattern? = null) =
+        idCleanupRegex?.matcher(originalId)?.replaceAll(EMPTY) ?: originalId
+
+    @JvmStatic
+    fun makeIdCleanupPattern(idCleanupRegex: String? = null) =
+        idCleanupRegex?.takeIf { it.isNotEmpty() }?.let { Pattern.compile(it) }
 
     @JvmField
     val DEFAULT_ROUTE_TYPE: Int? = null
