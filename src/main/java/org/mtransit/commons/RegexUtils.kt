@@ -21,6 +21,8 @@ object RegexUtils {
     const val BEGINNING = "^"
     const val END = "$"
 
+    const val OR = "|"
+
     @JvmField
     val DIGITS: Pattern = Pattern.compile(atLeastOne(DIGIT_CAR))
 
@@ -80,7 +82,7 @@ object RegexUtils {
     fun except(string: String) = "[^$string]"
 
     @JvmStatic
-    fun or(vararg strings: String): String = strings.joinToString(separator = "|") { it }
+    fun or(vararg strings: String): String = strings.joinToString(separator = OR) { it }
 
     @JvmStatic
     fun onceOrNot(string: String) = "$string?"

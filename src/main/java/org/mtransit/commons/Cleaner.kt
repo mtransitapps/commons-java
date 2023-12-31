@@ -3,6 +3,7 @@ package org.mtransit.commons
 import org.mtransit.commons.Constants.EMPTY
 import java.util.regex.Pattern
 
+@Suppress("unused")
 data class Cleaner @JvmOverloads constructor(
     val regex: Regex,
     val replacement: String = EMPTY,
@@ -29,7 +30,8 @@ data class Cleaner @JvmOverloads constructor(
         replacement,
     )
 
-    fun clean(input: CharSequence) = regex.replace(input, replacement) // replace ALL
+    @JvmOverloads
+    fun clean(input: CharSequence, replacement: String = this.replacement) = regex.replace(input, replacement) // replace ALL
 
     @JvmOverloads
     fun find(input: CharSequence, startIndex: Int = 0): Boolean = regex.find(input, startIndex) != null
