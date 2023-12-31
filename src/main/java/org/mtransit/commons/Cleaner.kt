@@ -13,8 +13,8 @@ data class Cleaner @JvmOverloads constructor(
         regex: java.util.regex.Pattern,
         replacement: String = EMPTY,
     ) : this(
-        regex.toRegex(),
-        replacement,
+        regex = regex.toRegex(),
+        replacement = replacement,
     )
 
     @JvmOverloads
@@ -23,10 +23,19 @@ data class Cleaner @JvmOverloads constructor(
         replacement: String = EMPTY,
         ignoreCase: Boolean = false,
     ) : this(
-        regex.toRegex(options = mutableSetOf<RegexOption>().apply {
+        regex = regex.toRegex(options = mutableSetOf<RegexOption>().apply {
             if (ignoreCase) add(RegexOption.IGNORE_CASE)
         }),
-        replacement,
+        replacement = replacement,
+    )
+
+    constructor(
+        regex: String,
+        ignoreCase: Boolean,
+    ) : this(
+        regex = regex,
+        replacement = EMPTY,
+        ignoreCase = ignoreCase,
     )
 
     @JvmOverloads
