@@ -48,4 +48,9 @@ object CollectionUtils {
     fun <T> equalsList(l1: List<T>?, l2: List<T>?): Boolean {
         return l1 == l2
     }
+
+    @JvmStatic
+    fun <T> addAllN(list: MutableList<T>, collection: Collection<T>?) {
+        list.addAllN(collection)
+    }
 }
