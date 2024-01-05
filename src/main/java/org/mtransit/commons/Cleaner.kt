@@ -1,6 +1,11 @@
 package org.mtransit.commons
 
 import org.mtransit.commons.Constants.EMPTY
+import org.mtransit.commons.RegexUtils.BEGINNING
+import org.mtransit.commons.RegexUtils.END
+import org.mtransit.commons.RegexUtils.NON_WORD_CAR
+import org.mtransit.commons.RegexUtils.group
+import org.mtransit.commons.RegexUtils.groupOr
 
 @Suppress("unused")
 data class Cleaner @JvmOverloads constructor(
@@ -64,6 +69,12 @@ data class Cleaner @JvmOverloads constructor(
             regex = pattern,
             replacement = EMPTY,
             ignoreCase = flags and java.util.regex.Pattern.CASE_INSENSITIVE == java.util.regex.Pattern.CASE_INSENSITIVE,
+        )
+
+        fun matchWords(vararg wordsRegex: String) = group(
+            group("?<=" + groupOr(BEGINNING, NON_WORD_CAR))
+                    + groupOr(*wordsRegex)
+                    + group("?=" + groupOr(NON_WORD_CAR, END))
         )
     }
 }

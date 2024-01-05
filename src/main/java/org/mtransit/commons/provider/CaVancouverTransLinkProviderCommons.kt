@@ -7,8 +7,8 @@ import org.mtransit.commons.RegexUtils.END
 import org.mtransit.commons.RegexUtils.WHITESPACE_CAR
 import org.mtransit.commons.RegexUtils.any
 import org.mtransit.commons.RegexUtils.group
+import org.mtransit.commons.RegexUtils.groupOr
 import org.mtransit.commons.RegexUtils.mGroup
-import org.mtransit.commons.RegexUtils.or
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -55,11 +55,9 @@ object CaVancouverTransLinkProviderCommons {
 
     @JvmField
     val REMOVE_DASH_START_END: Pattern = Pattern.compile(
-        group(
-            or(
-                BEGINNING + any(group(WHITESPACE_CAR)) + "-" + any(group(WHITESPACE_CAR)),
-                any(group(WHITESPACE_CAR)) + "-" + any(group(WHITESPACE_CAR)) + END
-            )
+        groupOr(
+            BEGINNING + any(group(WHITESPACE_CAR)) + "-" + any(group(WHITESPACE_CAR)),
+            any(group(WHITESPACE_CAR)) + "-" + any(group(WHITESPACE_CAR)) + END
         ),
         Pattern.CASE_INSENSITIVE
     )

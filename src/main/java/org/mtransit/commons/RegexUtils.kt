@@ -85,6 +85,9 @@ object RegexUtils {
     fun or(vararg strings: String): String = strings.joinToString(separator = OR) { it }
 
     @JvmStatic
+    fun groupOr(vararg strings: String) = group(or(*strings))
+
+    @JvmStatic
     fun onceOrNot(string: String) = "$string?"
 
     @JvmStatic
