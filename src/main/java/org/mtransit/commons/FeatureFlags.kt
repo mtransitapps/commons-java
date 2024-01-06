@@ -39,5 +39,8 @@ object FeatureFlags {
     // const val F_USE_ROUTE_TYPE_FILTER = false
     const val F_USE_ROUTE_TYPE_FILTER = true // WIP
 
+    const val F_EXPORT_SERVICE_EXCEPTION_TYPE = false
+    // const val F_EXPORT_SERVICE_EXCEPTION_TYPE = true // WIP
+
     // @formatter:on
 }

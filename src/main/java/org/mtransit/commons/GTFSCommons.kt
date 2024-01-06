@@ -155,18 +155,29 @@ object GTFSCommons {
     const val T_SERVICE_DATES = "service_dates"
     const val T_SERVICE_DATES_K_SERVICE_ID = "service_id"
     const val T_SERVICE_DATES_K_DATE = "date"
+    const val T_SERVICE_DATES_K_EXCEPTION_TYPE = "exception_type"
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_DATES).apply {
         appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
         appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_SERVICE_EXCEPTION_TYPE) {
+            appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
+        }
     }.build()
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_DATES).apply {
         appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
         appendColumn(T_SERVICE_DATES_K_DATE)
+        if (FeatureFlags.F_EXPORT_SERVICE_EXCEPTION_TYPE) {
+            appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
+        }
     }.build()
+
+    const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule
+    const val EXCEPTION_TYPE_ADDED = 1
+    const val EXCEPTION_TYPE_REMOVED = 2
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_DROP = getSQLDropIfExistsQuery(T_SERVICE_DATES)
