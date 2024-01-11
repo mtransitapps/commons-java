@@ -71,6 +71,7 @@ data class Cleaner @JvmOverloads constructor(
             ignoreCase = flags and java.util.regex.Pattern.CASE_INSENSITIVE == java.util.regex.Pattern.CASE_INSENSITIVE,
         )
 
+        @JvmStatic
         fun matchWords(vararg wordsRegex: String) = group(
             group("?<=" + groupOr(BEGINNING, NON_WORD_CAR))
                     + groupOr(*wordsRegex)
