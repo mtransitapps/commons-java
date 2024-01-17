@@ -1,5 +1,7 @@
 package org.mtransit.commons
 
+import java.util.concurrent.ConcurrentHashMap
+
 @Suppress("unused")
 object CollectionUtils {
 
@@ -52,5 +54,10 @@ object CollectionUtils {
     @JvmStatic
     fun <T> addAllN(list: MutableList<T>, collection: Collection<T>?) {
         list.addAllN(collection)
+    }
+
+    @JvmStatic
+    fun <K, V> getOrDefault(map: ConcurrentHashMap<K, V>, key: K, defaultValue: V): V {
+        return map.getOrDefault(key, defaultValue) ?: defaultValue
     }
 }
