@@ -18,6 +18,8 @@ object RegexUtils {
     const val ALPHA_NUM_CAR = WORD_CAR
     const val NON_WORD_CAR = "\\W"
 
+    const val WORD_BOUNDARY = "\\b"
+
     const val BEGINNING = "^"
     const val END = "$"
 

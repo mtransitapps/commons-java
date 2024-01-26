@@ -1,9 +1,7 @@
 package org.mtransit.commons
 
 import org.mtransit.commons.Constants.EMPTY
-import org.mtransit.commons.RegexUtils.BEGINNING
-import org.mtransit.commons.RegexUtils.END
-import org.mtransit.commons.RegexUtils.NON_WORD_CAR
+import org.mtransit.commons.RegexUtils.WORD_BOUNDARY
 import org.mtransit.commons.RegexUtils.group
 import org.mtransit.commons.RegexUtils.groupOr
 
@@ -73,9 +71,9 @@ data class Cleaner @JvmOverloads constructor(
 
         @JvmStatic
         fun matchWords(vararg wordsRegex: String) = group(
-            group("?<=" + groupOr(BEGINNING, NON_WORD_CAR))
+            group(WORD_BOUNDARY)
                     + groupOr(*wordsRegex)
-                    + group("?=" + groupOr(NON_WORD_CAR, END))
+                    + group(WORD_BOUNDARY)
         )
     }
 }
