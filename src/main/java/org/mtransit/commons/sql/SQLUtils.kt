@@ -48,6 +48,7 @@ object SQLUtils {
     const val DROP_TABLE = "DROP TABLE "
     const val DROP_TABLE_IF_EXISTS = DROP_TABLE + "IF EXISTS "
 
+    const val SQL_NULL = "null"
 
     @JvmStatic
     fun getSQLForeignKey(columnName: String, fkTable: String, fkColumn: String): String {
@@ -179,6 +180,15 @@ object SQLUtils {
     fun escapeString(string: String): String {
         return STRING_DELIMITER + string + STRING_DELIMITER
     }
+
+    @JvmStatic
+    fun unescapeString(string: String): String {
+        return string.replace("$STRING_DELIMITER$STRING_DELIMITER", STRING_DELIMITER)
+    }
+
+    @JvmStatic
+    fun unescapeStringOrNull(string: String): String? =
+        string.trim { it == '\'' }.takeIf { it.isNotBlank() }?.let { unescapeString(it) }
 
     const val BOOLEAN_TRUE = 1
     const val BOOLEAN_FALSE = 0

@@ -12,5 +12,4 @@ object Constants {
     const val STRING_DELIMITER = '\''
     const val EMPTY = ""
     const val SPACE_ = " "
-    const val UUID_SEPARATOR = "-"
 }
