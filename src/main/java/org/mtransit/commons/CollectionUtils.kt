@@ -14,6 +14,11 @@ object CollectionUtils {
     fun <T, V> getSize(map: Map<T, V>?): Int = map?.size ?: 0
 
     @JvmStatic
+    fun <T: Comparable<T>> sorted(list: Iterable<T>?): List<T>? {
+        return list?.toMutableList()?.sorted()
+    }
+
+    @JvmStatic
     fun <T> sort(list: MutableList<T>?, comparator: Comparator<in T>) {
         list?.sortWith(comparator)
     }
