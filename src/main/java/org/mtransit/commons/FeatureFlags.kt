@@ -42,8 +42,8 @@ object FeatureFlags {
     // const val F_EXPORT_SERVICE_EXCEPTION_TYPE = false
     const val F_EXPORT_SERVICE_EXCEPTION_TYPE = true // WIP
 
-    const val F_AVOID_DATA_CHANGED = false
-    // const val F_AVOID_DATA_CHANGED = true // WIP
+    // const val F_AVOID_DATA_CHANGED = false
+    const val F_AVOID_DATA_CHANGED = true // WIP
 
     // @formatter:on
 }
