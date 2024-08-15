@@ -22,7 +22,7 @@ fun <T> MutableList<T>.removeAllAnd(predicate: (T) -> Boolean): MutableList<T> {
     return this
 }
 
-fun <T> MutableList<T>.keepFirst(n: Int): MutableList<T> {
+fun <T> MutableList<T>.takeAnd(n: Int): MutableList<T> {
     while (this.size > n) {
         this.removeLast()
     }
