@@ -127,6 +127,11 @@ object SQLUtils {
     }
 
     @JvmStatic
+    fun getMaxValue(column: String): String {
+        return "MAX($column)"
+    }
+
+    @JvmStatic
     fun getWhereEquals(column: String, value: Any): String {
         return column + EQ + value
     }
