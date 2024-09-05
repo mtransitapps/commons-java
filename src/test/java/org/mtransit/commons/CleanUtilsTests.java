@@ -480,4 +480,14 @@ public class CleanUtilsTests {
 		// Assert
 		assertEquals("Via ABC", result);
 	}
+
+	@Test
+	public void testRemoveVia_KeepOnlyVia2() {
+		// Arrange
+		String string = "505 DUNDAS BROADVIEW STN via DUNDAS";
+		// Act
+		String result = CleanUtils.removeVia(string);
+		// Assert
+		assertEquals("505 DUNDAS BROADVIEW STN", result);
+	}
 }

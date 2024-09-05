@@ -25,14 +25,14 @@ public final class CleanUtils {
 	private CleanUtils() {
 	}
 
-	public static final Pattern CLEAN_EN_DASHES = Pattern.compile("(\\w)[\\s]*[–][\\s]*(\\w)");
+	public static final Pattern CLEAN_EN_DASHES = Pattern.compile("(\\w)\\s*–\\s*(\\w)");
 	public static final String CLEAN_EN_DASHES_REPLACEMENT = "$1–$2";
-	public static final Pattern CLEAN_DASHES = Pattern.compile("(\\w)[\\s]*[\\-][\\s]*(\\w)");
+	public static final Pattern CLEAN_DASHES = Pattern.compile("(\\w)\\s*-\\s*(\\w)");
 	public static final String CLEAN_DASHES_REPLACEMENT = "$1-$2";
 
 	private static final String PARENTHESIS1 = "\\(";
-	public static final Pattern CLEAN_PARENTHESIS1 = Pattern.compile("[" + PARENTHESIS1 + "][\\s]*(\\w)");
-	public static final String CLEAN_PARENTHESIS1_REPLACEMENT = PARENTHESIS1 + "$1";
+	public static final Pattern CLEAN_PARENTHESIS1 = Pattern.compile(PARENTHESIS1 + "\\s*(\\w)");
+	public static final String CLEAN_PARENTHESIS1_REPLACEMENT = "($1";
 	@Deprecated
 	private static final String PARENTHESE1 = PARENTHESIS1;
 	@Deprecated
@@ -42,9 +42,9 @@ public final class CleanUtils {
 
 	private static final String PARENTHESIS2 = "\\)";
 
-	public static final Pattern CLEAN_PARENTHESIS2 = Pattern.compile("(\\w)[\\s]*[" + PARENTHESIS2 + "]");
+	public static final Pattern CLEAN_PARENTHESIS2 = Pattern.compile("(\\w)\\s*" + PARENTHESIS2);
 
-	public static final String CLEAN_PARENTHESIS2_REPLACEMENT = "$1" + PARENTHESIS2;
+	public static final String CLEAN_PARENTHESIS2_REPLACEMENT = "$1)";
 
 	@Deprecated
 	private static final String PARENTHESE2 = PARENTHESIS2;
@@ -54,9 +54,9 @@ public final class CleanUtils {
 	public static final String CLEAN_PARENTHESE2_REPLACEMENT = CLEAN_PARENTHESIS2_REPLACEMENT;
 
 	private static final Pattern CLEAN_SPACES = Pattern.compile("\\s+");
-	private static final Pattern CLEAN_P1 = Pattern.compile("[\\s]*\\([\\s]*");
+	private static final Pattern CLEAN_P1 = Pattern.compile("\\s*\\(\\s*");
 	private static final String CLEAN_P1_REPLACEMENT = " ("; // space: guaranty 1 before & 0 after
-	private static final Pattern CLEAN_P2 = Pattern.compile("[\\s]*\\)[\\s]*");
+	private static final Pattern CLEAN_P2 = Pattern.compile("\\s*\\)\\s*");
 	private static final String CLEAN_P2_REPLACEMENT = ") "; // space: guaranty 0 before & 1 after
 
 	@NotNull
@@ -213,7 +213,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static Pattern cleanWords(int flags, @Nullable String... words) {
-		if (words == null || words.length <= 0) {
+		if (words == null || words.length == 0) {
 			throw new RuntimeException("Cannot clean empty list of words!");
 		}
 		StringBuilder sb = new StringBuilder();
@@ -236,7 +236,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String cleanWordsReplacement(@Nullable String replacement) {
-		if (replacement == null || replacement.length() <= 0) {
+		if (replacement == null || replacement.isEmpty()) {
 			return EMPTY;
 		}
 		return replacement;
@@ -269,7 +269,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static Pattern cleanWordsPlural(int flags, @Nullable String... words) {
-		if (words == null || words.length <= 0) {
+		if (words == null || words.length == 0) {
 			throw new RuntimeException("Cannot clean empty list of words!");
 		}
 		StringBuilder sb = new StringBuilder();
@@ -295,7 +295,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String cleanWordsReplacementPlural(@Nullable String replacement) {
-		if (replacement == null || replacement.length() <= 0) {
+		if (replacement == null || replacement.isEmpty()) {
 			return EMPTY;
 		}
 		return replacement + "$5";
@@ -337,7 +337,7 @@ public final class CleanUtils {
 		return cleanLabel(Locale.FRENCH, label);
 	}
 
-	private static final Pattern CLEAN_SLASH = Pattern.compile("(\\S)[\\s]*[/][\\s]*(\\S)");
+	private static final Pattern CLEAN_SLASH = Pattern.compile("(\\S)\\s*/\\s*(\\S)");
 	private static final String CLEAN_SLASH_REPLACEMENT = "$1" + " / " + "$2";
 
 	@NotNull
@@ -350,15 +350,15 @@ public final class CleanUtils {
 
 	private static final Pattern POINT1_SPACE = Pattern.compile("(" +
 			"(?=(^|\\s|[A-Z]+))" +
-			"([\\w])\\.\\s" +
+			"(\\w)\\.\\s" +
 			"(?=(\\w(\\.\\s|\\.$|$)|$))" +
 			")");
 	private static final String POINT1_SPACE_REPLACEMENT = "$3";
 
-	private static final Pattern POINT1 = Pattern.compile("((?=(^|\\s|[A-Z]+))([\\w])\\.(?=(\\w(\\.|\\s|$)|\\W|$)))");
+	private static final Pattern POINT1 = Pattern.compile("((?=(^|\\s|[A-Z]+))(\\w)\\.(?=(\\w(\\.|\\s|$)|\\W|$)))");
 	private static final String POINT1_REPLACEMENT = "$3";
 
-	private static final Pattern POINTS = Pattern.compile("((?=(^|\\s|[\\w]+))([\\w]+)\\.(?=(\\w{2,}\\.|\\W|$)))");
+	private static final Pattern POINTS = Pattern.compile("((?=(^|\\s|\\w+))(\\w+)\\.(?=(\\w{2,}\\.|\\W|$)))");
 	private static final String POINTS_REPLACEMENT = "$3";
 
 	private static final Pattern ENDS_WITH_POINTS = Pattern.compile("((\\.+)(\\W*)$)");
@@ -471,6 +471,7 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String removeStrings(@NotNull String string, @NotNull String... stringsToRemove) {
+		//noinspection MagicConstant #AndroidCompat
 		string = Pattern.compile(group(
 						group(or(BEGINNING, NON_WORD_CAR)) +
 								group(or(stringsToRemove)) +
@@ -510,12 +511,14 @@ public final class CleanUtils {
 
 	private static final String WORD_REGEX = "a-zA-ZÀ-ÿ'"; // MARY'S
 
+	@SuppressWarnings("MagicConstant") // #AndroidCompat
 	private static final Pattern WORD_NON_WORDS = Pattern.compile(
 			"([^" + WORD_REGEX + "]*)([" + WORD_REGEX + "]+)([^" + WORD_REGEX + "]*)",
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	private static final String WORD_REGEX_FR = "a-zA-ZÀ-ÿ"; // d'AYLMER
 
+	@SuppressWarnings("MagicConstant") // #AndroidCompat
 	private static final Pattern WORD_NON_WORDS_FR = Pattern.compile(
 			"([^" + WORD_REGEX_FR + "]*)([" + WORD_REGEX_FR + "]+)([^" + WORD_REGEX_FR + "]*)",
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
@@ -551,11 +554,9 @@ public final class CleanUtils {
 	}
 
 	private static boolean containsIgnoreCase(@Nullable String string, @NotNull String... ignoreWords) {
-		if (ignoreWords.length > 0) {
-			for (String ignoreWord : ignoreWords) {
-				if (ignoreWord.equalsIgnoreCase(string)) {
-					return true;
-				}
+		for (String ignoreWord : ignoreWords) {
+			if (ignoreWord.equalsIgnoreCase(string)) {
+				return true;
 			}
 		}
 		return false;
