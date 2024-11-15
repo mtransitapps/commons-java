@@ -25,7 +25,7 @@ fun <T> MutableList<T>.removeAllAnd(predicate: (T) -> Boolean): MutableList<T> {
 fun <T> MutableList<T>.takeAnd(n: Int): MutableList<T> {
     if (n < 0) return this
     while (this.size > n) {
-        this.removeLast()
+        this.removeAt(lastIndex)
     }
     return this
 }
@@ -44,4 +44,17 @@ fun <T> MutableList<T>.keepFirst(n: Int, predicate: (T) -> Boolean): MutableList
         }
     }
     return this
+}
+
+inline fun <T> Iterable<T>.dropWhile(minSize: Int = 0, predicate: (T) -> Boolean): List<T> {
+    val list = this.toMutableList()
+    val it = list.listIterator()
+    while (it.hasNext() && list.size > minSize) {
+        if (!predicate(it.next())) {
+            it.previous()
+            break
+        }
+        it.remove()
+    }
+    return list
 }
