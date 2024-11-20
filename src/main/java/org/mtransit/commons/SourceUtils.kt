@@ -8,6 +8,7 @@ object SourceUtils {
 
     private val BLACK_LIST = listOf(
         "api",
+        "assets",
         "data",
         "gbfs",
         "gtfs",
