@@ -4,6 +4,7 @@ package org.mtransit.commons.sql
 class SQLInsertBuilder private constructor(table: String, allowReplace: Boolean = false) {
 
     companion object {
+        @JvmOverloads
         @JvmStatic
         fun getNew(table: String, allowReplace: Boolean = false): SQLInsertBuilder {
             return SQLInsertBuilder(table, allowReplace)
