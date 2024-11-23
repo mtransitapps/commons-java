@@ -15,6 +15,7 @@ object SQLUtils {
     const val REAL = " real"
 
     const val STRING_DELIMITER = "'"
+    const val STRING_DELIMITER_ESCAPED = '\''
     const val POINT = "."
     const val P2 = ")"
     const val P1 = "("
@@ -194,6 +195,36 @@ object SQLUtils {
     @JvmStatic
     fun unescapeStringOrNull(string: String): String? =
         string.trim { it == '\'' }.takeIf { it.isNotBlank() }?.let { unescapeString(it) }
+
+    @JvmName("escapeStringExt")
+    fun String.escapeString() = escapeString(this)
+
+    @JvmStatic
+    fun escape(string: String): String {
+        return string.replace(STRING_DELIMITER, "$STRING_DELIMITER$STRING_DELIMITER")
+        // TODO under score???
+    }
+
+    @JvmName("escapeExt")
+    fun String.escape() = escape(this)
+
+    @JvmStatic
+    fun quotes(string: String): String {
+        return "$STRING_DELIMITER$string$STRING_DELIMITER"
+    }
+
+    @JvmName("quotesExt")
+    fun String.quotes() = quotes(this)
+
+    fun String.quotesEscape() = escape(this).quotes()
+
+    @JvmStatic
+    fun unquotes(string: String): String {
+        return string.trim { it == STRING_DELIMITER_ESCAPED }
+    }
+
+    @JvmName("unquotesExt")
+    fun String.unquotes() = unquotes(this)
 
     const val BOOLEAN_TRUE = 1
     const val BOOLEAN_FALSE = 0

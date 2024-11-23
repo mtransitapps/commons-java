@@ -15,6 +15,9 @@ object GTFSCommons {
     @JvmStatic
     fun getDBFileName(fileBase: String) = "$fileBase$DB_FILE_NAME"
 
+
+    // region Route
+
     const val T_ROUTE = "route"
     const val T_ROUTE_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_ROUTE_K_SHORT_NAME = "short_name"
@@ -54,6 +57,10 @@ object GTFSCommons {
     @JvmStatic
     val T_ROUTE_SQL_DROP = getSQLDropIfExistsQuery(T_ROUTE)
 
+    // endregion Route
+
+    // region Trip
+
     const val T_TRIP = "trip"
     const val T_TRIP_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_TRIP_K_HEADSIGN_TYPE = "headsign_type"
@@ -80,6 +87,10 @@ object GTFSCommons {
     @JvmStatic
     val T_TRIP_SQL_DROP = getSQLDropIfExistsQuery(T_TRIP)
 
+    // endregion Trip
+
+    // region Stop
+
     const val T_STOP = "stop"
     const val T_STOP_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_STOP_K_CODE = "code" // optional
@@ -104,7 +115,6 @@ object GTFSCommons {
         }
     }.build()
 
-
     @JvmStatic
     val T_STOP_SQL_INSERT = SQLInsertBuilder.getNew(T_STOP).apply {
         appendColumn(T_STOP_K_ID)
@@ -122,6 +132,10 @@ object GTFSCommons {
 
     @JvmStatic
     val T_STOP_SQL_DROP = getSQLDropIfExistsQuery(T_STOP)
+
+    // endregion Stop
+
+    // region Trip Stops
 
     const val T_TRIP_STOPS = "trip_stops"
     const val T_TRIP_STOPS_K_ID = SQLUtils.BASE_COLUMNS_ID
@@ -152,6 +166,10 @@ object GTFSCommons {
     @JvmStatic
     val T_TRIP_STOPS_SQL_DROP = getSQLDropIfExistsQuery(T_TRIP_STOPS)
 
+    // endregion Trip Stops
+
+    // region Service Dates
+
     const val T_SERVICE_DATES = "service_dates"
     const val T_SERVICE_DATES_K_SERVICE_ID = "service_id"
     const val T_SERVICE_DATES_K_DATE = "date"
@@ -181,6 +199,8 @@ object GTFSCommons {
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_DROP = getSQLDropIfExistsQuery(T_SERVICE_DATES)
+
+    // endregion Service Dates
 
     @JvmField
     val DEFAULT_ID_HASH: Int? = null

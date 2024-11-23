@@ -1,16 +1,23 @@
 package org.mtransit.commons.sql
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class SQLInsertBuilder private constructor(table: String) {
+class SQLInsertBuilder private constructor(table: String, allowReplace: Boolean = false) {
 
     companion object {
         @JvmStatic
-        fun getNew(table: String): SQLInsertBuilder {
-            return SQLInsertBuilder(table)
+        fun getNew(table: String, allowReplace: Boolean = false): SQLInsertBuilder {
+            return SQLInsertBuilder(table, allowReplace)
         }
+
+        fun compile(
+            sqlInjectQuery: String,
+            vararg values: Any?
+        ) = String.format(sqlInjectQuery, values.asList().joinToString(","))
     }
 
-    private val sqlInsertSb: StringBuilder = StringBuilder(SQLUtils.INSERT_INTO).append(table).append(SQLUtils.P1)
+    private val sqlInsertSb: StringBuilder = StringBuilder(
+        if (allowReplace) SQLUtils.INSERT_OR_REPLACE_INTO else SQLUtils.INSERT_INTO
+    ).append(table).append(SQLUtils.P1)
 
     private var nbColumn = 0
 
