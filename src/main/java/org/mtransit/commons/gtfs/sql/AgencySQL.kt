@@ -43,9 +43,9 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
         )
     )
 
-    override fun toInsertColumns(idInt: Int, agency: Agency) = with(agency) {
+    override fun toInsertColumns(statement: Statement, agency: Agency) = with(agency) {
         arrayOf<Any?>(
-            idInt,
+            getOrInsertIdInt(statement, agency.agencyId),
             agencyName.quotesEscape(),
             agencyUrl.quotesEscape(),
             agencyTimezone.quotesEscape(),
@@ -59,31 +59,10 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
     fun insert(agency: Agency, statement: Statement): Boolean {
         return statement.executeUpdate(
             getSQLInsertOrReplace(
-                getOrInsertIdInt(statement, agency.agencyId),
+                statement,
                 agency
             )
         ) > 0
-    }
-
-    fun getOrInsertIdInt(statement: Statement, agencyId: AgencyId): Int {
-        val agencyIdInt = statement.executeQuery(getSQLSelectIdIntFromId(agencyId)).use { rs ->
-            if (rs.next()) {
-                rs.getInt(1)
-            } else {
-                if (statement.executeUpdate(getSQLInsertIds(agencyId)) > 0) {
-                    statement.executeQuery(getSQLSelectIdIntFromId(agencyId)).use { rs2 ->
-                        if (rs2.next()) {
-                            rs2.getInt(1)
-                        } else {
-                            throw Exception("Error while inserting agency ID")
-                        }
-                    }
-                } else {
-                    throw Exception("Error while inserting agency ID")
-                }
-            }
-        }
-        return agencyIdInt
     }
 
     fun select(agencyId: AgencyId? = null, statement: Statement): List<Agency> {
@@ -113,16 +92,6 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
                 )
             }
             agencies
-        }
-    }
-
-    fun count(statement: Statement): Int {
-        val sql = "SELECT COUNT(*) AS count FROM $T_AGENCY"
-        return statement.executeQuery(sql).use { rs ->
-            if (rs.next()) {
-                return rs.getInt("count")
-            }
-            throw Exception("Error while counting routes!")
         }
     }
 }

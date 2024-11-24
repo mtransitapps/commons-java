@@ -46,9 +46,9 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         )
     )
 
-    override fun toInsertColumns(idInt: Int, stop: Stop) = with(stop) {
+    override fun toInsertColumns(statement: Statement, stop: Stop) = with(stop) {
         arrayOf<Any?>(
-            idInt,
+            getOrInsertIdInt(statement, stop.stopId),
             stopCode?.quotesEscape(),
             stopName.quotesEscape(),
             stopLat,
@@ -60,30 +60,10 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         )
     }
 
-    fun getOrInsertIdInt(statement: Statement, stopId: StopId): Int {
-        return statement.executeQuery(getSQLSelectIdIntFromId(stopId)).use { rs ->
-            if (rs.next()) {
-                rs.getInt(1)
-            } else {
-                if (statement.executeUpdate(getSQLInsertIds(stopId)) > 0) {
-                    statement.executeQuery(getSQLSelectIdIntFromId(stopId)).use { rs2 ->
-                        if (rs2.next()) {
-                            rs2.getInt(1)
-                        } else {
-                            throw Exception("Error while inserting agency ID")
-                        }
-                    }
-                } else {
-                    throw Exception("Error while inserting agency ID")
-                }
-            }
-        }
-    }
-
     fun insert(stop: Stop, statement: Statement): Boolean {
         return statement.executeUpdate(
             getSQLInsertOrReplace(
-                getOrInsertIdInt(statement, stop.stopId),
+                statement,
                 stop
             )
         ) > 0
@@ -120,16 +100,6 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             parentStationId = getString(T_STOP_K_PARENT_STATION_ID_INT),
             wheelchairBoarding = getInt(T_STOP_K_WHEELCHAIR_BOARDING),
         )
-    }
-
-    fun count(statement: Statement): Int {
-        val sql = "SELECT COUNT(*) AS count FROM $T_STOP"
-        return statement.executeQuery(sql).use { rs ->
-            if (rs.next()) {
-                return rs.getInt("count")
-            }
-            throw Exception("Error while counting routes!")
-        }
     }
 
     fun delete(statement: Statement, notLocationType: Int? = null): Int {

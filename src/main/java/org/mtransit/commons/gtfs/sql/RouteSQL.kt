@@ -3,33 +3,21 @@ package org.mtransit.commons.gtfs.sql
 import org.mtransit.commons.gtfs.data.AgencyId
 import org.mtransit.commons.gtfs.data.Route
 import org.mtransit.commons.gtfs.data.RouteId
-import org.mtransit.commons.sql.SQLCreateBuilder
-import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import java.sql.Statement
 
-object RouteSQL : TableSQL {
+object RouteSQL : CommonSQL<Route>(), TableSQL {
 
     const val T_ROUTE_IDS = "route_ids"
     const val T_ROUTE_IDS_K_ID_INT = "route_id_int"
     const val T_ROUTE_IDS_K_ID = "route_id"
 
-    @JvmStatic
-    val T_ROUTE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_ROUTE_IDS).apply {
-        appendColumn(T_ROUTE_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO)
-        appendColumn(T_ROUTE_IDS_K_ID, SQLUtils.TXT)
-    }.build()
-
-    @JvmStatic
-    val T_ROUTE_IDS_SQL_INSERT = SQLInsertBuilder.getNew(T_ROUTE_IDS).apply {
-        // appendColumn(T_ROUTE_IDS_K_ID_INT) // AUTOINCREMENT
-        appendColumn(T_ROUTE_IDS_K_ID)
-    }.build()
-
-    @JvmStatic
-    val T_ROUTE_IDS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_ROUTE_IDS)
-
+    override fun getIdsTable() = SQLTableDef.makeIdsTable(
+        tableName = T_ROUTE_IDS,
+        columnNameIdInt = T_ROUTE_IDS_K_ID_INT,
+        columnNameId = T_ROUTE_IDS_K_ID,
+    )
 
     const val T_ROUTE = "route"
 
@@ -44,97 +32,44 @@ object RouteSQL : TableSQL {
     const val T_ROUTE_K_ROUTE_TEXT_COLOR = "route_text_color"
     const val T_ROUTE_K_ROUTE_SORT_ORDER = "route_sort_order"
 
-    @JvmStatic
-    val T_ROUTE_SQL_CREATE = SQLCreateBuilder.getNew(T_ROUTE).apply {
-        appendColumn(T_ROUTE_K_AGENCY_ID_INT, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ID_INT, SQLUtils.INT)
-        appendColumn(T_ROUTE_K_ROUTE_SHORT_NAME, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_LONG_NAME, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_DESC, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_TYPE, SQLUtils.INT)
-        appendColumn(T_ROUTE_K_ROUTE_URL, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_COLOR, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_TEXT_COLOR, SQLUtils.TXT)
-        appendColumn(T_ROUTE_K_ROUTE_SORT_ORDER, SQLUtils.INT)
-            .appendPrimaryKeys(
-                T_ROUTE_K_ID_INT,
-            ).appendForeignKey(
-                T_ROUTE_K_ID_INT, T_ROUTE_IDS, T_ROUTE_IDS_K_ID_INT
-            )
-    }.build()
-
-    @JvmStatic
-    val T_ROUTE_SQL_INSERT_OR_REPLACE = SQLInsertBuilder.getNew(T_ROUTE, allowReplace = true).apply {
-        appendColumn(T_ROUTE_K_AGENCY_ID_INT)
-        appendColumn(T_ROUTE_K_ID_INT)
-        appendColumn(T_ROUTE_K_ROUTE_SHORT_NAME)
-        appendColumn(T_ROUTE_K_ROUTE_LONG_NAME)
-        appendColumn(T_ROUTE_K_ROUTE_DESC)
-        appendColumn(T_ROUTE_K_ROUTE_TYPE)
-        appendColumn(T_ROUTE_K_ROUTE_URL)
-        appendColumn(T_ROUTE_K_ROUTE_COLOR)
-        appendColumn(T_ROUTE_K_ROUTE_TEXT_COLOR)
-        appendColumn(T_ROUTE_K_ROUTE_SORT_ORDER)
-    }.build()
-
-    @JvmStatic
-    val T_ROUTE_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_ROUTE)
-
-    override fun getSQLCreateTablesQueries() = listOf(T_ROUTE_IDS_SQL_CREATE, T_ROUTE_SQL_CREATE)
-
-    override fun getSQLDropIfExistsQueries() = listOf(T_ROUTE_IDS_SQL_DROP, T_ROUTE_SQL_DROP)
-
-    private fun getSQLInsertIds(routeId: RouteId) = SQLInsertBuilder.compile(
-        T_ROUTE_IDS_SQL_INSERT,
-        routeId.quotesEscape()
+    override fun getMainTable() = SQLTableDef(
+        T_ROUTE,
+        listOf(
+            SQLColumDef(T_ROUTE_K_AGENCY_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(AgencySQL.T_AGENCY_IDS, AgencySQL.T_AGENCY_IDS_K_ID_INT)),
+            SQLColumDef(T_ROUTE_K_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(T_ROUTE_IDS, T_ROUTE_IDS_K_ID_INT)),
+            SQLColumDef(T_ROUTE_K_ROUTE_SHORT_NAME, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_LONG_NAME, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_DESC, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_TYPE, SQLUtils.INT),
+            SQLColumDef(T_ROUTE_K_ROUTE_URL, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_COLOR, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_TEXT_COLOR, SQLUtils.TXT),
+            SQLColumDef(T_ROUTE_K_ROUTE_SORT_ORDER, SQLUtils.INT),
+        )
     )
 
-    private fun getSQLSelectIdIntFromId(routeId: RouteId) =
-        "SELECT $T_ROUTE_IDS_K_ID_INT FROM $T_ROUTE_IDS WHERE $T_ROUTE_IDS_K_ID = '$routeId'"
-
-    private fun getSQLInsertOrReplace(agencyIdInt: Int, routeIdInt: Int, route: Route) = SQLInsertBuilder.compile(
-        T_ROUTE_SQL_INSERT_OR_REPLACE,
-        agencyIdInt, // 1st
-        routeIdInt, // 2nd
-        route.routeShortName.quotesEscape(),
-        route.routeLongName?.quotesEscape(),
-        route.routeDesc?.quotesEscape(),
-        route.routeType,
-        route.routeUrl?.quotesEscape(),
-        route.routeColor?.quotesEscape(),
-        route.routeTextColor?.quotesEscape(),
-        route.routeSortOrder
-    )
+    override fun toInsertColumns(statement: Statement, route: Route) = with(route) {
+        arrayOf<Any?>(
+            AgencySQL.getOrInsertIdInt(statement, route.agencyId), // agency ID // 1st
+            getOrInsertIdInt(statement, route.routeId), // route ID // 2nd
+            routeShortName.quotesEscape(),
+            routeLongName?.quotesEscape(),
+            routeDesc?.quotesEscape(),
+            routeType,
+            routeUrl?.quotesEscape(),
+            routeColor?.quotesEscape(),
+            routeTextColor?.quotesEscape(),
+            routeSortOrder,
+        )
+    }
 
     fun insert(route: Route, statement: Statement): Boolean {
         return statement.executeUpdate(
             getSQLInsertOrReplace(
-                agencyIdInt = AgencySQL.getOrInsertIdInt(statement, route.agencyId),
-                routeIdInt = getOrInsertIdInt(statement, route.routeId),
-                route = route,
+                statement,
+                route,
             )
         ) > 0
-    }
-
-    private fun getOrInsertIdInt(statement: Statement, routeId: RouteId): Int {
-        val routeIdInt = statement.executeQuery(getSQLSelectIdIntFromId(routeId)).use { rs ->
-            if (rs.next()) {
-                rs.getInt(1)
-            } else {
-                if (statement.executeUpdate(getSQLInsertIds(routeId)) > 0) {
-                    statement.executeQuery(getSQLSelectIdIntFromId(routeId)).use { rs2 ->
-                        if (rs2.next()) {
-                            rs2.getInt(1)
-                        } else {
-                            throw Exception("Error while inserting route ID")
-                        }
-                    }
-                } else {
-                    throw Exception("Error while inserting route ID")
-                }
-            }
-        }
-        return routeIdInt
     }
 
     fun selectAllIds(statement: Statement): List<String> {
@@ -189,16 +124,6 @@ object RouteSQL : TableSQL {
                 )
             }
             routes
-        }
-    }
-
-    fun count(statement: Statement): Int {
-        val sql = "SELECT COUNT(*) AS count FROM $T_ROUTE"
-        return statement.executeQuery(sql).use { rs ->
-            if (rs.next()) {
-                return rs.getInt("count")
-            }
-            throw Exception("Error while counting routes!")
         }
     }
 }
