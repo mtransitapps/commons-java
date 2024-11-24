@@ -9,7 +9,7 @@ import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import java.sql.Statement
 
-object RouteSQL {
+object RouteSQL : TableSQL {
 
     const val T_ROUTE_IDS = "route_ids"
     const val T_ROUTE_IDS_K_ID_INT = "route_id_int"
@@ -80,9 +80,9 @@ object RouteSQL {
     @JvmStatic
     val T_ROUTE_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_ROUTE)
 
-    fun getSQLCreateTablesQueries() = listOf(T_ROUTE_IDS_SQL_CREATE, T_ROUTE_SQL_CREATE)
+    override fun getSQLCreateTablesQueries() = listOf(T_ROUTE_IDS_SQL_CREATE, T_ROUTE_SQL_CREATE)
 
-    fun getSQLDropIfExistsQueries() = listOf(T_ROUTE_IDS_SQL_DROP, T_ROUTE_SQL_DROP)
+    override fun getSQLDropIfExistsQueries() = listOf(T_ROUTE_IDS_SQL_DROP, T_ROUTE_SQL_DROP)
 
     private fun getSQLInsertIds(routeId: RouteId) = SQLInsertBuilder.compile(
         T_ROUTE_IDS_SQL_INSERT,
@@ -107,11 +107,13 @@ object RouteSQL {
     )
 
     fun insert(route: Route, statement: Statement): Boolean {
-        return statement.executeUpdate(getSQLInsertOrReplace(
-            agencyIdInt = AgencySQL.getOrInsertIdInt(statement, route.agencyId),
-            routeIdInt = getOrInsertIdInt(statement, route.routeId),
-            route = route,
-        )) > 0
+        return statement.executeUpdate(
+            getSQLInsertOrReplace(
+                agencyIdInt = AgencySQL.getOrInsertIdInt(statement, route.agencyId),
+                routeIdInt = getOrInsertIdInt(statement, route.routeId),
+                route = route,
+            )
+        ) > 0
     }
 
     private fun getOrInsertIdInt(statement: Statement, routeId: RouteId): Int {
@@ -150,7 +152,7 @@ object RouteSQL {
         routeIds: Collection<RouteId>? = null,
         agencyId: AgencyId? = null,
         notAgencyId: AgencyId? = null,
-        statement: Statement
+        statement: Statement,
     ): List<Route> {
         val sql = buildString {
             append("SELECT ")

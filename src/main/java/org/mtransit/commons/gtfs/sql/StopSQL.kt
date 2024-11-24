@@ -9,7 +9,7 @@ import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import java.sql.ResultSet
 import java.sql.Statement
 
-object StopSQL {
+object StopSQL : TableSQL {
 
     const val T_STOP_IDS = "stop_ids"
     const val T_STOP_IDS_K_ID_INT = "stop_id_int"
@@ -78,9 +78,9 @@ object StopSQL {
     @JvmStatic
     val T_STOP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STOP)
 
-    fun getSQLCreateTablesQueries() = listOf(T_STOP_IDS_SQL_CREATE, T_STOP_SQL_CREATE)
+    override fun getSQLCreateTablesQueries() = listOf(T_STOP_IDS_SQL_CREATE, T_STOP_SQL_CREATE)
 
-    fun getSQLDropIfExistsQueries() = listOf(T_STOP_IDS_SQL_DROP, T_STOP_SQL_DROP)
+    override fun getSQLDropIfExistsQueries() = listOf(T_STOP_IDS_SQL_DROP, T_STOP_SQL_DROP)
 
     private fun getSQLInsertIds(stopId: StopId) = SQLInsertBuilder.compile(
         T_STOP_IDS_SQL_INSERT,
