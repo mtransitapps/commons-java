@@ -55,7 +55,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             stopLon,
             stopUrl?.quotesEscape(),
             locationType,
-            parentStationId?.let { getSQLSelectIdIntFromId(it) },
+            parentStationId?.let { getOrInsertIdInt(statement, it) },
             wheelchairBoarding,
         )
     }
