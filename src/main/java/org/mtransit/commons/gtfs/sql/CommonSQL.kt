@@ -2,6 +2,7 @@ package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
+import java.sql.ResultSet
 import java.sql.Statement
 
 abstract class CommonSQL<MainType>() : TableSQL {
@@ -12,7 +13,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     fun getIdsTableSQLCreate() = getIdsTable()?.getSQLCreateTableQuery()
 
-    fun getIdsTableSQLInsert() = getIdsTable()?.getIdsTableSQLInsert()
+    fun getIdsTableSQLInsert() = getIdsTable()?.getSQLInsertTableQuery()
 
     fun getIdsTableSQLDrop() = getIdsTable()?.getSQLDropIfExistsQuery()
 
@@ -55,7 +56,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     fun getMainTableSQLCreate() = getMainTable()?.getSQLCreateTableQuery()
 
-    fun getMainTableSQLInsert() = getMainTable()?.getIdsTableSQLInsert()
+    fun getMainTableSQLInsert() = getMainTable()?.getSQLInsertTableQuery()
 
     fun getMainTableSQLDrop() = getMainTable()?.getSQLDropIfExistsQuery()
 
@@ -91,4 +92,6 @@ abstract class CommonSQL<MainType>() : TableSQL {
             *toInsertColumns(statement, main)
         )
     }
+
+    abstract fun fromResultSet(rs: ResultSet): MainType
 }

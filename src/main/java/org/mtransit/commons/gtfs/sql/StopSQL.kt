@@ -43,7 +43,8 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             SQLColumDef(T_STOP_K_LOCATION_TYPE, SQLUtils.INT),
             SQLColumDef(T_STOP_K_PARENT_STATION_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(T_STOP_IDS, T_STOP_IDS_K_ID_INT)),
             SQLColumDef(T_STOP_K_WHEELCHAIR_BOARDING, SQLUtils.INT),
-        )
+        ),
+        insertAllowReplace = true,
     )
 
     override fun toInsertColumns(statement: Statement, stop: Stop) = with(stop) {
@@ -72,7 +73,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
     fun select(stopId: StopId? = null, statement: Statement): List<Stop> {
         val sql = buildString {
             append("SELECT ")
-            append(" * ")
+            append("* ")
             append("FROM $T_STOP ")
             append("LEFT JOIN $T_STOP_IDS ON $T_STOP.$T_STOP_K_ID_INT = $T_STOP_IDS.$T_STOP_K_ID_INT ")
             stopId?.let {
@@ -88,7 +89,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         }
     }
 
-    private fun fromResultSet(rs: ResultSet) = with(rs) {
+    override fun fromResultSet(rs: ResultSet) = with(rs) {
         Stop(
             stopId = getString(T_STOP_IDS_K_ID),
             stopCode = getString(T_STOP_K_STOP_CODE),

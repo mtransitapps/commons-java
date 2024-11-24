@@ -14,9 +14,21 @@ data class SQLTableDef(
         columns.forEach { columnDef ->
             appendColumn(columnDef.columnName, columnDef.columnType)
         }
+        columns.filter { it.primaryKey }.forEach { columnDef ->
+            appendPrimaryKeys(columnDef.columnName)
+        }
+        columns.forEach { columnDef ->
+            columnDef.foreignKey?.let { foreignKey ->
+                appendForeignKey(
+                    columnName = columnDef.columnName,
+                    fkTable = foreignKey.foreignKeyColumn,
+                    fkColumn = foreignKey.foreignKeyTable
+                )
+            }
+        }
     }.build()
 
-    fun getIdsTableSQLInsert() = SQLInsertBuilder.getNew(tableName, insertAllowReplace).apply {
+    fun getSQLInsertTableQuery() = SQLInsertBuilder.getNew(tableName, insertAllowReplace).apply {
         columns.forEach { columnDef ->
             if (columnDef.columnType == SQLUtils.INT_PK_AUTO) {
                 return@forEach // SKIP AUTOINCREMENT
@@ -32,14 +44,12 @@ data class SQLTableDef(
             tableName: String,
             columnNameIdInt: String = "${tableName}_id_int",
             columnNameId: String = "${tableName}_id",
-        ): SQLTableDef {
-            return SQLTableDef(
-                tableName, listOf(
-                    SQLColumDef(columnNameIdInt, SQLUtils.INT_PK_AUTO),
-                    SQLColumDef(columnNameId, SQLUtils.TXT),
-                )
+        ) = SQLTableDef(
+            tableName, listOf(
+                SQLColumDef(columnNameIdInt, SQLUtils.INT_PK_AUTO),
+                SQLColumDef(columnNameId, SQLUtils.TXT),
             )
-        }
+        )
 
         fun makeIdsTableSelect(tableDef: SQLTableDef, id: String): String? {
             val idIntColumn = tableDef.columns.singleOrNull { it.columnType == SQLUtils.INT_PK_AUTO }?.columnName

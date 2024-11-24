@@ -5,6 +5,7 @@ import org.mtransit.commons.gtfs.data.Route
 import org.mtransit.commons.gtfs.data.RouteId
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
+import java.sql.ResultSet
 import java.sql.Statement
 
 object RouteSQL : CommonSQL<Route>(), TableSQL {
@@ -45,7 +46,8 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
             SQLColumDef(T_ROUTE_K_ROUTE_COLOR, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_TEXT_COLOR, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_SORT_ORDER, SQLUtils.INT),
-        )
+        ),
+        insertAllowReplace = true,
     )
 
     override fun toInsertColumns(statement: Statement, route: Route) = with(route) {
@@ -106,24 +108,26 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
             }
         }
         return statement.executeQuery(sql).use { rs ->
-            val routes = mutableListOf<Route>()
-            while (rs.next()) {
-                routes.add(
-                    Route(
-                        routeId = rs.getString(T_ROUTE_IDS_K_ID),
-                        agencyId = rs.getString(AgencySQL.T_AGENCY_IDS_K_ID),
-                        routeShortName = rs.getString(T_ROUTE_K_ROUTE_SHORT_NAME),
-                        routeLongName = rs.getString(T_ROUTE_K_ROUTE_LONG_NAME),
-                        routeDesc = rs.getString(T_ROUTE_K_ROUTE_DESC),
-                        routeType = rs.getInt(T_ROUTE_K_ROUTE_TYPE),
-                        routeUrl = rs.getString(T_ROUTE_K_ROUTE_URL),
-                        routeColor = rs.getString(T_ROUTE_K_ROUTE_COLOR),
-                        routeTextColor = rs.getString(T_ROUTE_K_ROUTE_TEXT_COLOR),
-                        routeSortOrder = rs.getInt(T_ROUTE_K_ROUTE_SORT_ORDER)
-                    )
-                )
+            buildList {
+                while (rs.next()) {
+                    add(fromResultSet(rs))
+                }
             }
-            routes
         }
+    }
+
+    override fun fromResultSet(rs: ResultSet) = with(rs) {
+        Route(
+            routeId = rs.getString(T_ROUTE_IDS_K_ID),
+            agencyId = rs.getString(AgencySQL.T_AGENCY_IDS_K_ID),
+            routeShortName = rs.getString(T_ROUTE_K_ROUTE_SHORT_NAME),
+            routeLongName = rs.getString(T_ROUTE_K_ROUTE_LONG_NAME),
+            routeDesc = rs.getString(T_ROUTE_K_ROUTE_DESC),
+            routeType = rs.getInt(T_ROUTE_K_ROUTE_TYPE),
+            routeUrl = rs.getString(T_ROUTE_K_ROUTE_URL),
+            routeColor = rs.getString(T_ROUTE_K_ROUTE_COLOR),
+            routeTextColor = rs.getString(T_ROUTE_K_ROUTE_TEXT_COLOR),
+            routeSortOrder = rs.getInt(T_ROUTE_K_ROUTE_SORT_ORDER)
+        )
     }
 }

@@ -14,7 +14,7 @@ object CollectionUtils {
     fun <T, V> getSize(map: Map<T, V>?): Int = map?.size ?: 0
 
     @JvmStatic
-    fun <T: Comparable<T>> sorted(list: Iterable<T>?): List<T>? {
+    fun <T : Comparable<T>> sorted(list: Iterable<T>?): List<T>? {
         return list?.toMutableList()?.sorted()
     }
 
@@ -64,5 +64,12 @@ object CollectionUtils {
     @JvmStatic
     fun <K, V> getOrDefault(map: ConcurrentHashMap<K, V>, key: K, defaultValue: V): V {
         return map.getOrDefault(key, defaultValue) ?: defaultValue
+    }
+
+    @JvmStatic
+    fun <K, V> MutableMap<K, MutableList<V>>.addMapListValue(key: K, newValue: V) {
+        this[key] = this.getOrDefault(key, mutableListOf<V>()).apply {
+            add(newValue)
+        }
     }
 }
