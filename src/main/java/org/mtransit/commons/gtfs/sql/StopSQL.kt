@@ -2,33 +2,22 @@ package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.gtfs.data.Stop
 import org.mtransit.commons.gtfs.data.StopId
-import org.mtransit.commons.sql.SQLCreateBuilder
-import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import java.sql.ResultSet
 import java.sql.Statement
 
-object StopSQL : TableSQL {
+object StopSQL : CommonSQL<Stop>(), TableSQL {
 
     const val T_STOP_IDS = "stop_ids"
     const val T_STOP_IDS_K_ID_INT = "stop_id_int"
     const val T_STOP_IDS_K_ID = "stop_id"
 
-    @JvmStatic
-    val T_STOP_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_STOP_IDS).apply {
-        appendColumn(T_STOP_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO)
-        appendColumn(T_STOP_IDS_K_ID, SQLUtils.TXT)
-    }.build()
-
-    @JvmStatic
-    val T_STOP_IDS_SQL_INSERT = SQLInsertBuilder.getNew(T_STOP_IDS).apply {
-        // appendColumn(T_STOP_IDS_K_ID_INT) // AUTOINCREMENT
-        appendColumn(T_STOP_IDS_K_ID)
-    }.build()
-
-    @JvmStatic
-    val T_STOP_IDS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STOP_IDS)
+    override fun getIdsTable() = SQLTableDef.makeIdsTable(
+        tableName = T_STOP_IDS,
+        columnNameIdInt = T_STOP_IDS_K_ID_INT,
+        columnNameId = T_STOP_IDS_K_ID,
+    )
 
     const val T_STOP = "stop"
 
@@ -42,66 +31,34 @@ object StopSQL : TableSQL {
     const val T_STOP_K_PARENT_STATION_ID_INT = "parent_station_id_int"
     const val T_STOP_K_WHEELCHAIR_BOARDING = "wheelchair_boarding"
 
-    @JvmStatic
-    val T_STOP_SQL_CREATE = SQLCreateBuilder.getNew(T_STOP).apply {
-        appendColumn(T_STOP_K_ID_INT, SQLUtils.INT)
-        appendColumn(T_STOP_K_STOP_CODE, SQLUtils.TXT)
-        appendColumn(T_STOP_K_STOP_NAME, SQLUtils.TXT)
-        appendColumn(T_STOP_K_STOP_LAT, SQLUtils.REAL)
-        appendColumn(T_STOP_K_STOP_LON, SQLUtils.REAL)
-        appendColumn(T_STOP_K_STOP_URL, SQLUtils.TXT)
-        appendColumn(T_STOP_K_LOCATION_TYPE, SQLUtils.INT)
-        appendColumn(T_STOP_K_PARENT_STATION_ID_INT, SQLUtils.INT)
-        appendColumn(T_STOP_K_WHEELCHAIR_BOARDING, SQLUtils.INT)
-            .appendPrimaryKeys(
-                T_STOP_K_ID_INT,
-            ).appendForeignKey(
-                T_STOP_K_ID_INT, T_STOP_IDS, T_STOP_IDS_K_ID_INT
-            ).appendForeignKey(
-                T_STOP_K_PARENT_STATION_ID_INT, T_STOP_IDS, T_STOP_IDS_K_ID_INT
-            )
-    }.build()
-
-    @JvmStatic
-    val T_STOP_SQL_INSERT_OR_REPLACE = SQLInsertBuilder.getNew(T_STOP, allowReplace = true).apply {
-        appendColumn(T_STOP_K_ID_INT)
-        appendColumn(T_STOP_K_STOP_CODE)
-        appendColumn(T_STOP_K_STOP_NAME)
-        appendColumn(T_STOP_K_STOP_LAT)
-        appendColumn(T_STOP_K_STOP_LON)
-        appendColumn(T_STOP_K_STOP_URL)
-        appendColumn(T_STOP_K_LOCATION_TYPE)
-        appendColumn(T_STOP_K_PARENT_STATION_ID_INT)
-        appendColumn(T_STOP_K_WHEELCHAIR_BOARDING)
-    }.build()
-
-    @JvmStatic
-    val T_STOP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STOP)
-
-    override fun getSQLCreateTablesQueries() = listOf(T_STOP_IDS_SQL_CREATE, T_STOP_SQL_CREATE)
-
-    override fun getSQLDropIfExistsQueries() = listOf(T_STOP_IDS_SQL_DROP, T_STOP_SQL_DROP)
-
-    private fun getSQLInsertIds(stopId: StopId) = SQLInsertBuilder.compile(
-        T_STOP_IDS_SQL_INSERT,
-        stopId.quotesEscape()
+    override fun getMainTable() = SQLTableDef(
+        T_STOP,
+        listOf(
+            SQLColumDef(T_STOP_K_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(T_STOP_IDS, T_STOP_IDS_K_ID_INT)),
+            SQLColumDef(T_STOP_K_STOP_CODE, SQLUtils.TXT),
+            SQLColumDef(T_STOP_K_STOP_NAME, SQLUtils.TXT),
+            SQLColumDef(T_STOP_K_STOP_LAT, SQLUtils.REAL),
+            SQLColumDef(T_STOP_K_STOP_LON, SQLUtils.REAL),
+            SQLColumDef(T_STOP_K_STOP_URL, SQLUtils.TXT),
+            SQLColumDef(T_STOP_K_LOCATION_TYPE, SQLUtils.INT),
+            SQLColumDef(T_STOP_K_PARENT_STATION_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(T_STOP_IDS, T_STOP_IDS_K_ID_INT)),
+            SQLColumDef(T_STOP_K_WHEELCHAIR_BOARDING, SQLUtils.INT),
+        )
     )
 
-    private fun getSQLSelectIdIntFromId(stopId: StopId) =
-        "SELECT $T_STOP_IDS_K_ID_INT FROM $T_STOP_IDS WHERE $T_STOP_IDS_K_ID = '$stopId'"
-
-    private fun getSQLInsertOrReplace(stopIdInt: Int, stop: Stop) = SQLInsertBuilder.compile(
-        T_STOP_SQL_INSERT_OR_REPLACE,
-        stopIdInt,
-        stop.stopCode?.quotesEscape(),
-        stop.stopName.quotesEscape(),
-        stop.stopLat,
-        stop.stopLon,
-        stop.stopUrl?.quotesEscape(),
-        stop.locationType,
-        stop.parentStationId?.let { getSQLSelectIdIntFromId(it) },
-        stop.wheelchairBoarding,
-    )
+    override fun toInsertColumns(idInt: Int, stop: Stop) = with(stop) {
+        arrayOf<Any?>(
+            idInt,
+            stopCode?.quotesEscape(),
+            stopName.quotesEscape(),
+            stopLat,
+            stopLon,
+            stopUrl?.quotesEscape(),
+            locationType,
+            parentStationId?.let { getSQLSelectIdIntFromId(it) },
+            wheelchairBoarding,
+        )
+    }
 
     fun getOrInsertIdInt(statement: Statement, stopId: StopId): Int {
         return statement.executeQuery(getSQLSelectIdIntFromId(stopId)).use { rs ->
