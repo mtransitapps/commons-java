@@ -9,7 +9,7 @@ data class Route(
     val routeLongName: String?,
     val routeDesc: String?,
     val routeType: Int,
-    val routeUrl: String?,
+    val routeUrl: Url?,
     val routeColor: Color?,
     val routeTextColor: Color?,
     val routeSortOrder: Int?,

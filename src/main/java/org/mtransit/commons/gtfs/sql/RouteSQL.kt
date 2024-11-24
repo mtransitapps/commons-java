@@ -84,15 +84,15 @@ object RouteSQL {
 
     fun getSQLDropIfExistsQueries() = listOf(T_ROUTE_IDS_SQL_DROP, T_ROUTE_SQL_DROP)
 
-    private fun getSQLInsertRouteIds(routeId: RouteId) = SQLInsertBuilder.compile(
+    private fun getSQLInsertIds(routeId: RouteId) = SQLInsertBuilder.compile(
         T_ROUTE_IDS_SQL_INSERT,
         routeId.quotesEscape()
     )
 
-    private fun getSQLSelectRouteIdIntFromRouteId(routeId: RouteId) =
+    private fun getSQLSelectIdIntFromId(routeId: RouteId) =
         "SELECT $T_ROUTE_IDS_K_ID_INT FROM $T_ROUTE_IDS WHERE $T_ROUTE_IDS_K_ID = '$routeId'"
 
-    private fun getSQLInsertOrReplaceRoute(agencyIdInt: Int, routeIdInt: Int, route: Route) = SQLInsertBuilder.compile(
+    private fun getSQLInsertOrReplace(agencyIdInt: Int, routeIdInt: Int, route: Route) = SQLInsertBuilder.compile(
         T_ROUTE_SQL_INSERT_OR_REPLACE,
         agencyIdInt, // 1st
         routeIdInt, // 2nd
@@ -107,20 +107,20 @@ object RouteSQL {
     )
 
     fun insert(route: Route, statement: Statement): Boolean {
-        return statement.executeUpdate(getSQLInsertOrReplaceRoute(
-            agencyIdInt = AgencySQL.getOrInsertAgencyIdInt(statement, route.agencyId),
-            routeIdInt = getOrInsertRouteIdInt(statement, route.routeId),
+        return statement.executeUpdate(getSQLInsertOrReplace(
+            agencyIdInt = AgencySQL.getOrInsertIdInt(statement, route.agencyId),
+            routeIdInt = getOrInsertIdInt(statement, route.routeId),
             route = route,
         )) > 0
     }
 
-    private fun getOrInsertRouteIdInt(statement: Statement, routeId: RouteId): Int {
-        val routeIdInt = statement.executeQuery(getSQLSelectRouteIdIntFromRouteId(routeId)).use { rs ->
+    private fun getOrInsertIdInt(statement: Statement, routeId: RouteId): Int {
+        val routeIdInt = statement.executeQuery(getSQLSelectIdIntFromId(routeId)).use { rs ->
             if (rs.next()) {
                 rs.getInt(1)
             } else {
-                if (statement.executeUpdate(getSQLInsertRouteIds(routeId)) > 0) {
-                    statement.executeQuery(getSQLSelectRouteIdIntFromRouteId(routeId)).use { rs2 ->
+                if (statement.executeUpdate(getSQLInsertIds(routeId)) > 0) {
+                    statement.executeQuery(getSQLSelectIdIntFromId(routeId)).use { rs2 ->
                         if (rs2.next()) {
                             rs2.getInt(1)
                         } else {
@@ -135,7 +135,7 @@ object RouteSQL {
         return routeIdInt
     }
 
-    fun selectAllRouteIds(statement: Statement): List<String> {
+    fun selectAllIds(statement: Statement): List<String> {
         val sql = "SELECT $T_ROUTE_IDS_K_ID FROM $T_ROUTE_IDS"
         return statement.executeQuery(sql).use { rs ->
             val routeIds = mutableListOf<String>()

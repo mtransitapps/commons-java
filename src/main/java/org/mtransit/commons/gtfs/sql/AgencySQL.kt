@@ -77,15 +77,15 @@ object AgencySQL {
 
     fun getSQLDropIfExistsQueries() = listOf(T_AGENCY_IDS_SQL_DROP, T_AGENCY_SQL_DROP)
 
-    private fun getSQLInsertAgencyIds(agencyId: AgencyId) = SQLInsertBuilder.compile(
+    private fun getSQLInsertIds(agencyId: AgencyId) = SQLInsertBuilder.compile(
         T_AGENCY_IDS_SQL_INSERT,
         agencyId.quotesEscape()
     )
 
-    private fun getSQLSelectAgencyIdIntFromAgencyId(agencyId: AgencyId) =
+    private fun getSQLSelectIdIntFromId(agencyId: AgencyId) =
         "SELECT $T_AGENCY_IDS_K_ID_INT FROM $T_AGENCY_IDS WHERE $T_AGENCY_IDS_K_ID = '$agencyId'"
 
-    private fun getSQLInsertOrReplaceAgency(agencyIdInt: Int, agency: Agency) = SQLInsertBuilder.compile(
+    private fun getSQLInsertOrReplace(agencyIdInt: Int, agency: Agency) = SQLInsertBuilder.compile(
         T_AGENCY_SQL_INSERT_OR_REPLACE,
         agencyIdInt,
         agency.agencyName.quotesEscape(),
@@ -98,18 +98,21 @@ object AgencySQL {
     )
 
     fun insert(agency: Agency, statement: Statement): Boolean {
-        val agencyId = agency.agencyId
-        val agencyIdInt = getOrInsertAgencyIdInt(statement, agencyId)
-        return statement.executeUpdate(getSQLInsertOrReplaceAgency(agencyIdInt, agency)) > 0
+        return statement.executeUpdate(
+            getSQLInsertOrReplace(
+                getOrInsertIdInt(statement, agency.agencyId),
+                agency
+            )
+        ) > 0
     }
 
-    fun getOrInsertAgencyIdInt(statement: Statement, agencyId: AgencyId): Int {
-        val agencyIdInt = statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyId(agencyId)).use { rs ->
+    fun getOrInsertIdInt(statement: Statement, agencyId: AgencyId): Int {
+        val agencyIdInt = statement.executeQuery(getSQLSelectIdIntFromId(agencyId)).use { rs ->
             if (rs.next()) {
                 rs.getInt(1)
             } else {
-                if (statement.executeUpdate(getSQLInsertAgencyIds(agencyId)) > 0) {
-                    statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyId(agencyId)).use { rs2 ->
+                if (statement.executeUpdate(getSQLInsertIds(agencyId)) > 0) {
+                    statement.executeQuery(getSQLSelectIdIntFromId(agencyId)).use { rs2 ->
                         if (rs2.next()) {
                             rs2.getInt(1)
                         } else {
