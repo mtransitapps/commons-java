@@ -11,4 +11,6 @@ data class Agency(
     val agencyPhone: String?,
     val agencyFareUrl: String?,
     val agencyEmail: String?,
+    // TODO val agencyCountry: String?, // MT extension
+    // TODO val agencyColor: Color?, // MT extension
 )
