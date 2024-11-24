@@ -1,10 +1,10 @@
 package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.gtfs.data.Agency
+import org.mtransit.commons.gtfs.data.AgencyId
 import org.mtransit.commons.sql.SQLCreateBuilder
 import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
-import org.mtransit.commons.sql.SQLUtils.getSQLDropIfExistsQuery
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import java.sql.Statement
 
@@ -27,7 +27,7 @@ object AgencySQL {
     }.build()
 
     @JvmStatic
-    val T_AGENCY_IDS_SQL_DROP = getSQLDropIfExistsQuery(T_AGENCY_IDS)
+    val T_AGENCY_IDS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_AGENCY_IDS)
 
     const val T_AGENCY = "agency"
 
@@ -42,7 +42,7 @@ object AgencySQL {
 
     @JvmStatic
     val T_AGENCY_SQL_CREATE = SQLCreateBuilder.getNew(T_AGENCY).apply {
-        appendColumn(T_AGENCY_K_ID_INT, SQLUtils.TXT)
+        appendColumn(T_AGENCY_K_ID_INT, SQLUtils.INT)
         appendColumn(T_AGENCY_K_AGENCY_NAME, SQLUtils.TXT)
         appendColumn(T_AGENCY_K_URL, SQLUtils.TXT)
         appendColumn(T_AGENCY_K_TIMEZONE, SQLUtils.TXT)
@@ -71,18 +71,18 @@ object AgencySQL {
     }.build()
 
     @JvmStatic
-    val T_AGENCY_SQL_DROP = getSQLDropIfExistsQuery(T_AGENCY)
+    val T_AGENCY_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_AGENCY)
 
     fun getSQLCreateTablesQueries() = listOf(T_AGENCY_IDS_SQL_CREATE, T_AGENCY_SQL_CREATE)
 
     fun getSQLDropIfExistsQueries() = listOf(T_AGENCY_IDS_SQL_DROP, T_AGENCY_SQL_DROP)
 
-    private fun getSQLInsertAgencyIds(agencyId: String) = SQLInsertBuilder.compile(
+    private fun getSQLInsertAgencyIds(agencyId: AgencyId) = SQLInsertBuilder.compile(
         T_AGENCY_IDS_SQL_INSERT,
         agencyId.quotesEscape()
     )
 
-    private fun getSQLSelectAgencyIdIntFromAgencyIds(agencyId: String) =
+    private fun getSQLSelectAgencyIdIntFromAgencyId(agencyId: AgencyId) =
         "SELECT $T_AGENCY_IDS_K_ID_INT FROM $T_AGENCY_IDS WHERE $T_AGENCY_IDS_K_ID = '$agencyId'"
 
     private fun getSQLInsertOrReplaceAgency(agencyIdInt: Int, agency: Agency) = SQLInsertBuilder.compile(
@@ -98,72 +98,69 @@ object AgencySQL {
     )
 
     fun insert(agency: Agency, statement: Statement): Boolean {
-        var resulSet = statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyIds(agency.agencyId))
-        val agencyIdInt = if (resulSet.next()) {
-            resulSet.getInt(1)
-        } else {
-            statement.execute(getSQLInsertAgencyIds(agency.agencyId))
-            resulSet = statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyIds(agency.agencyId))
-            if (resulSet.next()) {
-                resulSet.getInt(1)
-            } else {
-                throw Exception("Error while inserting agency ID")
-            }
-        }
-        return statement.execute(getSQLInsertOrReplaceAgency(agencyIdInt, agency))
+        val agencyId = agency.agencyId
+        val agencyIdInt = getOrInsertAgencyIdInt(statement, agencyId)
+        return statement.executeUpdate(getSQLInsertOrReplaceAgency(agencyIdInt, agency)) > 0
     }
 
-    fun select(agencyId: String? = null, statement: Statement): List<Agency> {
-        val rs = statement.executeQuery(
-            buildString {
-                append("SELECT ")
-                append("$T_AGENCY_IDS.$T_AGENCY_IDS_K_ID as $T_AGENCY_IDS_K_ID")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_AGENCY_NAME as $T_AGENCY_K_AGENCY_NAME")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_URL as $T_AGENCY_K_URL")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_TIMEZONE as $T_AGENCY_K_TIMEZONE")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_LANG as $T_AGENCY_K_LANG")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_PHONE as $T_AGENCY_K_PHONE")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_FARE_URL as $T_AGENCY_K_FARE_URL")
-                append(", ")
-                append("$T_AGENCY.$T_AGENCY_K_EMAIL as $T_AGENCY_K_EMAIL ")
-                append("FROM $T_AGENCY ")
-                append("LEFT JOIN $T_AGENCY_IDS ON $T_AGENCY.$T_AGENCY_K_ID_INT = $T_AGENCY_IDS.$T_AGENCY_K_ID_INT ")
-                agencyId?.let {
-                    append("WHERE $T_AGENCY_IDS.$T_AGENCY_IDS_K_ID = '$it'")
+    fun getOrInsertAgencyIdInt(statement: Statement, agencyId: AgencyId): Int {
+        val agencyIdInt = statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyId(agencyId)).use { rs ->
+            if (rs.next()) {
+                rs.getInt(1)
+            } else {
+                if (statement.executeUpdate(getSQLInsertAgencyIds(agencyId)) > 0) {
+                    statement.executeQuery(getSQLSelectAgencyIdIntFromAgencyId(agencyId)).use { rs2 ->
+                        if (rs2.next()) {
+                            rs2.getInt(1)
+                        } else {
+                            throw Exception("Error while inserting agency ID")
+                        }
+                    }
+                } else {
+                    throw Exception("Error while inserting agency ID")
                 }
             }
-        )
-        val result = ArrayList<Agency>()
-        while (rs.next()) {
-            result.add(
-                Agency(
-                    agencyId = rs.getString(T_AGENCY_IDS_K_ID),
-                    agencyName = rs.getString(T_AGENCY_K_AGENCY_NAME),
-                    agencyUrl = rs.getString(T_AGENCY_K_URL),
-                    agencyTimezone = rs.getString(T_AGENCY_K_TIMEZONE),
-                    agencyLang = rs.getString(T_AGENCY_K_LANG),
-                    agencyPhone = rs.getString(T_AGENCY_K_PHONE),
-                    agencyFareUrl = rs.getString(T_AGENCY_K_FARE_URL),
-                    agencyEmail = rs.getString(T_AGENCY_K_EMAIL)
-                )
-            )
         }
-        return result
+        return agencyIdInt
+    }
+
+    fun select(agencyId: AgencyId? = null, statement: Statement): List<Agency> {
+        val sql = buildString {
+            append("SELECT ")
+            append(" * ")
+            append("FROM $T_AGENCY ")
+            append("LEFT JOIN $T_AGENCY_IDS ON $T_AGENCY.$T_AGENCY_K_ID_INT = $T_AGENCY_IDS.$T_AGENCY_K_ID_INT ")
+            agencyId?.let {
+                append("WHERE $T_AGENCY_IDS.$T_AGENCY_IDS_K_ID = '$it'")
+            }
+        }
+        return statement.executeQuery(sql).use { rs ->
+            val agencies = mutableListOf<Agency>()
+            while (rs.next()) {
+                agencies.add(
+                    Agency(
+                        agencyId = rs.getString(T_AGENCY_IDS_K_ID),
+                        agencyName = rs.getString(T_AGENCY_K_AGENCY_NAME),
+                        agencyUrl = rs.getString(T_AGENCY_K_URL),
+                        agencyTimezone = rs.getString(T_AGENCY_K_TIMEZONE),
+                        agencyLang = rs.getString(T_AGENCY_K_LANG),
+                        agencyPhone = rs.getString(T_AGENCY_K_PHONE),
+                        agencyFareUrl = rs.getString(T_AGENCY_K_FARE_URL),
+                        agencyEmail = rs.getString(T_AGENCY_K_EMAIL)
+                    )
+                )
+            }
+            agencies
+        }
     }
 
     fun count(statement: Statement): Int {
-        val rs = statement.executeQuery(
-            "SELECT COUNT(*) AS count FROM $T_AGENCY"
-        )
-        if (rs.next()) {
-            return rs.getInt("count")
+        val sql = "SELECT COUNT(*) AS count FROM $T_AGENCY"
+        return statement.executeQuery(sql).use { rs ->
+            if (rs.next()) {
+                return rs.getInt("count")
+            }
+            throw Exception("Error while counting routes!")
         }
-        throw Exception("Error while counting agencies!")
     }
 }

@@ -4,7 +4,6 @@ import org.mtransit.commons.Constants.EMPTY
 import org.mtransit.commons.sql.SQLCreateBuilder
 import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils
-import org.mtransit.commons.sql.SQLUtils.getSQLDropIfExistsQuery
 import java.util.regex.Pattern
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -14,7 +13,6 @@ object GTFSCommons {
 
     @JvmStatic
     fun getDBFileName(fileBase: String) = "$fileBase$DB_FILE_NAME"
-
 
     // region Route
 
@@ -55,7 +53,7 @@ object GTFSCommons {
     }.build()
 
     @JvmStatic
-    val T_ROUTE_SQL_DROP = getSQLDropIfExistsQuery(T_ROUTE)
+    val T_ROUTE_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_ROUTE)
 
     // endregion Route
 
@@ -85,7 +83,7 @@ object GTFSCommons {
     }.build()
 
     @JvmStatic
-    val T_TRIP_SQL_DROP = getSQLDropIfExistsQuery(T_TRIP)
+    val T_TRIP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP)
 
     // endregion Trip
 
@@ -131,7 +129,7 @@ object GTFSCommons {
     }.build()
 
     @JvmStatic
-    val T_STOP_SQL_DROP = getSQLDropIfExistsQuery(T_STOP)
+    val T_STOP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STOP)
 
     // endregion Stop
 
@@ -164,7 +162,7 @@ object GTFSCommons {
     }.build()
 
     @JvmStatic
-    val T_TRIP_STOPS_SQL_DROP = getSQLDropIfExistsQuery(T_TRIP_STOPS)
+    val T_TRIP_STOPS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP_STOPS)
 
     // endregion Trip Stops
 
@@ -198,7 +196,7 @@ object GTFSCommons {
     const val EXCEPTION_TYPE_REMOVED = 2
 
     @JvmStatic
-    val T_SERVICE_DATES_SQL_DROP = getSQLDropIfExistsQuery(T_SERVICE_DATES)
+    val T_SERVICE_DATES_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_SERVICE_DATES)
 
     // endregion Service Dates
 

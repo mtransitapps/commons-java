@@ -51,6 +51,4 @@ class SQLCreateBuilder private constructor(table: String) {
     fun build(): String {
         return sqlCreateSb.append(SQLUtils.P2).toString()
     }
-
-
 }
