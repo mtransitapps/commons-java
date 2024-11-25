@@ -94,4 +94,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
     }
 
     abstract fun fromResultSet(rs: ResultSet): MainType
+
+    fun getAlias(sourceColumn: String, valueColumn: String) = "${sourceColumn}_$valueColumn"
+    fun getJoinAlias(sourceColumn: String) = "the_${sourceColumn}"
 }
