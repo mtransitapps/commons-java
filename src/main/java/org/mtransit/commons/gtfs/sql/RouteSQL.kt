@@ -52,7 +52,12 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
 
     override fun toInsertColumns(statement: Statement, route: Route) = with(route) {
         arrayOf<Any?>(
-            AgencySQL.getOrInsertIdInt(statement, route.agencyId), // agency ID // 1st
+            (route.agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
+                ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId)
+                ?.let { agencyId ->
+                    AgencySQL.getOrInsertIdInt(statement, agencyId)
+                }
+                ?: throw Exception("Can't find agency ID!"),
             getOrInsertIdInt(statement, route.routeId), // route ID // 2nd
             routeShortName.quotesEscape(),
             routeLongName?.quotesEscape(),
