@@ -14,9 +14,7 @@ data class SQLTableDef(
         columns.forEach { columnDef ->
             appendColumn(columnDef.columnName, columnDef.columnType)
         }
-        columns.filter { it.primaryKey }.forEach { columnDef ->
-            appendPrimaryKeys(columnDef.columnName)
-        }
+        appendPrimaryKeys(*columns.filter { it.primaryKey }.map { it.columnName }.toTypedArray())
         columns.forEach { columnDef ->
             columnDef.foreignKey?.let { foreignKey ->
                 appendForeignKey(

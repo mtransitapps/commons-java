@@ -40,6 +40,7 @@ class SQLCreateBuilder private constructor(table: String) {
     }
 
     fun appendPrimaryKeys(vararg columnNames: String): SQLCreateBuilder {
+        if (columnNames.isEmpty()) return this
         if (nbColumn > 0) {
             sqlCreateSb.append(SQLUtils.COLUMN_SEPARATOR)
         }
