@@ -18,46 +18,59 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         columnNameId = T_SERVICE_IDS_K_ID,
     )
 
-    const val T_CALENDAR_DATES = "calendar_dates"
+    fun selectServiceIds(statement: Statement): List<ServiceId> {
+        val sql = "SELECT $T_SERVICE_IDS_K_ID FROM $T_SERVICE_IDS"
+        return statement.executeQuery(sql).use { rs ->
+            val routeIds = mutableListOf<String>()
+            while (rs.next()) {
+                routeIds.add(rs.getString(T_SERVICE_IDS_K_ID))
+            }
+            routeIds
+        }
+    }
 
-    const val T_CALENDAR_K_ID_INT = "service_id_int"
-    const val T_CALENDAR_K_DATE = "date"
-    const val T_CALENDAR_K_EXCEPTION_TYPE = "exception_type" // 1: added, 2: removed (MT: +0: default)
+    const val T_CALENDAR_DATE = "calendar_date"
+
+    const val T_CALENDAR_DATE_K_SERVICE_ID_INT = "service_id_int"
+    const val T_CALENDAR_DATE_K_DATE = "date"
+    const val T_CALENDAR_DATE_K_EXCEPTION_TYPE = "exception_type" // 1: added, 2: removed (MT: +0: default)
+
+    private const val CALENDAR_IN_CALENDAR_DATES = true
 
     override fun getMainTable() = SQLTableDef(
-        T_CALENDAR_DATES,
+        T_CALENDAR_DATE,
         listOf(
-            SQLColumDef(T_CALENDAR_K_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)),
-            SQLColumDef(T_CALENDAR_K_DATE, SQLUtils.INT, primaryKey = true), // YYYYMMDD
-            SQLColumDef(T_CALENDAR_K_EXCEPTION_TYPE, SQLUtils.INT), // 1: added, 2: removed (MT: +0: default)
+            SQLColumDef(T_CALENDAR_DATE_K_SERVICE_ID_INT, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES, foreignKey = SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)),
+            SQLColumDef(T_CALENDAR_DATE_K_DATE, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES), // YYYYMMDD
+            SQLColumDef(T_CALENDAR_DATE_K_EXCEPTION_TYPE, SQLUtils.INT), // 1: added, 2: removed (MT: +0: default)
         ),
         insertAllowReplace = true,
     )
 
-    override fun toInsertColumns(statement: Statement, calendar: CalendarDate) = with(calendar) {
+    override fun toInsertColumns(statement: Statement, calendarDate: CalendarDate) = with(calendarDate) {
         arrayOf<Any?>(
-            getOrInsertIdInt(statement, calendar.serviceId),
+            getOrInsertIdInt(statement, calendarDate.serviceId),
             date,
             exceptionType.id,
         )
     }
 
-    fun insert(calendar: CalendarDate, statement: Statement): Boolean {
+    fun insert(calendarDate: CalendarDate, statement: Statement): Boolean {
         return statement.executeUpdate(
             getSQLInsertOrReplace(
                 statement,
-                calendar
+                calendarDate
             )
         ) > 0
     }
 
-    fun select(agencyId: ServiceId? = null, statement: Statement): List<CalendarDate> {
+    fun select(serviceId: ServiceId? = null, statement: Statement): List<CalendarDate> {
         val sql = buildString {
             append("SELECT ")
             append("* ")
-            append("FROM $T_CALENDAR_DATES ")
-            append("LEFT JOIN $T_SERVICE_IDS ON $T_CALENDAR_DATES.$T_CALENDAR_K_ID_INT = $T_SERVICE_IDS.$T_CALENDAR_K_ID_INT ")
-            agencyId?.let {
+            append("FROM $T_CALENDAR_DATE ")
+            append("JOIN $T_SERVICE_IDS ON $T_CALENDAR_DATE.$T_CALENDAR_DATE_K_SERVICE_ID_INT = $T_SERVICE_IDS.$T_CALENDAR_DATE_K_SERVICE_ID_INT ")
+            serviceId?.let {
                 append("WHERE $T_SERVICE_IDS.$T_SERVICE_IDS_K_ID = '$it'")
             }
         }
@@ -73,14 +86,19 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
     override fun fromResultSet(rs: ResultSet) = with(rs) {
         CalendarDate(
             serviceId = getString(T_SERVICE_IDS_K_ID),
-            date = getInt(T_CALENDAR_K_DATE),
-            exceptionTypeInt = getInt(T_CALENDAR_K_EXCEPTION_TYPE),
+            date = getInt(T_CALENDAR_DATE_K_DATE),
+            exceptionTypeInt = getInt(T_CALENDAR_DATE_K_EXCEPTION_TYPE),
         )
     }
 
-    fun delete(statement: Statement): Int {
+    fun delete(statement: Statement, calendarDate: CalendarDate? = null): Int {
         val sql = buildString {
-            append("DELETE FROM $T_CALENDAR_DATES")
+            append("DELETE FROM $T_CALENDAR_DATE")
+            calendarDate?.let {
+                append(" WHERE $T_CALENDAR_DATE_K_SERVICE_ID_INT = ${getOrInsertIdInt(statement, calendarDate.serviceId)}")
+                append(" AND $T_CALENDAR_DATE_K_DATE = ${calendarDate.date}")
+                append(" AND $T_CALENDAR_DATE_K_EXCEPTION_TYPE = ${calendarDate.exceptionType.id}")
+            }
         }
         return statement.executeUpdate(sql)
     }

@@ -17,11 +17,8 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     fun getIdsTableSQLDrop() = getIdsTable()?.getSQLDropIfExistsQuery()
 
-    open fun getSQLInsertIds(id: String) = getIdsTableSQLInsert()?.let {
-        SQLInsertBuilder.compile(
-            it,
-            id.quotesEscape()
-        )
+    open fun getSQLInsertIds(id: String) = getIdsTableSQLInsert()?.let { sql ->
+        SQLInsertBuilder.compile(sql, id.quotesEscape())
     }
 
     open fun getSQLSelectIdIntFromId(id: String) = getIdsTable()?.let {

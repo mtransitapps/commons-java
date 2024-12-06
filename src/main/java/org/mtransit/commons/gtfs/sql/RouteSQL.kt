@@ -20,6 +20,17 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
         columnNameId = T_ROUTE_IDS_K_ID,
     )
 
+    fun selectRouteIds(statement: Statement): List<RouteId> {
+        val sql = "SELECT $T_ROUTE_IDS_K_ID FROM $T_ROUTE_IDS"
+        return statement.executeQuery(sql).use { rs ->
+            val routeIds = mutableListOf<String>()
+            while (rs.next()) {
+                routeIds.add(rs.getString(T_ROUTE_IDS_K_ID))
+            }
+            routeIds
+        }
+    }
+
     const val T_ROUTE = "route"
 
     const val T_ROUTE_K_AGENCY_ID_INT = "agency_id_int"
@@ -77,17 +88,6 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
                 route,
             )
         ) > 0
-    }
-
-    fun selectAllIds(statement: Statement): List<String> {
-        val sql = "SELECT $T_ROUTE_IDS_K_ID FROM $T_ROUTE_IDS"
-        return statement.executeQuery(sql).use { rs ->
-            val routeIds = mutableListOf<String>()
-            while (rs.next()) {
-                routeIds.add(rs.getString(T_ROUTE_IDS_K_ID))
-            }
-            routeIds
-        }
     }
 
     fun select(
