@@ -4,10 +4,10 @@ typealias StopId = String
 
 data class Stop(
     val stopId: StopId,
-    val stopCode: String?,
-    val stopName: String,
-    // tts_stop_name
-    // stop_desc
+    val stopCode: Text?,
+    val stopName: Text,
+    // val ttsStopName: Text?,
+    // val stopDesc: Text?,
     val stopLat: Double,
     val stopLon: Double,
     // zone_id
@@ -17,5 +17,5 @@ data class Stop(
     // stop_timezone
     val wheelchairBoarding: Int?, // TODO Enum 0 1 2
     // level_id
-    // platform_code
+    // val platformCode: Text?, // TODO useful!
 )

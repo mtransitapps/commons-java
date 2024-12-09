@@ -5,10 +5,10 @@ val ALL_SQL_TABLES: List<TableSQL> = listOf(
     RouteSQL,
     StopSQL,
     CalendarDateSQL,
-    TripSQL
+    TripSQL,
 
     // TODO stop_times
-    // TODO frequencies
+    FrequencySQL,
 
     // TODO directions (route_id, direction_id, direction_name)
     // - ca_levis: directions.txt
