@@ -19,7 +19,7 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
     override fun getMainTable() = SQLTableDef(
         T_FREQUENCY,
         listOf(
-            SQLColumDef(T_FREQUENCY_K_TRIP_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(TripSQL.T_TRIP_IDS, TripSQL.T_TRIP_IDS_K_ID_INT)),
+            SQLColumDef(T_FREQUENCY_K_TRIP_ID_INT, SQLUtils.INT, primaryKey = true, SQLForeignKey(TripSQL.T_TRIP_IDS, TripSQL.T_TRIP_IDS_K_ID_INT)),
             SQLColumDef(T_FREQUENCY_K_START_TIME, SQLUtils.TXT), // TODO int
             SQLColumDef(T_FREQUENCY_K_END_TIME, SQLUtils.TXT), // TODO int
             SQLColumDef(T_FREQUENCY_K_HEADWAY_SECS, SQLUtils.INT),
@@ -64,7 +64,7 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
             append("FROM $T_FREQUENCY ")
             append("LEFT JOIN ${TripSQL.T_TRIP_IDS} ON $T_FREQUENCY.$T_FREQUENCY_K_TRIP_ID_INT = ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} ")
             tripId?.let {
-                append("WHERE ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} = '$it'")
+                append("WHERE ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID} = '$it'")
             }
         }
         return statement.executeQuery(sql).use { rs ->
@@ -76,22 +76,23 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
         }
     }
 
-    // // TODO WIP
-    // fun selectFrequencyTripIds(statement: Statement): List<RouteId> {
-    //     val sql = buildString {
-    //         append("SELECT DISTINCT ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID} ")
-    //         append("FROM ${TripSQL.T_TRIP_IDS} ")
-    //         append("LEFT JOIN ${TripSQL.T_TRIP_IDS} ON $T_FREQUENCY.$T_FREQUENCY_K_TRIP_ID_INT = ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} ")
-    //     }
-    //     return statement.executeQuery(sql).use { rs ->
-    //         val routeIds = mutableListOf<String>()
-    //         while (rs.next()) {
-    //             routeIds.add(rs.getString(T_ROUTE_IDS_K_ID))
-    //         }
-    //         routeIds
-    //     }
-    // }
-    //
+    fun selectFrequencyTripIds(statement: Statement): List<TripId> {
+        val sql = buildString {
+            append("SELECT DISTINCT ${TripSQL.T_TRIP_IDS_K_ID} ")
+            append("FROM ${TripSQL.T_TRIP_IDS} ")
+            append("WHERE EXISTS ( ")
+            append("SELECT 1 FROM $T_FREQUENCY WHERE $T_FREQUENCY.$T_FREQUENCY_K_TRIP_ID_INT = ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} ")
+            append(")")
+        }
+        return statement.executeQuery(sql).use { rs ->
+            val routeIds = mutableListOf<String>()
+            while (rs.next()) {
+                routeIds.add(rs.getString(TripSQL.T_TRIP_IDS_K_ID))
+            }
+            routeIds
+        }
+    }
+
     fun delete(statement: Statement, tripId: TripId? = null): Int {
         val sql = buildString {
             append("DELETE FROM $T_FREQUENCY")
