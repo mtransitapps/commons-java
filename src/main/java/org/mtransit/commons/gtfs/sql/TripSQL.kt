@@ -6,7 +6,10 @@ import org.mtransit.commons.gtfs.data.Trip
 import org.mtransit.commons.gtfs.data.TripId
 import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
+import org.mtransit.commons.sql.executeQueryMT
+import org.mtransit.commons.sql.executeUpdateMT
 import org.mtransit.commons.sql.toSQL
+import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 import kotlin.use
@@ -54,8 +57,24 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
             SQLColumDef(T_TRIP_K_WHEELCHAIR_ACCESSIBLE, SQLUtils.INT),
             SQLColumDef(T_TRIP_K_BIKES_ALLOWED, SQLUtils.INT),
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
+
+    // TODO move to upper class
+    fun getInsertPreparedStatement(allowUpdate: Boolean = false): String {
+        return buildString {
+            append((if (allowUpdate) SQLUtils.INSERT_OR_REPLACE_INTO else SQLUtils.INSERT_INTO))
+            append(T_TRIP)
+            append(SQLUtils.VALUES_P1)
+            getMainTable().columns.forEachIndexed { i, columnDef ->
+                if (i > 0) {
+                    append(SQLUtils.COLUMN_SEPARATOR)
+                }
+                append("?")
+            }
+            append(SQLUtils.P2)
+        }
+    }
 
     override fun toInsertColumns(statement: Statement, trip: Trip) = with(trip) {
         arrayOf<Any?>(
@@ -72,8 +91,28 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         )
     }
 
-    fun insert(trip: Trip, statement: Statement): Boolean {
-        return statement.executeUpdate(
+    // TODO move to uper class
+    fun insert(trip: Trip, statement: Statement, preparedStatement: PreparedStatement? = null): Boolean {
+        if (preparedStatement != null) {
+            val columnsValues = toInsertColumns(statement, trip)
+            with(preparedStatement) {
+                val columnsDef = getMainTable().columns
+                columnsValues.forEachIndexed { i, columnValue ->
+                    if (columnValue == null) {
+                        setNull(i+1, java.sql.Types.NULL)
+                        return@forEachIndexed
+                    }
+                    when (columnsDef[i].columnType) {
+                        SQLUtils.INT -> setInt(i+1, columnValue as Int)
+                        SQLUtils.TXT -> setString(i+1, columnValue as String)
+                        else -> TODO("Unexpected column type for ${columnsDef[i]}!")
+                    }
+                }
+                addBatch()
+            }
+            return true
+        }
+        return statement.executeUpdateMT(
             getSQLInsertOrReplace(
                 statement,
                 trip
@@ -104,7 +143,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
                 append("WHERE ${CalendarDateSQL.T_SERVICE_IDS}.${CalendarDateSQL.T_SERVICE_IDS_K_ID} = $it")
             }
         }
-        return statement.executeQuery(sql).use { rs ->
+        return statement.executeQueryMT(sql).use { rs ->
             buildList {
                 while (rs.next()) {
                     add(fromResultSet(rs))
@@ -119,7 +158,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
             append("FROM ${RouteSQL.T_ROUTE_IDS} ")
             append("JOIN $T_TRIP ON ${RouteSQL.T_ROUTE_IDS}.${RouteSQL.T_ROUTE_IDS_K_ID_INT} = $T_TRIP.$T_TRIP_K_ROUTE_ID_INT ")
         }
-        return statement.executeQuery(sql).use { rs ->
+        return statement.executeQueryMT(sql).use { rs ->
             buildList {
                 while (rs.next()) {
                     add(rs.getString(RouteSQL.T_ROUTE_IDS_K_ID))
@@ -141,7 +180,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
             append("AND $T_TRIP_IDS.$T_TRIP_IDS_K_ID IN (${tripIds.joinToString { it.quotesEscape() }}) ")
             append(")")
         }
-        return statement.executeUpdate(sql) > 0
+        return statement.executeUpdateMT(sql) > 0
     }
 
     override fun fromResultSet(rs: ResultSet) = with(rs) {
@@ -166,7 +205,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
                 append(" WHERE $T_TRIP.$T_TRIP_K_ROUTE_ID_INT = ${RouteSQL.getOrInsertIdInt(statement, routeId)}")
             }
         }
-        return statement.executeUpdate(sql)
+        return statement.executeUpdateMT(sql)
     }
 
 }

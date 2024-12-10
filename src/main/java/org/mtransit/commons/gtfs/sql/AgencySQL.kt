@@ -42,7 +42,7 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
             SQLColumDef(T_AGENCY_K_FARE_URL, SQLUtils.TXT),
             SQLColumDef(T_AGENCY_K_EMAIL, SQLUtils.TXT),
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
 
     override fun toInsertColumns(statement: Statement, agency: Agency) = with(agency) {

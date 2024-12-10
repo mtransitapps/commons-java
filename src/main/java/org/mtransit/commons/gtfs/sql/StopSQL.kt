@@ -44,7 +44,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             SQLColumDef(T_STOP_K_PARENT_STATION_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(T_STOP_IDS, T_STOP_IDS_K_ID_INT)),
             SQLColumDef(T_STOP_K_WHEELCHAIR_BOARDING, SQLUtils.INT),
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
 
     override fun toInsertColumns(statement: Statement, stop: Stop) = with(stop) {

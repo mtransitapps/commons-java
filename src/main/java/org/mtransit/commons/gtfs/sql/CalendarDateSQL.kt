@@ -44,7 +44,7 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
             SQLColumDef(T_CALENDAR_DATE_K_DATE, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES), // YYYYMMDD
             SQLColumDef(T_CALENDAR_DATE_K_EXCEPTION_TYPE, SQLUtils.INT), // 1: added, 2: removed (MT: +0: default)
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
 
     override fun toInsertColumns(statement: Statement, calendarDate: CalendarDate) = with(calendarDate) {

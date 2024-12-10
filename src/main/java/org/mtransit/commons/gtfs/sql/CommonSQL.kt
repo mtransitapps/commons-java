@@ -2,6 +2,8 @@ package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.sql.SQLInsertBuilder
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
+import org.mtransit.commons.sql.executeQueryMT
+import org.mtransit.commons.sql.executeUpdateMT
 import java.sql.ResultSet
 import java.sql.Statement
 
@@ -25,22 +27,29 @@ abstract class CommonSQL<MainType>() : TableSQL {
         SQLTableDef.makeIdsTableSelect(it, id)
     }
 
+    private val cachedIds = mutableMapOf<String, Int>()
+
+    override fun clearCache() {
+        this.cachedIds.clear()
+    }
+
     open fun getOrInsertIdInt(statement: Statement, id: String): Int {
-        return statement.executeQuery(getSQLSelectIdIntFromId(id)).use { rs ->
-            if (rs.next()) {
-                rs.getInt(1)
+        this.cachedIds[id]?.let {
+            if (this is TripSQL) {
+                throw Exception("Re-using trip id $id")
+            }
+            return it
+        }
+        val update = statement.executeUpdateMT(getSQLInsertIds(id), returnGeneratedKeys = true)
+        if (update <= 0) {
+            throw Exception("Error while inserting $mainTableName ID $id!")
+        }
+        return statement.generatedKeys.use { rs2 ->
+            if (rs2.next()) {
+                rs2.getInt(1)
+                    .also { this.cachedIds[id] = it }
             } else {
-                if (statement.executeUpdate(getSQLInsertIds(id)) > 0) {
-                    statement.executeQuery(getSQLSelectIdIntFromId(id)).use { rs2 ->
-                        if (rs2.next()) {
-                            rs2.getInt(1)
-                        } else {
-                            throw Exception("Error while inserting agency ID")
-                        }
-                    }
-                } else {
-                    throw Exception("Error while inserting agency ID")
-                }
+                throw Exception("Error while inserting $mainTableName ID $id!")
             }
         }
     }
@@ -51,6 +60,8 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     open fun getMainTable(): SQLTableDef? = null
 
+    private val mainTableName by lazy { getMainTable()?.tableName.orEmpty() }
+
     fun getMainTableSQLCreate() = getMainTable()?.getSQLCreateTableQuery()
 
     fun getMainTableSQLInsert() = getMainTable()?.getSQLInsertTableQuery()
@@ -60,7 +71,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
     open fun count(statement: Statement): Int {
         getMainTable()?.let { tableDef ->
             val sql = "SELECT COUNT(*) AS count FROM ${tableDef.tableName}"
-            return statement.executeQuery(sql).use { rs ->
+            return statement.executeQueryMT(sql).use { rs ->
                 if (rs.next()) {
                     return rs.getInt("count")
                 }

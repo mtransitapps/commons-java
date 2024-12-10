@@ -25,7 +25,7 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
             SQLColumDef(T_FREQUENCY_K_HEADWAY_SECS, SQLUtils.INT),
             SQLColumDef(T_FREQUENCY_K_EXACT_TIMES, SQLUtils.INT),
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
 
     override fun toInsertColumns(statement: Statement, frequency: Frequency) = with(frequency) {

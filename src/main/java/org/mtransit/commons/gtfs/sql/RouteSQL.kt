@@ -58,7 +58,7 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
             SQLColumDef(T_ROUTE_K_ROUTE_TEXT_COLOR, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_SORT_ORDER, SQLUtils.INT),
         ),
-        insertAllowReplace = true,
+        insertAllowReplace = false,
     )
 
     override fun toInsertColumns(statement: Statement, route: Route) = with(route) {
