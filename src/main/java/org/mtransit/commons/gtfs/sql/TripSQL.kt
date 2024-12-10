@@ -136,8 +136,10 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         val sql = buildString {
             append("UPDATE $T_TRIP ")
             append("SET $T_TRIP_K_DIRECTION_ID = $directionId ")
-            append("JOIN $T_TRIP_IDS ON $T_TRIP.$T_TRIP_K_ID_INT = $T_TRIP_IDS.$T_TRIP_IDS_K_ID_INT ")
-            append("WHERE $T_TRIP_IDS.$T_TRIP_IDS_K_ID IN (${tripIds.joinToString { SQLUtils.escape(it) }})")
+            append("WHERE EXISTS ( ")
+            append("SELECT 1 FROM $T_TRIP, $T_TRIP_IDS WHERE $T_TRIP.$T_TRIP_K_ID_INT = $T_TRIP_IDS.$T_TRIP_IDS_K_ID_INT ")
+            append("AND $T_TRIP_IDS.$T_TRIP_IDS_K_ID IN (${tripIds.joinToString { SQLUtils.escape(it) }}) ")
+            append(")")
         }
         return statement.executeUpdate(sql) > 0
     }
