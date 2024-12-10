@@ -61,15 +61,6 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         )
     }
 
-    fun insert(stop: Stop, statement: Statement): Boolean {
-        return statement.executeUpdate(
-            getSQLInsertOrReplace(
-                statement,
-                stop
-            )
-        ) > 0
-    }
-
     fun select(stopId: StopId? = null, statement: Statement): List<Stop> {
         val sql = buildString {
             append("SELECT ")
@@ -77,8 +68,8 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             append("${getJoinAlias(T_STOP_K_ID_INT)}.$T_STOP_IDS_K_ID AS ${getAlias(T_STOP_K_ID_INT, T_STOP_IDS_K_ID)}, ")
             append("${getJoinAlias(T_STOP_K_PARENT_STATION_ID_INT)}.$T_STOP_IDS_K_ID AS ${getAlias(T_STOP_K_PARENT_STATION_ID_INT, T_STOP_IDS_K_ID)} ")
             append("FROM $T_STOP ")
-            append("LEFT JOIN $T_STOP_IDS AS ${getJoinAlias(T_STOP_K_ID_INT)} ON $T_STOP.$T_STOP_K_ID_INT =${getJoinAlias(T_STOP_K_ID_INT)}.$T_STOP_K_ID_INT ")
-            append("LEFT JOIN $T_STOP_IDS AS ${getJoinAlias(T_STOP_K_PARENT_STATION_ID_INT)} ON $T_STOP.$T_STOP_K_PARENT_STATION_ID_INT = ${getJoinAlias(T_STOP_K_PARENT_STATION_ID_INT)}.$T_STOP_K_ID_INT ")
+            append("JOIN $T_STOP_IDS AS ${getJoinAlias(T_STOP_K_ID_INT)} ON $T_STOP.$T_STOP_K_ID_INT =${getJoinAlias(T_STOP_K_ID_INT)}.$T_STOP_K_ID_INT ")
+            append("JOIN $T_STOP_IDS AS ${getJoinAlias(T_STOP_K_PARENT_STATION_ID_INT)} ON $T_STOP.$T_STOP_K_PARENT_STATION_ID_INT = ${getJoinAlias(T_STOP_K_PARENT_STATION_ID_INT)}.$T_STOP_K_ID_INT ")
             stopId?.let {
                 append("WHERE ${getJoinAlias(T_STOP_K_ID_INT)}.$T_STOP_IDS_K_ID = '$it'")
             }

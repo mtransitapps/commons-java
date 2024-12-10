@@ -81,15 +81,6 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
         )
     }
 
-    fun insert(route: Route, statement: Statement): Boolean {
-        return statement.executeUpdate(
-            getSQLInsertOrReplace(
-                statement,
-                route,
-            )
-        ) > 0
-    }
-
     fun select(
         routeIds: Collection<RouteId>? = null,
         agencyId: AgencyId? = null,
@@ -100,8 +91,8 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
             append("SELECT ")
             append("* ")
             append("FROM $T_ROUTE ")
-            append("LEFT JOIN $T_ROUTE_IDS ON $T_ROUTE.$T_ROUTE_K_ID_INT = $T_ROUTE_IDS.$T_ROUTE_K_ID_INT ")
-            append("LEFT JOIN ${AgencySQL.T_AGENCY_IDS} ON $T_ROUTE.$T_ROUTE_K_AGENCY_ID_INT = ${AgencySQL.T_AGENCY_IDS}.${AgencySQL.T_AGENCY_K_ID_INT} ")
+            append("JOIN $T_ROUTE_IDS ON $T_ROUTE.$T_ROUTE_K_ID_INT = $T_ROUTE_IDS.$T_ROUTE_K_ID_INT ")
+            append("JOIN ${AgencySQL.T_AGENCY_IDS} ON $T_ROUTE.$T_ROUTE_K_AGENCY_ID_INT = ${AgencySQL.T_AGENCY_IDS}.${AgencySQL.T_AGENCY_K_ID_INT} ")
             routeIds?.let {
                 append("WHERE $T_ROUTE_IDS.$T_ROUTE_IDS_K_ID IN (${it.joinToString { "'$it'" }}) ")
             }

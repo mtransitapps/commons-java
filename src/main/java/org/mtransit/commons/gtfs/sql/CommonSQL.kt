@@ -1,9 +1,11 @@
 package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.sql.SQLInsertBuilder
+import org.mtransit.commons.sql.SQLUtils
 import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import org.mtransit.commons.sql.executeQueryMT
 import org.mtransit.commons.sql.executeUpdateMT
+import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 
@@ -23,6 +25,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
         SQLInsertBuilder.compile(sql, id.quotesEscape())
     }
 
+    @Suppress("unused")
     open fun getSQLSelectIdIntFromId(id: String) = getIdsTable()?.let {
         SQLTableDef.makeIdsTableSelect(it, id)
     }
@@ -65,6 +68,48 @@ abstract class CommonSQL<MainType>() : TableSQL {
     fun getMainTableSQLCreate() = getMainTable()?.getSQLCreateTableQuery()
 
     fun getMainTableSQLInsert() = getMainTable()?.getSQLInsertTableQuery()
+
+    fun getMainTableInsertPreparedStatement(allowUpdate: Boolean = false) = getMainTable()?.let {
+        buildString {
+            append((if (allowUpdate) SQLUtils.INSERT_OR_REPLACE_INTO else SQLUtils.INSERT_INTO))
+            append(it.tableName)
+            append(SQLUtils.VALUES_P1)
+            it.columns.forEachIndexed { i, columnDef ->
+                if (i > 0) {
+                    append(SQLUtils.COLUMN_SEPARATOR)
+                }
+                append("?")
+            }
+            append(SQLUtils.P2)
+        }
+    }
+
+    fun insertIntoMainTable(mainObject: MainType, statement: Statement, preparedStatement: PreparedStatement?): Boolean {
+        preparedStatement?.apply {
+            val mainTable = getMainTable() ?: return false
+            val columnsValues = toInsertColumns(statement, mainObject)
+            val columnsDef = mainTable.columns
+            columnsValues.forEachIndexed { i, columnValue ->
+                if (columnValue == null) {
+                    setNull(i + 1, java.sql.Types.NULL)
+                    return@forEachIndexed
+                }
+                when (columnsDef[i].columnType) {
+                    SQLUtils.INT -> setInt(i + 1, columnValue as Int)
+                    SQLUtils.TXT -> setString(i + 1, columnValue as String)
+                    else -> TODO("Unexpected column type for ${columnsDef[i]}!")
+                }
+            }
+            addBatch()
+            return true
+        }
+        return statement.executeUpdateMT(
+            getSQLInsertOrReplace(
+                statement,
+                mainObject
+            )
+        ) > 0
+    }
 
     fun getMainTableSQLDrop() = getMainTable()?.getSQLDropIfExistsQuery()
 

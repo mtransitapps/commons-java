@@ -58,21 +58,12 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
         )
     }
 
-    fun insert(agency: Agency, statement: Statement): Boolean {
-        return statement.executeUpdate(
-            getSQLInsertOrReplace(
-                statement,
-                agency
-            )
-        ) > 0
-    }
-
     fun select(agencyId: AgencyId? = null, statement: Statement): List<Agency> {
         val sql = buildString {
             append("SELECT ")
             append("* ")
             append("FROM $T_AGENCY ")
-            append("LEFT JOIN $T_AGENCY_IDS ON $T_AGENCY.$T_AGENCY_K_ID_INT = $T_AGENCY_IDS.$T_AGENCY_K_ID_INT ")
+            append("JOIN $T_AGENCY_IDS ON $T_AGENCY.$T_AGENCY_K_ID_INT = $T_AGENCY_IDS.$T_AGENCY_K_ID_INT ")
             agencyId?.let {
                 append("WHERE $T_AGENCY_IDS.$T_AGENCY_IDS_K_ID = '$it'")
             }

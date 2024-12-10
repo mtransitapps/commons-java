@@ -9,7 +9,6 @@ import org.mtransit.commons.sql.SQLUtils.quotesEscape
 import org.mtransit.commons.sql.executeQueryMT
 import org.mtransit.commons.sql.executeUpdateMT
 import org.mtransit.commons.sql.toSQL
-import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 import kotlin.use
@@ -60,22 +59,6 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    // TODO move to upper class
-    fun getInsertPreparedStatement(allowUpdate: Boolean = false): String {
-        return buildString {
-            append((if (allowUpdate) SQLUtils.INSERT_OR_REPLACE_INTO else SQLUtils.INSERT_INTO))
-            append(T_TRIP)
-            append(SQLUtils.VALUES_P1)
-            getMainTable().columns.forEachIndexed { i, columnDef ->
-                if (i > 0) {
-                    append(SQLUtils.COLUMN_SEPARATOR)
-                }
-                append("?")
-            }
-            append(SQLUtils.P2)
-        }
-    }
-
     override fun toInsertColumns(statement: Statement, trip: Trip) = with(trip) {
         arrayOf<Any?>(
             getOrInsertIdInt(statement, trip.tripId),
@@ -91,35 +74,6 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         )
     }
 
-    // TODO move to uper class
-    fun insert(trip: Trip, statement: Statement, preparedStatement: PreparedStatement? = null): Boolean {
-        if (preparedStatement != null) {
-            val columnsValues = toInsertColumns(statement, trip)
-            with(preparedStatement) {
-                val columnsDef = getMainTable().columns
-                columnsValues.forEachIndexed { i, columnValue ->
-                    if (columnValue == null) {
-                        setNull(i+1, java.sql.Types.NULL)
-                        return@forEachIndexed
-                    }
-                    when (columnsDef[i].columnType) {
-                        SQLUtils.INT -> setInt(i+1, columnValue as Int)
-                        SQLUtils.TXT -> setString(i+1, columnValue as String)
-                        else -> TODO("Unexpected column type for ${columnsDef[i]}!")
-                    }
-                }
-                addBatch()
-            }
-            return true
-        }
-        return statement.executeUpdateMT(
-            getSQLInsertOrReplace(
-                statement,
-                trip
-            )
-        ) > 0
-    }
-
     fun select(
         statement: Statement,
         tripIds: Collection<TripId>? = null,
@@ -130,9 +84,9 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
             append("SELECT ")
             append("* ")
             append("FROM $T_TRIP ")
-            append("LEFT JOIN $T_TRIP_IDS ON $T_TRIP.$T_TRIP_K_ID_INT = $T_TRIP_IDS.$T_TRIP_IDS_K_ID_INT ")
-            append("LEFT JOIN ${RouteSQL.T_ROUTE_IDS} ON $T_TRIP.${T_TRIP_K_ROUTE_ID_INT} = ${RouteSQL.T_ROUTE_IDS}.${RouteSQL.T_ROUTE_K_ID_INT} ")
-            append("LEFT JOIN ${CalendarDateSQL.T_SERVICE_IDS} ON $T_TRIP.${T_TRIP_K_SERVICE_ID_INT} = ${CalendarDateSQL.T_SERVICE_IDS}.${CalendarDateSQL.T_SERVICE_IDS_K_ID_INT} ")
+            append("JOIN $T_TRIP_IDS ON $T_TRIP.$T_TRIP_K_ID_INT = $T_TRIP_IDS.$T_TRIP_IDS_K_ID_INT ")
+            append("JOIN ${RouteSQL.T_ROUTE_IDS} ON $T_TRIP.${T_TRIP_K_ROUTE_ID_INT} = ${RouteSQL.T_ROUTE_IDS}.${RouteSQL.T_ROUTE_K_ID_INT} ")
+            append("JOIN ${CalendarDateSQL.T_SERVICE_IDS} ON $T_TRIP.${T_TRIP_K_SERVICE_ID_INT} = ${CalendarDateSQL.T_SERVICE_IDS}.${CalendarDateSQL.T_SERVICE_IDS_K_ID_INT} ")
             tripIds?.let {
                 append("WHERE $T_TRIP_IDS.$T_TRIP_IDS_K_ID IN (${it.joinToString { "'$it'" }}) ")
             }

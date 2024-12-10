@@ -38,15 +38,6 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
         )
     }
 
-    fun insert(frequency: Frequency, statement: Statement): Boolean {
-        return statement.executeUpdate(
-            getSQLInsertOrReplace(
-                statement,
-                frequency
-            )
-        ) > 0
-    }
-
     override fun fromResultSet(rs: ResultSet) = with(rs) {
         Frequency(
             tripId = getString(TripSQL.T_TRIP_IDS_K_ID),
@@ -62,7 +53,7 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
             append("SELECT ")
             append("* ")
             append("FROM $T_FREQUENCY ")
-            append("LEFT JOIN ${TripSQL.T_TRIP_IDS} ON $T_FREQUENCY.$T_FREQUENCY_K_TRIP_ID_INT = ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} ")
+            append("JOIN ${TripSQL.T_TRIP_IDS} ON $T_FREQUENCY.$T_FREQUENCY_K_TRIP_ID_INT = ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID_INT} ")
             tripId?.let {
                 append("WHERE ${TripSQL.T_TRIP_IDS}.${TripSQL.T_TRIP_IDS_K_ID} = '$it'")
             }

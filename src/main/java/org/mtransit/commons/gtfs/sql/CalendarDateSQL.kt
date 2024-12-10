@@ -55,15 +55,6 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         )
     }
 
-    fun insert(calendarDate: CalendarDate, statement: Statement): Boolean {
-        return statement.executeUpdate(
-            getSQLInsertOrReplace(
-                statement,
-                calendarDate
-            )
-        ) > 0
-    }
-
     fun select(serviceId: ServiceId? = null, statement: Statement): List<CalendarDate> {
         val sql = buildString {
             append("SELECT ")
