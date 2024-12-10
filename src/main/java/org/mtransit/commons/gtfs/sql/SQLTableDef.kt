@@ -26,7 +26,7 @@ data class SQLTableDef(
         }
     }.build()
 
-    fun getSQLInsertTableQuery() = SQLInsertBuilder.getNew(tableName, insertAllowReplace).apply {
+    fun getSQLInsertTableQuery(overrideAllowUpdate: Boolean? = null) = SQLInsertBuilder.getNew(tableName, overrideAllowUpdate ?: insertAllowReplace).apply {
         columns.forEach { columnDef ->
             if (columnDef.columnType == SQLUtils.INT_PK_AUTO) {
                 return@forEach // SKIP AUTOINCREMENT

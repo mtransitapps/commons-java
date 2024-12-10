@@ -6,8 +6,7 @@ val ALL_SQL_TABLES: List<TableSQL> = listOf(
     StopSQL,
     CalendarDateSQL,
     TripSQL,
-
-    // TODO stop_times
+    StopTimeSQL,
     FrequencySQL,
 
     // TODO directions (route_id, direction_id, direction_name)

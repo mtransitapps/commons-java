@@ -38,9 +38,6 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     open fun getOrInsertIdInt(statement: Statement, id: String): Int {
         this.cachedIds[id]?.let {
-            if (this is TripSQL) {
-                throw Exception("Re-using trip id $id")
-            }
             return it
         }
         val update = statement.executeUpdateMT(getSQLInsertIds(id), returnGeneratedKeys = true)
@@ -67,7 +64,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     fun getMainTableSQLCreate() = getMainTable()?.getSQLCreateTableQuery()
 
-    fun getMainTableSQLInsert() = getMainTable()?.getSQLInsertTableQuery()
+    fun getMainTableSQLInsert(allowUpdate: Boolean = false) = getMainTable()?.getSQLInsertTableQuery(allowUpdate)
 
     fun getMainTableInsertPreparedStatement(allowUpdate: Boolean = false) = getMainTable()?.let {
         buildString {
@@ -84,31 +81,25 @@ abstract class CommonSQL<MainType>() : TableSQL {
         }
     }
 
-    fun insertIntoMainTable(mainObject: MainType, statement: Statement, preparedStatement: PreparedStatement?): Boolean {
+    fun insertIntoMainTable(mainObject: MainType, statement: Statement, preparedStatement: PreparedStatement?, allowUpdate: Boolean = false): Boolean {
         preparedStatement?.apply {
-            val mainTable = getMainTable() ?: return false
+            val mainTableColumns = getMainTable()?.columns ?: return false
             val columnsValues = toInsertColumns(statement, mainObject)
-            val columnsDef = mainTable.columns
             columnsValues.forEachIndexed { i, columnValue ->
                 if (columnValue == null) {
                     setNull(i + 1, java.sql.Types.NULL)
                     return@forEachIndexed
                 }
-                when (columnsDef[i].columnType) {
+                when (mainTableColumns[i].columnType) {
                     SQLUtils.INT -> setInt(i + 1, columnValue as Int)
                     SQLUtils.TXT -> setString(i + 1, columnValue as String)
-                    else -> TODO("Unexpected column type for ${columnsDef[i]}!")
+                    else -> TODO("Unexpected column type for ${mainTableColumns[i]}!")
                 }
             }
             addBatch()
             return true
         }
-        return statement.executeUpdateMT(
-            getSQLInsertOrReplace(
-                statement,
-                mainObject
-            )
-        ) > 0
+        return statement.executeUpdateMT(getSQLInsertOrReplace(statement, mainObject, allowUpdate)) > 0
     }
 
     fun getMainTableSQLDrop() = getMainTable()?.getSQLDropIfExistsQuery()
@@ -139,7 +130,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     abstract fun toInsertColumns(statement: Statement, main: MainType): Array<Any?>
 
-    open fun getSQLInsertOrReplace(statement: Statement, main: MainType) = getMainTableSQLInsert()?.let {
+    open fun getSQLInsertOrReplace(statement: Statement, main: MainType, allowUpdate: Boolean = false) = getMainTableSQLInsert(allowUpdate)?.let {
         SQLInsertBuilder.compile(
             it,
             *toInsertColumns(statement, main)
