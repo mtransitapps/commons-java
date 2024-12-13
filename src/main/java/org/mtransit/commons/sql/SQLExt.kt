@@ -18,6 +18,17 @@ fun ResultSet.getStringOrNull(columnLabel: String) = this.getString(columnLabel)
 private const val LOG_SQL = false
 // private const val LOG_SQL = true // DEBUG
 
+fun Statement.executeMT(query: String?): Boolean {
+    if (LOG_SQL) {
+        println("SQL > $query.")
+    }
+    try {
+        return this.execute(query)
+    } catch (e: SQLException) {
+        throw Exception("SQL error while executing update '$query'!", e)
+    }
+}
+
 fun Statement.executeUpdateMT(query: String?, returnGeneratedKeys: Boolean = false): Int {
     if (LOG_SQL) {
         println("SQL > $query.")

@@ -95,6 +95,69 @@ object StopTimeSQL : CommonSQL<StopTime>(), TableSQL {
         }
     }
 
+    fun update(
+        statement: Statement,
+        filterTripId: TripId?, filterStopId: StopId?, filterStopSequence: Int?,
+        updatePickupType: Int? = null, updateDropOffType: Int? = null,
+        filterOrderByDesc: Boolean? = null, // true = ASC, false = DESC, null = none
+        filterLimit: Int? = null,
+    ): Boolean {
+        if (updatePickupType == null && updateDropOffType == null) {
+            return false // nothing to update
+        }
+        val sql = buildString {
+            append("UPDATE $T_STOP_TIME ")
+            append(buildString {
+                updatePickupType?.let {
+                    if (this.isEmpty()) append("SET ") else append(", ")
+                    append("$T_STOP_TIME_K_PICKUP_TYPE = $it ")
+                }
+                updateDropOffType?.let {
+                    if (this.isEmpty()) append("SET ") else append(", ")
+                    append("$T_STOP_TIME_K_DROP_OFF_TYPE = $it ")
+                }
+            })
+            append("WHERE ")
+            append("($T_STOP_TIME_K_TRIP_ID_INT, $T_STOP_TIME_K_STOP_ID_INT, $T_STOP_TIME_K_STOP_SEQUENCE) IN ( ")
+            append(buildString {
+                append("SELECT $T_STOP_TIME_K_TRIP_ID_INT, $T_STOP_TIME_K_STOP_ID_INT, $T_STOP_TIME_K_STOP_SEQUENCE ")
+                append("FROM $T_STOP_TIME ")
+                append(buildString {
+                    filterTripId?.let {
+                        if (this.isEmpty()) append("WHERE ") else append("AND ")
+                        append("$T_STOP_TIME_K_TRIP_ID_INT = ${TripSQL.getOrInsertIdInt(statement, filterTripId)} ")
+                    }
+                    filterStopId?.let {
+                        if (this.isEmpty()) append("WHERE ") else append("AND ")
+                        append("$T_STOP_TIME_K_STOP_ID_INT = ${StopSQL.getOrInsertIdInt(statement, it)} ")
+                    }
+                    filterStopSequence?.let {
+                        if (this.isEmpty()) append("WHERE ") else append("AND ")
+                        append("$T_STOP_TIME_K_STOP_SEQUENCE = $it ")
+                    }
+                })
+                filterOrderByDesc?.let {
+                    append("ORDER BY ")
+                    if (filterTripId == null) {
+                        append("$T_STOP_TIME.${T_STOP_TIME_K_TRIP_ID_INT} ").append(if (filterOrderByDesc) "DESC" else "ASC")
+                        append(", ")
+                    }
+                    if (filterStopSequence == null) {
+                        append("$T_STOP_TIME.$T_STOP_TIME_K_STOP_SEQUENCE ").append(if (filterOrderByDesc) "DESC" else "ASC")
+                        append(", ")
+                    }
+                    append("$T_STOP_TIME.$T_STOP_TIME_K_DEPARTURE_TIME ").append(if (filterOrderByDesc) "DESC" else "ASC")
+                    append(" ")
+                }
+                filterLimit?.let {
+                    append("LIMIT $it ")
+                }
+            })
+            append(")")
+        }
+        return statement.executeUpdateMT(sql) > 0
+    }
+
     fun delete(statement: Statement, tripId: TripId? = null, stopId: StopId? = null): Int {
         val sql = buildString {
             append("DELETE FROM $T_STOP_TIME")
