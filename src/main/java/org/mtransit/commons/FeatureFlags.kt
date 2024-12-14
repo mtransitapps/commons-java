@@ -18,9 +18,6 @@ object FeatureFlags {
     // const val F_ACCESSIBILITY_CONSUMER = false
     const val F_ACCESSIBILITY_CONSUMER = true // WIP // UI
 
-    const val F_EDGE_TO_EDGE = false
-    // const val F_EDGE_TO_EDGE = true // WIP
-
     // const val F_WORK_MANAGER_DB_DEPLOY = false
     const val F_WORK_MANAGER_DB_DEPLOY = true // WIP
 
