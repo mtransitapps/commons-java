@@ -4,8 +4,8 @@ data class StopTime(
     val tripId: TripId,
     val stopId: StopId,
     val stopSequence: Int,
-    val arrivalTime: Time,
-    val departureTime: Time,
+    val arrivalTime: Time?,
+    val departureTime: Time?,
     val stopHeadsign: Text?,
     val pickupType: Int?, // TODO Enum
     val dropOffType: Int?, // TODO Enum
