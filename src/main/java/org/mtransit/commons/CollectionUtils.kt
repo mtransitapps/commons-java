@@ -70,4 +70,9 @@ object CollectionUtils {
             add(newValue)
         }
     }
+
+    @JvmStatic
+    fun totalMapSize(map: Map<*, List<*>>?): Int {
+        return map?.values?.sumOf { it.size } ?: 0
+    }
 }
