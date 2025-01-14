@@ -8,20 +8,28 @@ data class Direction(
     val destination: Text?
 )
 
-enum class Directions {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST,
-    NORTH_EAST,
-    NORTH_WEST,
-    SOUTH_EAST,
-    SOUTH_WEST,
-    CLOCKWISE,
-    COUNTER_CLOCKWISE,
-    INBOUND,
-    OUTBOUND,
-    LOOP,
-    A_LOOP,
-    B_LOOP,
+enum class Directions(val value: String) {
+    NORTH("North"),
+    SOUTH("South"),
+    EAST("East"),
+    WEST("West"),
+    NORTH_EAST("Northeast"),
+    NORTH_WEST("Northwest"),
+    SOUTH_EAST("Southeast"),
+    SOUTH_WEST("Southwest"),
+    CLOCKWISE("Clockwise"),
+    COUNTER_CLOCKWISE("Counterclockwise"),
+    INBOUND("Inbound"),
+    OUTBOUND("Outbound"),
+    LOOP("Loop"),
+    A_LOOP("A Loop"), // or "Loop A"? (not sure)
+    B_LOOP("B Loop"), // or "Loop B"? (not sure)
+    UNKNOWN("Unknown");
+
+    companion object {
+        fun fromValue(value: String?): Directions {
+            val valueLC = value?.lowercase()
+            return entries.firstOrNull { it.value.lowercase() == valueLC } ?: UNKNOWN
+        }
+    }
 }
