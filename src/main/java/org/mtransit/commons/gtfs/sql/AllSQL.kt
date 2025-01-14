@@ -9,7 +9,7 @@ val ALL_SQL_TABLES: List<TableSQL> = listOf(
     StopTimeSQL,
     FrequencySQL,
 
-    // TODO directions (route_id, direction_id, direction_name)
+    // TODO directions (route_id, direction_id, direction, direction_destination)
     // - ca_levis: directions.txt
     // (agency_id,) route_id, direction_id, direction_name (,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,)
     // - ca_banff: directions.txt
