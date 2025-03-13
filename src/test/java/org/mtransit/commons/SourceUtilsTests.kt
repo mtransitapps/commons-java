@@ -5,11 +5,15 @@ import org.junit.Test
 
 class SourceUtilsTests {
 
+    companion object {
+        private const val INVALID_URL = "" // TODO null? // UI not compatible with null source label (2025-03-12)
+    }
+
     @Test
     fun `test label from URL - null`() {
-        assertEquals(null, SourceUtils.getSourceLabel(urlString = null))
+        assertEquals(INVALID_URL, SourceUtils.getSourceLabel(urlString = ""))
 
-        assertEquals(null, SourceUtils.getSourceLabel(url = null))
+        assertEquals(INVALID_URL, SourceUtils.getSourceLabel(urlString = "invalid URL"))
     }
 
     @Test
@@ -90,6 +94,6 @@ class SourceUtilsTests {
 
         val result = SourceUtils.getSourceLabel(urlString)
 
-        assertEquals(null, result)
+        assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
     }
 }
