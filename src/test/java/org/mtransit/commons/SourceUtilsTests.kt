@@ -83,4 +83,13 @@ class SourceUtilsTests {
 
         assertEquals("gbfs.com", result)
     }
+
+    @Test
+    fun `test label from URL - dashboard_transitapp_com`() {
+        val urlString = "https://dashboard.transitapp.com/"
+
+        val result = SourceUtils.getSourceLabel(urlString)
+
+        assertEquals(null, result)
+    }
 }
