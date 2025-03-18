@@ -65,7 +65,7 @@ public final class CleanUtils {
 	}
 
 	@NotNull
-	private static String cleanLabel(@NotNull Locale locale, @NotNull String label) {
+	public static String cleanLabel(@NotNull Locale locale, @NotNull String label) {
 		label = CLEAN_SPACES.matcher(label).replaceAll(SPACE);
 		label = CLEAN_P1.matcher(label).replaceAll(CLEAN_P1_REPLACEMENT);
 		label = CLEAN_P2.matcher(label).replaceAll(CLEAN_P2_REPLACEMENT);
