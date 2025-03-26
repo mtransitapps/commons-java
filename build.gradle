@@ -13,13 +13,13 @@ java {
 compileKotlin {
     kotlinOptions {
         jvmTarget = rootProject.javaVersion
-        allWarningsAsErrors = true
+        // allWarningsAsErrors = true // replaced by "DeprecatedCall" in lint
     }
 }
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = rootProject.javaVersion
-        allWarningsAsErrors = true
+        // allWarningsAsErrors = true // replaced by "DeprecatedCall" in lint
     }
 }
 
