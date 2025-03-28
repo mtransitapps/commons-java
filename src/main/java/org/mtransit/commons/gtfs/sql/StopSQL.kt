@@ -47,9 +47,9 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, stop: Stop) = with(stop) {
+    override fun toInsertColumns(statement: Statement, mainObject: Stop) = with(mainObject) {
         arrayOf<Any?>(
-            getOrInsertIdInt(statement, stop.stopId),
+            getOrInsertIdInt(statement, stopId),
             stopCode?.quotesEscape(),
             stopName.quotesEscape(),
             stopLat,

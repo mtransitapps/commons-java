@@ -30,12 +30,12 @@ object DirectionSQL : CommonSQL<Direction>(), TableSQL {
         insertAllowReplace = false,
     )
 
-     override fun toInsertColumns(statement: Statement, direction: Direction) = with(direction) {
+     override fun toInsertColumns(statement: Statement, mainObject: Direction) = with(mainObject) {
          arrayOf<Any?>(
-             RouteSQL.getOrInsertIdInt(statement, direction.routeId),
-             direction.directionId,
-             direction.directionType?.toSQL(),
-             direction.destination?.quotesEscape(),
+             RouteSQL.getOrInsertIdInt(statement, routeId),
+             directionId,
+             directionType?.toSQL(),
+             destination?.quotesEscape(),
          )
      }
 

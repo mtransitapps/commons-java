@@ -28,9 +28,9 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, frequency: Frequency) = with(frequency) {
+    override fun toInsertColumns(statement: Statement, mainObject: Frequency) = with(mainObject) {
         arrayOf<Any?>(
-            TripSQL.getOrInsertIdInt(statement, frequency.tripId),
+            TripSQL.getOrInsertIdInt(statement, tripId),
             startTime,
             endTime,
             headwaySecs,

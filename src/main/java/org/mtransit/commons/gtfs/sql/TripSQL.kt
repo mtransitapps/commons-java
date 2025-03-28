@@ -59,18 +59,18 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, trip: Trip) = with(trip) {
+    override fun toInsertColumns(statement: Statement, mainObject: Trip) = with(mainObject) {
         arrayOf<Any?>(
-            getOrInsertIdInt(statement, trip.tripId),
-            RouteSQL.getOrInsertIdInt(statement, trip.routeId),
-            CalendarDateSQL.getOrInsertIdInt(statement, trip.serviceId),
-            trip.tripHeadsign?.quotesEscape(),
-            trip.tripShortName?.quotesEscape(),
-            trip.directionId,
-            trip.blockId?.quotesEscape(),
-            trip.shapeId?.quotesEscape(),
-            trip.wheelchairAccessible,
-            trip.bikesAllowed?.toSQL(),
+            getOrInsertIdInt(statement, tripId),
+            RouteSQL.getOrInsertIdInt(statement, routeId),
+            CalendarDateSQL.getOrInsertIdInt(statement, serviceId),
+            tripHeadsign?.quotesEscape(),
+            tripShortName?.quotesEscape(),
+            directionId,
+            blockId?.quotesEscape(),
+            shapeId?.quotesEscape(),
+            wheelchairAccessible,
+            bikesAllowed?.toSQL(),
         )
     }
 

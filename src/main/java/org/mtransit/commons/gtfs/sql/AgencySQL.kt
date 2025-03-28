@@ -45,9 +45,9 @@ object AgencySQL : CommonSQL<Agency>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, agency: Agency) = with(agency) {
+    override fun toInsertColumns(statement: Statement, mainObject: Agency) = with(mainObject) {
         arrayOf<Any?>(
-            getOrInsertIdInt(statement, agency.agencyId),
+            getOrInsertIdInt(statement, agencyId),
             agencyName.quotesEscape(),
             agencyUrl.quotesEscape(),
             agencyTimezone.quotesEscape(),

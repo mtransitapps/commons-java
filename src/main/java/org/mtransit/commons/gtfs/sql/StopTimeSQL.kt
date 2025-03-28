@@ -38,10 +38,10 @@ object StopTimeSQL : CommonSQL<StopTime>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, stopTime: StopTime) = with(stopTime) {
+    override fun toInsertColumns(statement: Statement, mainObject: StopTime) = with(mainObject) {
         arrayOf<Any?>(
-            TripSQL.getOrInsertIdInt(statement, stopTime.tripId),
-            StopSQL.getOrInsertIdInt(statement, stopTime.stopId),
+            TripSQL.getOrInsertIdInt(statement, tripId),
+            StopSQL.getOrInsertIdInt(statement, stopId),
             stopSequence,
             arrivalTime,
             departureTime,

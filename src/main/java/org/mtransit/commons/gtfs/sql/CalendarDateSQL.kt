@@ -47,9 +47,9 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, calendarDate: CalendarDate) = with(calendarDate) {
+    override fun toInsertColumns(statement: Statement, mainObject: CalendarDate) = with(mainObject) {
         arrayOf<Any?>(
-            getOrInsertIdInt(statement, calendarDate.serviceId),
+            getOrInsertIdInt(statement, serviceId),
             date,
             exceptionType.id,
         )

@@ -128,12 +128,12 @@ abstract class CommonSQL<MainType>() : TableSQL {
         getMainTableSQLDrop()?.let { add(it) }
     }
 
-    abstract fun toInsertColumns(statement: Statement, main: MainType): Array<Any?>
+    abstract fun toInsertColumns(statement: Statement, mainObject: MainType): Array<Any?>
 
-    open fun getSQLInsertOrReplace(statement: Statement, main: MainType, allowUpdate: Boolean = false) = getMainTableSQLInsert(allowUpdate)?.let {
+    open fun getSQLInsertOrReplace(statement: Statement, mainObject: MainType, allowUpdate: Boolean = false) = getMainTableSQLInsert(allowUpdate)?.let {
         SQLInsertBuilder.compile(
             it,
-            *toInsertColumns(statement, main)
+            *toInsertColumns(statement, mainObject)
         )
     }
 

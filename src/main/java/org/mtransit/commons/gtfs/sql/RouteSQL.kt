@@ -61,15 +61,15 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
         insertAllowReplace = false,
     )
 
-    override fun toInsertColumns(statement: Statement, route: Route) = with(route) {
+    override fun toInsertColumns(statement: Statement, mainObject: Route) = with(mainObject) {
         arrayOf<Any?>(
-            (route.agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
+            (agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
                 ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId)
                 ?.let { agencyId ->
                     AgencySQL.getOrInsertIdInt(statement, agencyId)
                 }
                 ?: throw Exception("Can't find agency ID!"),
-            getOrInsertIdInt(statement, route.routeId), // route ID // 2nd
+            getOrInsertIdInt(statement, routeId), // route ID // 2nd
             routeShortName.quotesEscape(),
             routeLongName?.quotesEscape(),
             routeDesc?.quotesEscape(),
