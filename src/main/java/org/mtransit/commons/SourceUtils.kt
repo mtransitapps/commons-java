@@ -7,18 +7,22 @@ object SourceUtils {
     private val LOG_TAG: String = SourceUtils::class.java.simpleName
 
     private val HOST_BLACK_LIST = listOf(
+        "azure-api.net",
+        "azurefd.net",
         "transitapp.com",
     )
 
     private val BLACK_LIST = listOf(
         "api",
         "assets",
+        "azurefd",
+        "azure-api",
         "data",
         "gbfs",
         "gtfs",
         "opendata",
-        "www",
         "transitapp",
+        "www",
     )
 
     @JvmStatic

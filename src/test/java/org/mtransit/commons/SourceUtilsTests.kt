@@ -89,6 +89,24 @@ class SourceUtilsTests {
     }
 
     @Test
+    fun `test label from URL - azurefd_net`() {
+        val urlString = "https://oct-gtfs-emasagcnfmcgeham.z01.azurefd.net"
+
+        val result = SourceUtils.getSourceLabel(urlString)
+
+        assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
+    }
+
+    @Test
+    fun `test label from URL - azure_api_net`() {
+        val urlString = "https://nextrip-public-api.azure-api.net/"
+
+        val result = SourceUtils.getSourceLabel(urlString)
+
+        assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
+    }
+
+    @Test
     fun `test label from URL - dashboard_transitapp_com`() {
         val urlString = "https://dashboard.transitapp.com/"
 
