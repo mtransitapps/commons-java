@@ -20,6 +20,7 @@ object SourceUtils {
         "data",
         "gbfs",
         "gtfs",
+        "gtfs-static",
         "opendata",
         "transitapp",
         "www",

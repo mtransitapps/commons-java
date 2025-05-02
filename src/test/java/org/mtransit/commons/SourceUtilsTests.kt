@@ -53,7 +53,7 @@ class SourceUtilsTests {
     }
 
     @Test
-    fun `test label from URL - opendata_example_qc_ca`() {
+    fun `test label from URL - open_data_example_qc_ca`() {
         val urlString = "https://opendata.example.com"
 
         val result = SourceUtils.getSourceLabel(urlString)
@@ -89,7 +89,7 @@ class SourceUtilsTests {
     }
 
     @Test
-    fun `test label from URL - azurefd_net`() {
+    fun `test label from URL - azure_fd_net`() {
         val urlString = "https://oct-gtfs-emasagcnfmcgeham.z01.azurefd.net"
 
         val result = SourceUtils.getSourceLabel(urlString)
@@ -107,7 +107,7 @@ class SourceUtilsTests {
     }
 
     @Test
-    fun `test label from URL - dashboard_transitapp_com`() {
+    fun `test label from URL - dashboard_transit_app_com`() {
         val urlString = "https://dashboard.transitapp.com/"
 
         val result = SourceUtils.getSourceLabel(urlString)
