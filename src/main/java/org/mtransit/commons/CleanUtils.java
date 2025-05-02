@@ -59,10 +59,32 @@ public final class CleanUtils {
 	private static final Pattern CLEAN_P2 = Pattern.compile("\\s*\\)\\s*");
 	private static final String CLEAN_P2_REPLACEMENT = ") "; // space: guaranty 0 before & 1 after
 
+	/**
+	 * @deprecated use {@link #cleanLabel(Locale, String)}
+	 */
+	@Deprecated
 	@NotNull
 	public static String cleanLabel(@NotNull String label) {
 		return cleanLabel(Locale.ENGLISH, label);
 	}
+
+	private static final char[] CAPITALIZE_CHARS_EN = new char[]{
+			' ',
+			'-', '–',
+			'/',
+			'(',
+			'.'
+	};
+
+	private static final char[] CAPITALIZE_CHARS_FR = new char[]{
+			' ',
+			'-', '–',
+			'/',
+			'(',
+			'.',
+			'\'', '`', '’',
+			':'
+	};
 
 	@NotNull
 	public static String cleanLabel(@NotNull Locale locale, @NotNull String label) {
@@ -70,9 +92,9 @@ public final class CleanUtils {
 		label = CLEAN_P1.matcher(label).replaceAll(CLEAN_P1_REPLACEMENT);
 		label = CLEAN_P2.matcher(label).replaceAll(CLEAN_P2_REPLACEMENT);
 		if (locale == Locale.FRENCH) {
-			label = WordUtils.capitalize(label, SPACE_CHAR, '-', '–', '/', '(', '.', '\'', '`', ':');
+			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_FR);
 		} else {
-			label = WordUtils.capitalize(label, SPACE_CHAR, '-', '–', '/', '(', '.');
+			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_EN);
 		}
 		label = removePointsI(label); // after capitalize
 		return label.trim();
@@ -231,6 +253,7 @@ public final class CleanUtils {
 		sb.append(")");
 		sb.append("(?=(\\W|$))");
 		sb.append(")");
+		//noinspection MagicConstant
 		return Pattern.compile(sb.toString(), flags);
 	}
 
@@ -290,6 +313,7 @@ public final class CleanUtils {
 		sb.append(")");
 		sb.append("(?=(\\W|$))");
 		sb.append(")");
+		//noinspection MagicConstant
 		return Pattern.compile(sb.toString(), flags);
 	}
 
@@ -539,8 +563,8 @@ public final class CleanUtils {
 		Matcher matcher = pattern.matcher(string);
 		while (matcher.find()) {
 			sb.append(matcher.group(1)); // before
-			String word = matcher.group(2);
-			if (word.length() > 1
+			final String word = matcher.group(2);
+			if (!word.isEmpty()
 					&& CharUtils.isUppercaseOnly(word, false, true)
 					&& !CharUtils.isRomanDigits(word)
 					&& !containsIgnoreCase(word, ignoreWords)) {
