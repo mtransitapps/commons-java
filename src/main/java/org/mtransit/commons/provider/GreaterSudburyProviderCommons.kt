@@ -29,6 +29,6 @@ object GreaterSudburyProviderCommons {
         newTripHeadSign = CleanUtils.cleanNumbers(newTripHeadSign)
         // newTripHeadSign = CleanUtils.cleanBounds(newTripHeadSign) // TODO maybe later w/ conditional text shortening relative to target length
         newTripHeadSign = CleanUtils.cleanStreetTypes(newTripHeadSign)
-        return CleanUtils.cleanLabel(newTripHeadSign)
+        return CleanUtils.cleanLabel(Locale.ENGLISH, newTripHeadSign)
     }
 }

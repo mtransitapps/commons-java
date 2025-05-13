@@ -2,6 +2,7 @@ package org.mtransit.commons.provider
 
 import org.mtransit.commons.CleanUtils
 import org.mtransit.commons.StringUtils.EMPTY
+import java.util.Locale
 import java.util.regex.Pattern
 
 object OttawaOCTranspoProviderCommons {
@@ -19,7 +20,7 @@ object OttawaOCTranspoProviderCommons {
         newTripHeadSign = CleanUtils.fixMcXCase(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanBounds(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanSlashes(newTripHeadSign)
-        newTripHeadSign = CleanUtils.cleanLabel(newTripHeadSign)
+        newTripHeadSign = CleanUtils.cleanLabel(Locale.ENGLISH, newTripHeadSign)
         return newTripHeadSign
     }
 }

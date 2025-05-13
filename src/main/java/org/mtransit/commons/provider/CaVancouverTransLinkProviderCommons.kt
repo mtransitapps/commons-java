@@ -98,7 +98,7 @@ object CaVancouverTransLinkProviderCommons {
         tripHeadsign = CleanUtils.fixMcXCase(tripHeadsign)
         tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign)
         tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign)
-        tripHeadsign = CleanUtils.cleanLabel(tripHeadsign)
+        tripHeadsign = CleanUtils.cleanLabel(Locale.ENGLISH, tripHeadsign)
         return tripHeadsign
     }
 }

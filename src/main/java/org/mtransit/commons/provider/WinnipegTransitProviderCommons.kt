@@ -1,6 +1,7 @@
 package org.mtransit.commons.provider
 
 import org.mtransit.commons.CleanUtils
+import java.util.Locale
 import java.util.regex.Pattern
 
 object WinnipegTransitProviderCommons {
@@ -17,6 +18,6 @@ object WinnipegTransitProviderCommons {
         newTripHeadSign = CleanUtils.cleanBounds(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanStreetTypes(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanNumbers(newTripHeadSign)
-        return CleanUtils.cleanLabel(newTripHeadSign)
+        return CleanUtils.cleanLabel(Locale.ENGLISH, newTripHeadSign)
     }
 }
