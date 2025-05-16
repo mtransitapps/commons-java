@@ -15,7 +15,7 @@ object OneBusAwayProviderCommons {
         newTripHeadSign = CleanUtils.cleanSlashes(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanBounds(newTripHeadSign)
         newTripHeadSign = CleanUtils.cleanStreetTypes(newTripHeadSign)
-        return CleanUtils.cleanLabel(newTripHeadSign)
+        return CleanUtils.cleanLabel(Locale.ENGLISH, newTripHeadSign)
     }
 
     // OLD UNUSED CONSTANTS > TO BE DELETED
