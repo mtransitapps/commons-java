@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.android.lint) // dependency of commons-android
 }
 
+def envCI = System.getenv("CI")
+def isCI = envCI != null && envCI != ""
+
 java {
     sourceCompatibility = rootProject.javaVersion
     targetCompatibility = rootProject.javaVersion
@@ -35,6 +38,10 @@ dependencies {
 test {
     useJUnit()
     testLogging {
-        events("passed", "skipped", "failed")
+        if (isCI) {
+            events("started", "passed", "skipped", "failed", "standard_out", "standard_error")
+        } else {
+            events("failed")
+        }
     }
 }
