@@ -30,8 +30,7 @@ object SourceUtils {
     fun getSourceLabel(urlString: String): String {
         try {
             @Suppress("DEPRECATION") // since Java 20
-            val url = URL(urlString)
-            return getSourceLabel(url)
+            return urlString.takeIf { it.isNotBlank() }?.let { getSourceLabel(URL(urlString)) }.orEmpty()
         } catch (e: Exception) {
             System.err.println("$LOG_TAG: Error while parsing source label from URL '$urlString'!")
             e.printStackTrace()
