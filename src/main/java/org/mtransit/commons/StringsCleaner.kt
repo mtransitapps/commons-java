@@ -14,8 +14,15 @@ object StringsCleaner {
     @JvmStatic
     fun cleanTripHeadsign(originalTripHeadsign: String, languages: List<Locale>?, removeVia: Boolean): String {
         var tripHeadsign = originalTripHeadsign
-        if (removeVia) {
-            tripHeadsign = CleanUtils.keepToAndRemoveVia(tripHeadsign)
+        if (languages?.contains(Locale.ENGLISH) == true) {
+            if (removeVia) {
+                tripHeadsign = CleanUtils.keepToAndRemoveVia(tripHeadsign)
+            } else {
+                tripHeadsign = CleanUtils.keepTo(tripHeadsign)
+            }
+        }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
         }
         tripHeadsign = cleanString(tripHeadsign, languages, short = true)
         return tripHeadsign
