@@ -12,7 +12,11 @@ object StringsCleaner {
     }
 
     @JvmStatic
-    fun cleanTripHeadsign(originalTripHeadsign: String, languages: List<Locale>?, removeVia: Boolean): String {
+    fun cleanTripHeadsign(
+        originalTripHeadsign: String,
+        languages: List<Locale>?,
+        removeVia: Boolean = false,
+    ): String {
         var tripHeadsign = originalTripHeadsign
         if (languages?.contains(Locale.ENGLISH) == true) {
             if (removeVia) {
