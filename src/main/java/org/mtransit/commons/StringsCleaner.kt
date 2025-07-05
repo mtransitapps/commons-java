@@ -11,9 +11,24 @@ object StringsCleaner {
         return routeLongName
     }
 
+    @JvmOverloads
     @JvmStatic
-    fun cleanTripHeadsign(originalTripHeadsign: String, languages: List<Locale>?): String {
+    fun cleanTripHeadsign(
+        originalTripHeadsign: String,
+        languages: List<Locale>?,
+        removeVia: Boolean = false,
+    ): String {
         var tripHeadsign = originalTripHeadsign
+        if (languages?.contains(Locale.ENGLISH) == true) {
+            if (removeVia) {
+                tripHeadsign = CleanUtils.keepToAndRemoveVia(tripHeadsign)
+            } else {
+                tripHeadsign = CleanUtils.keepTo(tripHeadsign)
+            }
+        }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
+        }
         tripHeadsign = cleanString(tripHeadsign, languages, short = true)
         return tripHeadsign
     }
