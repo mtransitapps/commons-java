@@ -11,6 +11,7 @@ object StringsCleaner {
         return routeLongName
     }
 
+    @JvmOverloads
     @JvmStatic
     fun cleanTripHeadsign(
         originalTripHeadsign: String,
