@@ -788,7 +788,11 @@ public final class CleanUtils {
 	// https://public.oed.com/how-to-use-the-oed/abbreviations/
 	private static final Pattern NEIGHBOURHOOD_ = cleanWordsPlural("neighbourhood", "neighbour");
 	private static final String NEIGHBOURHOOD_REPLACEMENT = cleanWordsReplacementPlural("Neighb");
+	private static final Pattern BLOCK_ = cleanWords("block");
+	private static final String BLOCK_REPLACEMENT = cleanWordsReplacement("Blk");
 	// not official
+	private static final Pattern SAINT_ = cleanWords("saint");
+	private static final String SAINT_REPLACEMENT_ = cleanWordsReplacement("St");
 	private static final Pattern APARTMENT_ = cleanWordsPlural("apartment");
 	private static final String APARTMENT_REPLACEMENT = cleanWordsReplacementPlural("Apt"); // not official
 	private static final Pattern BED_AND_BREAKFAST_ = cleanWords("bed and breakfast", "bed & breakfast", "b & b");
@@ -895,7 +899,9 @@ public final class CleanUtils {
 		string = PARKING.matcher(string).replaceAll(PARKING_REPLACEMENT);
 		string = MOUNT.matcher(string).replaceAll(MOUNT_REPLACEMENT);
 		string = MOUNTAIN.matcher(string).replaceAll(MOUNTAIN_REPLACEMENT);
+		string = BLOCK_.matcher(string).replaceAll(BLOCK_REPLACEMENT);
 		//
+		string = SAINT_.matcher(string).replaceAll(SAINT_REPLACEMENT_);
 		string = APARTMENT_.matcher(string).replaceAll(APARTMENT_REPLACEMENT);
 		string = BED_AND_BREAKFAST_.matcher(string).replaceAll(BED_AND_BREAKFAST_REPLACEMENT);
 		string = PARK_AND_RIDE_.matcher(string).replaceAll(PARK_AND_RIDE_REPLACEMENT);
