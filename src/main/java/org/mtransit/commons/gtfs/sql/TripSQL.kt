@@ -29,6 +29,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
 
     const val T_TRIP_K_ID_INT = "trip_id_int"
     const val T_TRIP_K_ROUTE_ID_INT = "route_id_int"
+    const val T_TRIP_K_ORIGINAL_ROUTE_ID = "original_route_id"
     const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
     const val T_TRIP_K_TRIP_HEADSIGN = "trip_headsign"
     const val T_TRIP_K_TRIP_SHORT_NAME = "trip_short_name"
@@ -43,6 +44,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         listOf(
             SQLColumDef(T_TRIP_K_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(T_TRIP_IDS, T_TRIP_IDS_K_ID_INT)),
             SQLColumDef(T_TRIP_K_ROUTE_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(RouteSQL.T_ROUTE, RouteSQL.T_ROUTE_K_ID_INT)),
+            SQLColumDef(T_TRIP_K_ORIGINAL_ROUTE_ID, SQLUtils.TXT),
             SQLColumDef(
                 T_TRIP_K_SERVICE_ID_INT,
                 SQLUtils.INT,
@@ -63,6 +65,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         arrayOf<Any?>(
             getOrInsertIdInt(statement, tripId),
             RouteSQL.getOrInsertIdInt(statement, routeId),
+            originalRouteId.quotesEscape(),
             CalendarDateSQL.getOrInsertIdInt(statement, serviceId),
             tripHeadsign?.quotesEscape(),
             tripShortName?.quotesEscape(),
@@ -141,6 +144,7 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         Trip(
             tripId = rs.getString(T_TRIP_IDS_K_ID),
             routeId = rs.getString(RouteSQL.T_ROUTE_IDS_K_ID),
+            originalRouteId = rs.getString(T_TRIP_K_ORIGINAL_ROUTE_ID),
             serviceId = rs.getString(CalendarDateSQL.T_SERVICE_IDS_K_ID),
             tripHeadsign = rs.getString(T_TRIP_K_TRIP_HEADSIGN),
             tripShortName = rs.getString(T_TRIP_K_TRIP_SHORT_NAME),

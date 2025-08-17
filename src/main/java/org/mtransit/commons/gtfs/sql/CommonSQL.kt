@@ -86,14 +86,20 @@ abstract class CommonSQL<MainType>() : TableSQL {
             val mainTableColumns = getMainTable()?.columns ?: return false
             val columnsValues = toInsertColumns(statement, mainObject)
             columnsValues.forEachIndexed { i, columnValue ->
-                if (columnValue == null) {
-                    setNull(i + 1, java.sql.Types.NULL)
-                    return@forEachIndexed
-                }
-                when (mainTableColumns[i].columnType) {
-                    SQLUtils.INT -> setInt(i + 1, columnValue as Int)
-                    SQLUtils.TXT -> setString(i + 1, columnValue as String)
-                    else -> TODO("Unexpected column type for ${mainTableColumns[i]}!")
+                val tableColum = mainTableColumns[i]
+                try {
+                    if (columnValue == null) {
+                        setNull(i + 1, java.sql.Types.NULL)
+                        return@forEachIndexed
+                    }
+                    when (tableColum.columnType) {
+                        SQLUtils.INT -> setInt(i + 1, columnValue as Int)
+                        SQLUtils.TXT -> setString(i + 1, columnValue as String)
+                        else -> TODO("Unexpected column type for $tableColum!")
+                    }
+                } catch (e: Exception) {
+                    System.err.println("Error while inserting '$columnValue' into '$mainTableName.${tableColum.columnName}' -${tableColum.columnType}!")
+                    throw e
                 }
             }
             addBatch()

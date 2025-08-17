@@ -9,6 +9,7 @@ typealias DirectionId = Int
 data class Trip(
     val tripId: TripId,
     val routeId: RouteId,
+    val originalRouteId: RouteId,
     val serviceId: ServiceId,
     val tripHeadsign: Text?,
     val tripShortName: Text?,
