@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object GTFSCommons {
 
-    const val DB_FILE_NAME = "gtfs_rts_db" // no extension in Android resources
+    const val DB_FILE_NAME = "gtfs_rds_db" // no extension in Android resources
 
     @JvmStatic
     fun getDBFileName(fileBase: String) = "$fileBase$DB_FILE_NAME"
@@ -57,35 +57,35 @@ object GTFSCommons {
 
     // endregion Route
 
-    // region Trip
+    // region Direction
 
-    const val T_TRIP = "trip"
-    const val T_TRIP_K_ID = SQLUtils.BASE_COLUMNS_ID
-    const val T_TRIP_K_HEADSIGN_TYPE = "headsign_type"
-    const val T_TRIP_K_HEADSIGN_VALUE = "headsign_value" // really?
-    const val T_TRIP_K_ROUTE_ID = "route_id"
+    const val T_DIRECTION = "trip" // do not change to avoid breaking change
+    const val T_DIRECTION_K_ID = SQLUtils.BASE_COLUMNS_ID
+    const val T_DIRECTION_K_HEADSIGN_TYPE = "headsign_type"
+    const val T_DIRECTION_K_HEADSIGN_VALUE = "headsign_value" // really?
+    const val T_DIRECTION_K_ROUTE_ID = "route_id"
 
     @JvmStatic
-    val T_TRIP_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP).apply {
-        appendColumn(T_TRIP_K_ID, SQLUtils.INT_PK)
-        appendColumn(T_TRIP_K_HEADSIGN_TYPE, SQLUtils.INT)
-        appendColumn(T_TRIP_K_HEADSIGN_VALUE, SQLUtils.TXT)
-        appendColumn(T_TRIP_K_ROUTE_ID, SQLUtils.INT)
-        appendForeignKey(T_TRIP_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
+    val T_DIRECTION_SQL_CREATE = SQLCreateBuilder.getNew(T_DIRECTION).apply {
+        appendColumn(T_DIRECTION_K_ID, SQLUtils.INT_PK)
+        appendColumn(T_DIRECTION_K_HEADSIGN_TYPE, SQLUtils.INT)
+        appendColumn(T_DIRECTION_K_HEADSIGN_VALUE, SQLUtils.TXT)
+        appendColumn(T_DIRECTION_K_ROUTE_ID, SQLUtils.INT)
+        appendForeignKey(T_DIRECTION_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
     }.build()
 
     @JvmStatic
-    val T_TRIP_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP).apply {
-        appendColumn(T_TRIP_K_ID)
-        appendColumn(T_TRIP_K_HEADSIGN_TYPE)
-        appendColumn(T_TRIP_K_HEADSIGN_VALUE)
-        appendColumn(T_TRIP_K_ROUTE_ID)
+    val T_DIRECTION_SQL_INSERT = SQLInsertBuilder.getNew(T_DIRECTION).apply {
+        appendColumn(T_DIRECTION_K_ID)
+        appendColumn(T_DIRECTION_K_HEADSIGN_TYPE)
+        appendColumn(T_DIRECTION_K_HEADSIGN_VALUE)
+        appendColumn(T_DIRECTION_K_ROUTE_ID)
     }.build()
 
     @JvmStatic
-    val T_TRIP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP)
+    val T_DIRECTION_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_DIRECTION)
 
-    // endregion Trip
+    // endregion Direction
 
     // region Stop
 
@@ -133,38 +133,38 @@ object GTFSCommons {
 
     // endregion Stop
 
-    // region Trip Stops
+    // region Direction Stops
 
-    const val T_TRIP_STOPS = "trip_stops"
-    const val T_TRIP_STOPS_K_ID = SQLUtils.BASE_COLUMNS_ID
-    const val T_TRIP_STOPS_K_TRIP_ID = "trip_id"
-    const val T_TRIP_STOPS_K_STOP_ID = "stop_id"
-    const val T_TRIP_STOPS_K_STOP_SEQUENCE = "stop_sequence"
-    const val T_TRIP_STOPS_K_NO_PICKUP = "decent_only"
+    const val T_DIRECTION_STOPS = "trip_stops" // do not change to avoid breaking change
+    const val T_DIRECTION_STOPS_K_ID = SQLUtils.BASE_COLUMNS_ID
+    const val T_DIRECTION_STOPS_K_DIRECTION_ID = "trip_id" // do not change to avoid breaking change
+    const val T_DIRECTION_STOPS_K_STOP_ID = "stop_id"
+    const val T_DIRECTION_STOPS_K_STOP_SEQUENCE = "stop_sequence"
+    const val T_DIRECTION_STOPS_K_NO_PICKUP = "decent_only"
 
     @JvmStatic
-    val T_TRIP_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP_STOPS).apply {
-        appendColumn(T_TRIP_STOPS_K_ID, SQLUtils.INT_PK_AUTO)
-        appendColumn(T_TRIP_STOPS_K_TRIP_ID, SQLUtils.INT)
-        appendColumn(T_TRIP_STOPS_K_STOP_ID, SQLUtils.INT)
-        appendColumn(T_TRIP_STOPS_K_STOP_SEQUENCE, SQLUtils.INT)
-        appendColumn(T_TRIP_STOPS_K_NO_PICKUP, SQLUtils.INT)
-        appendForeignKey(T_TRIP_STOPS_K_TRIP_ID, T_TRIP, T_TRIP_K_ID)
-        appendForeignKey(T_TRIP_STOPS_K_STOP_ID, T_STOP, T_STOP_K_ID)
+    val T_DIRECTION_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_DIRECTION_STOPS).apply {
+        appendColumn(T_DIRECTION_STOPS_K_ID, SQLUtils.INT_PK_AUTO)
+        appendColumn(T_DIRECTION_STOPS_K_DIRECTION_ID, SQLUtils.INT)
+        appendColumn(T_DIRECTION_STOPS_K_STOP_ID, SQLUtils.INT)
+        appendColumn(T_DIRECTION_STOPS_K_STOP_SEQUENCE, SQLUtils.INT)
+        appendColumn(T_DIRECTION_STOPS_K_NO_PICKUP, SQLUtils.INT)
+        appendForeignKey(T_DIRECTION_STOPS_K_DIRECTION_ID, T_DIRECTION, T_DIRECTION_K_ID)
+        appendForeignKey(T_DIRECTION_STOPS_K_STOP_ID, T_STOP, T_STOP_K_ID)
     }.build()
 
     @JvmStatic
-    val T_TRIP_STOPS_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP_STOPS).apply {
-        appendColumn(T_TRIP_STOPS_K_TRIP_ID)
-        appendColumn(T_TRIP_STOPS_K_STOP_ID)
-        appendColumn(T_TRIP_STOPS_K_STOP_SEQUENCE)
-        appendColumn(T_TRIP_STOPS_K_NO_PICKUP)
+    val T_DIRECTION_STOPS_SQL_INSERT = SQLInsertBuilder.getNew(T_DIRECTION_STOPS).apply {
+        appendColumn(T_DIRECTION_STOPS_K_DIRECTION_ID)
+        appendColumn(T_DIRECTION_STOPS_K_STOP_ID)
+        appendColumn(T_DIRECTION_STOPS_K_STOP_SEQUENCE)
+        appendColumn(T_DIRECTION_STOPS_K_NO_PICKUP)
     }.build()
 
     @JvmStatic
-    val T_TRIP_STOPS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP_STOPS)
+    val T_DIRECTION_STOPS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_DIRECTION_STOPS)
 
-    // endregion Trip Stops
+    // endregion Direction Stops
 
     // region Service Dates
 
