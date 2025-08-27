@@ -4,6 +4,7 @@ typealias RouteId = String
 
 data class Route(
     val routeId: RouteId,
+    val originalRouteId: RouteId,
     val agencyId: AgencyId, // Optional (or empty)
     val routeShortName: Text,
     val routeLongName: Text?,

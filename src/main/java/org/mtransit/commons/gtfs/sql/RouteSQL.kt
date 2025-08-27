@@ -35,6 +35,7 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
 
     const val T_ROUTE_K_AGENCY_ID_INT = "agency_id_int"
     const val T_ROUTE_K_ID_INT = "route_id_int"
+    const val T_ROUTE_K_ORIGINAL_ROUTE_ID = "original_route_id"
     const val T_ROUTE_K_ROUTE_SHORT_NAME = "route_short_name"
     const val T_ROUTE_K_ROUTE_LONG_NAME = "route_long_name"
     const val T_ROUTE_K_ROUTE_DESC = "route_desc"
@@ -49,6 +50,7 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
         listOf(
             SQLColumDef(T_ROUTE_K_AGENCY_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(AgencySQL.T_AGENCY_IDS, AgencySQL.T_AGENCY_IDS_K_ID_INT)),
             SQLColumDef(T_ROUTE_K_ID_INT, SQLUtils.INT, primaryKey = true, foreignKey = SQLForeignKey(T_ROUTE_IDS, T_ROUTE_IDS_K_ID_INT)),
+            SQLColumDef(T_ROUTE_K_ORIGINAL_ROUTE_ID, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_SHORT_NAME, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_LONG_NAME, SQLUtils.TXT),
             SQLColumDef(T_ROUTE_K_ROUTE_DESC, SQLUtils.TXT),
@@ -70,6 +72,7 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
                 }
                 ?: throw Exception("Can't find agency ID!"),
             getOrInsertIdInt(statement, routeId), // route ID // 2nd
+            originalRouteId.quotesEscape(),
             routeShortName.quotesEscape(),
             routeLongName?.quotesEscape(),
             routeDesc?.quotesEscape(),
@@ -115,6 +118,7 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
     override fun fromResultSet(rs: ResultSet) = with(rs) {
         Route(
             routeId = rs.getString(T_ROUTE_IDS_K_ID),
+            originalRouteId = rs.getString(T_ROUTE_K_ORIGINAL_ROUTE_ID),
             agencyId = rs.getString(AgencySQL.T_AGENCY_IDS_K_ID),
             routeShortName = rs.getString(T_ROUTE_K_ROUTE_SHORT_NAME),
             routeLongName = rs.getString(T_ROUTE_K_ROUTE_LONG_NAME),
