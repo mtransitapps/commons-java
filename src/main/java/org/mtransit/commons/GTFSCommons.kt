@@ -59,7 +59,7 @@ object GTFSCommons {
 
     // region Direction
 
-    const val T_DIRECTION = "trip" // do not change to avoid breaking change
+    const val T_DIRECTION = "trip" // do not change to avoid breaking compat w/ old modules
     const val T_DIRECTION_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_DIRECTION_K_HEADSIGN_TYPE = "headsign_type"
     const val T_DIRECTION_K_HEADSIGN_VALUE = "headsign_value" // really?
@@ -158,9 +158,9 @@ object GTFSCommons {
 
     // region Direction Stops
 
-    const val T_DIRECTION_STOPS = "trip_stops" // do not change to avoid breaking change
+    const val T_DIRECTION_STOPS = "trip_stops" // do not change to avoid breaking compat w/ old modules
     const val T_DIRECTION_STOPS_K_ID = SQLUtils.BASE_COLUMNS_ID
-    const val T_DIRECTION_STOPS_K_DIRECTION_ID = "trip_id" // do not change to avoid breaking change
+    const val T_DIRECTION_STOPS_K_DIRECTION_ID = "trip_id" // do not change to avoid breaking compat w/ old modules
     const val T_DIRECTION_STOPS_K_STOP_ID = "stop_id"
     const val T_DIRECTION_STOPS_K_STOP_SEQUENCE = "stop_sequence"
     const val T_DIRECTION_STOPS_K_NO_PICKUP = "decent_only"
