@@ -17,6 +17,7 @@ object SourceUtils {
         "assets",
         "azurefd",
         "azure-api",
+        "cdn",
         "data",
         "gbfs",
         "gtfs",

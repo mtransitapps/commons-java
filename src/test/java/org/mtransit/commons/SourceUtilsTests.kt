@@ -80,6 +80,15 @@ class SourceUtilsTests {
     }
 
     @Test
+    fun `test label from URL - cdn_example_qc_ca`() {
+        val urlString = "https://cdn.example.com"
+
+        val result = SourceUtils.getSourceLabel(urlString)
+
+        assertEquals("example.com", result)
+    }
+
+    @Test
     fun `test label from URL - gbfs_test_gbfs_example_qc_ca`() {
         val urlString = "https://api.gbfs.com"
 
