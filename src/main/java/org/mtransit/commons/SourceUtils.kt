@@ -9,6 +9,7 @@ object SourceUtils {
     private val HOST_BLACK_LIST = listOf(
         "azure-api.net",
         "azurefd.net",
+        "googleapis.com",
         "transitapp.com",
     )
 
@@ -24,6 +25,7 @@ object SourceUtils {
         "gtfs-static",
         "gtfs-realtime",
         "opendata",
+        "storage",
         "transitapp",
         "www",
     )
