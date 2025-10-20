@@ -60,6 +60,11 @@ object CollectionUtils {
     }
 
     @JvmStatic
+    fun <T> addNotNull(collection: MutableCollection<T>, vararg elements: T?) {
+        collection.addAll(elements.filterNotNull())
+    }
+
+    @JvmStatic
     fun <K, V> getOrDefault(map: Map<K, V>, key: K, defaultValue: V): V {
         return map.getOrDefault(key, defaultValue) ?: defaultValue
     }
