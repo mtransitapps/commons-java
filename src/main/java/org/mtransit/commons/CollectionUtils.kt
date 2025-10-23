@@ -65,6 +65,12 @@ object CollectionUtils {
     }
 
     @JvmStatic
+    fun <K, V> putNotNull(collection: MutableMap<K, V>, key: K, value: V?) {
+        value ?: return
+        collection[key] = value
+    }
+
+    @JvmStatic
     fun <K, V> getOrDefault(map: Map<K, V>, key: K, defaultValue: V): V {
         return map.getOrDefault(key, defaultValue) ?: defaultValue
     }
