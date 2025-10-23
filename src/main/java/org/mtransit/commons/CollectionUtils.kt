@@ -55,6 +55,16 @@ object CollectionUtils {
     }
 
     @JvmStatic
+    fun <T> equalsSet(l1: Set<T>?, l2: Set<T>?): Boolean {
+        return l1 == l2
+    }
+
+    @JvmStatic
+    fun <T> equalsCollectionContent(l1: Collection<T>, l2: Collection<T>): Boolean {
+        return l1.containsAll(l2) && l2.containsAll(l1)
+    }
+
+    @JvmStatic
     fun <T> addAllN(list: MutableList<T>, collection: Collection<T>?) {
         list.addAllN(collection)
     }
@@ -62,6 +72,11 @@ object CollectionUtils {
     @JvmStatic
     fun <T> addNotNull(collection: MutableCollection<T>, vararg elements: T?) {
         collection.addAll(elements.filterNotNull())
+    }
+
+    @JvmStatic
+    fun <T> filterN(collection: Iterable<T>?, predicate: (T) -> Boolean): List<T>? {
+        return collection?.filter(predicate)
     }
 
     @JvmStatic
