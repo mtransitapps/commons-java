@@ -106,15 +106,13 @@ object SQLUtils {
     }
 
     @JvmStatic
-    fun mergeSortOrder(vararg sortOrders: String): String {
-        val sb = java.lang.StringBuilder()
-        for (sortOrder in sortOrders) {
-            if (sb.isNotEmpty()) {
-                sb.append(COLUMN_SEPARATOR)
+    fun mergeSortOrder(vararg sortOrders: String) = buildString {
+        sortOrders.forEach { sortOrder ->
+            if (this.isNotEmpty()) {
+                append(COLUMN_SEPARATOR)
             }
-            sb.append(sortOrder)
+            append(sortOrder)
         }
-        return sb.toString()
     }
 
     @JvmStatic
