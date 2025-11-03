@@ -128,9 +128,7 @@ object GTFSCommons {
         appendColumn(T_STOP_K_NAME, SQLUtils.TXT)
         appendColumn(T_STOP_K_LAT, SQLUtils.REAL)
         appendColumn(T_STOP_K_LNG, SQLUtils.REAL)
-        if (FeatureFlags.F_ACCESSIBILITY_PRODUCER) {
-            appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
-        }
+        appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
         if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             appendColumn(T_STOP_K_ORIGINAL_ID_HASH, SQLUtils.INT)
         }
@@ -143,9 +141,7 @@ object GTFSCommons {
         appendColumn(T_STOP_K_NAME)
         appendColumn(T_STOP_K_LAT)
         appendColumn(T_STOP_K_LNG)
-        if (FeatureFlags.F_ACCESSIBILITY_PRODUCER) {
-            appendColumn(T_STOP_K_ACCESSIBLE)
-        }
+        appendColumn(T_STOP_K_ACCESSIBLE)
         if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
             appendColumn(T_STOP_K_ORIGINAL_ID_HASH)
         }
