@@ -83,11 +83,6 @@ object SQLUtils {
         return table + POINT + column
     }
 
-    @Deprecated("use getLikeContains() instead", ReplaceWith("getLikeContains(tableColumn, value)"))
-    @JvmStatic
-    fun getLike(tableColumn: String, value: String): String =
-        getLikeContains(tableColumn, value)
-
     @JvmStatic
     fun getLikeBasic(tableColumn: String, value: String): String {
         return tableColumn + LIKE + STRING_DELIMITER + value + STRING_DELIMITER
