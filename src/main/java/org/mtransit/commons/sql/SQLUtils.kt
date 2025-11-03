@@ -83,9 +83,29 @@ object SQLUtils {
         return table + POINT + column
     }
 
+    @Deprecated("use getLikeContains() instead", ReplaceWith("getLikeContains(tableColumn, value)"))
     @JvmStatic
-    fun getLike(tableColumn: String, value: String): String {
-        return tableColumn + LIKE + STRING_DELIMITER + PERCENT + value + PERCENT + STRING_DELIMITER
+    fun getLike(tableColumn: String, value: String): String =
+        getLikeContains(tableColumn, value)
+
+    @JvmStatic
+    fun getLikeBasic(tableColumn: String, value: String): String {
+        return tableColumn + LIKE + STRING_DELIMITER + value + STRING_DELIMITER
+    }
+
+    @JvmStatic
+    fun getLikeContains(tableColumn: String, value: String): String {
+        return getLikeBasic(tableColumn, PERCENT + value + PERCENT)
+    }
+
+    @JvmStatic
+    fun getLikeStartsWith(tableColumn: String, value: String): String {
+        return getLikeBasic(tableColumn, value + PERCENT)
+    }
+
+    @JvmStatic
+    fun getLikeEndsWithCharCount(tableColumn: String, value: String, charCount: Int): String {
+        return getLikeBasic(tableColumn, value + "_".repeat(charCount))
     }
 
     @JvmStatic
