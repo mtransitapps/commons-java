@@ -31,9 +31,7 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_LONG_NAME, SQLUtils.TXT)
         appendColumn(T_ROUTE_K_COLOR, SQLUtils.TXT)
         appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH, SQLUtils.INT)
-        if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
-            appendColumn(T_ROUTE_K_TYPE, SQLUtils.INT)
-        }
+        appendColumn(T_ROUTE_K_TYPE, SQLUtils.INT)
     }.build()
 
     @JvmStatic
@@ -43,9 +41,7 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_LONG_NAME)
         appendColumn(T_ROUTE_K_COLOR)
         appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH)
-        if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
-            appendColumn(T_ROUTE_K_TYPE)
-        }
+        appendColumn(T_ROUTE_K_TYPE)
     }.build()
 
     @JvmStatic
@@ -213,18 +209,14 @@ object GTFSCommons {
     val T_SERVICE_DATES_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_DATES).apply {
         appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
         appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
-        if (FeatureFlags.F_EXPORT_SERVICE_EXCEPTION_TYPE) {
-            appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
-        }
+        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
     }.build()
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_DATES).apply {
         appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
         appendColumn(T_SERVICE_DATES_K_DATE)
-        if (FeatureFlags.F_EXPORT_SERVICE_EXCEPTION_TYPE) {
-            appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
-        }
+        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
     }.build()
 
     const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule
