@@ -30,11 +30,9 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_SHORT_NAME, SQLUtils.TXT)
         appendColumn(T_ROUTE_K_LONG_NAME, SQLUtils.TXT)
         appendColumn(T_ROUTE_K_COLOR, SQLUtils.TXT)
-        if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
-            appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH, SQLUtils.INT)
-            if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
-                appendColumn(T_ROUTE_K_TYPE, SQLUtils.INT)
-            }
+        appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
+            appendColumn(T_ROUTE_K_TYPE, SQLUtils.INT)
         }
     }.build()
 
@@ -44,11 +42,9 @@ object GTFSCommons {
         appendColumn(T_ROUTE_K_SHORT_NAME)
         appendColumn(T_ROUTE_K_LONG_NAME)
         appendColumn(T_ROUTE_K_COLOR)
-        if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
-            appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH)
-            if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
-                appendColumn(T_ROUTE_K_TYPE)
-            }
+        appendColumn(T_ROUTE_K_ORIGINAL_ID_HASH)
+        if (FeatureFlags.F_EXPORT_ORIGINAL_ROUTE_TYPE) {
+            appendColumn(T_ROUTE_K_TYPE)
         }
     }.build()
 
@@ -129,9 +125,7 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LAT, SQLUtils.REAL)
         appendColumn(T_STOP_K_LNG, SQLUtils.REAL)
         appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
-        if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
-            appendColumn(T_STOP_K_ORIGINAL_ID_HASH, SQLUtils.INT)
-        }
+        appendColumn(T_STOP_K_ORIGINAL_ID_HASH, SQLUtils.INT)
     }.build()
 
     @JvmStatic
@@ -142,9 +136,7 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LAT)
         appendColumn(T_STOP_K_LNG)
         appendColumn(T_STOP_K_ACCESSIBLE)
-        if (FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
-            appendColumn(T_STOP_K_ORIGINAL_ID_HASH)
-        }
+        appendColumn(T_STOP_K_ORIGINAL_ID_HASH)
     }.build()
 
     @JvmStatic
@@ -246,14 +238,6 @@ object GTFSCommons {
 
     @JvmField
     val DEFAULT_ID_HASH: Int? = null
-
-    @JvmStatic
-    fun stringIdToHashIfEnabled(originalId: String, idCleanupRegex: Pattern? = null): Int? {
-        if (!FeatureFlags.F_EXPORT_GTFS_ID_HASH_INT) {
-            return DEFAULT_ID_HASH
-        }
-        return stringIdToHash(originalId, idCleanupRegex)
-    }
 
     @JvmStatic
     @JvmOverloads
