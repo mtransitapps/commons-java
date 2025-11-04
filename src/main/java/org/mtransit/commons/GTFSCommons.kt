@@ -240,10 +240,6 @@ object GTFSCommons {
     val DEFAULT_ID_HASH: Int? = null
 
     @JvmStatic
-    fun stringIdToHashIfEnabled(originalId: String, idCleanupRegex: Pattern? = null) =
-        stringIdToHash(originalId, idCleanupRegex)
-
-    @JvmStatic
     @JvmOverloads
     fun stringIdToHash(originalId: String, idCleanupRegex: Pattern? = null): Int {
         return CleanUtils.cleanMergedID(
