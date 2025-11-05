@@ -9,9 +9,9 @@ on:
       # TODO 'develop', 'main'?
 # gh workflow run mt-build.yml --ref <branch>
 # gh run list --workflow=mt-build.yml
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.head_ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref || github.head_ref }}
+#   cancel-in-progress: true
 env:
   MT_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   MT_TARGET_BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
