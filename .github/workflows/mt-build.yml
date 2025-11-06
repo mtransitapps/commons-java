@@ -9,13 +9,6 @@ on:
       # TODO 'develop', 'main'?
 # gh workflow run mt-build.yml --ref <branch>
 # gh run list --workflow=mt-build.yml
-# concurrency:
-#   group: ${{ github.workflow }}-${{ github.ref || github.head_ref }}
-#   cancel-in-progress: true
-env:
-  MT_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  MT_TARGET_BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
-  MT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 jobs:
   MT-MAIN-BUILD-JOB:
     uses: mtransitapps/mtransit-for-android/.github/workflows/mt-build.yml@mm/re-use_main_repo_ci_build_workflow
