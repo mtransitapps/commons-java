@@ -10,5 +10,5 @@ on:
 # gh workflow run mt-build.yml --ref <branch>
 # gh run list --workflow=mt-build.yml
 jobs:
-  MT-MAIN-BUILD-JOB:
+  MT-MAIN-REPO-BUILD-JOB:
     uses: mtransitapps/mtransit-for-android/.github/workflows/mt-build.yml@mm/re-use_main_repo_ci_build_workflow
