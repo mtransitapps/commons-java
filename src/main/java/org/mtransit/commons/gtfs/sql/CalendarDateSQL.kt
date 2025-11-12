@@ -1,6 +1,7 @@
 package org.mtransit.commons.gtfs.sql
 
 import org.mtransit.commons.gtfs.data.CalendarDate
+import org.mtransit.commons.gtfs.data.CalendarExceptionType
 import org.mtransit.commons.gtfs.data.ServiceId
 import org.mtransit.commons.sql.SQLUtils
 import java.sql.ResultSet
@@ -40,7 +41,7 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
     override fun getMainTable() = SQLTableDef(
         T_CALENDAR_DATE,
         listOf(
-            SQLColumDef(T_CALENDAR_DATE_K_SERVICE_ID_INT, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES, foreignKey = SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)),
+            SQLColumDef(T_CALENDAR_DATE_K_SERVICE_ID_INT, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES, SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)),
             SQLColumDef(T_CALENDAR_DATE_K_DATE, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES), // YYYYMMDD
             SQLColumDef(T_CALENDAR_DATE_K_EXCEPTION_TYPE, SQLUtils.INT), // 1: added, 2: removed (MT: +0: default)
         ),
@@ -55,7 +56,11 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         )
     }
 
-    fun select(serviceId: ServiceId? = null, statement: Statement): List<CalendarDate> {
+    fun select(
+        serviceId: ServiceId? = null,
+        exceptionTypes: Collection<CalendarExceptionType>? = null,
+        statement: Statement,
+    ): List<CalendarDate> {
         val sql = buildString {
             append("SELECT ")
             append("* ")
@@ -63,6 +68,9 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
             append("JOIN $T_SERVICE_IDS ON $T_CALENDAR_DATE.$T_CALENDAR_DATE_K_SERVICE_ID_INT = $T_SERVICE_IDS.$T_CALENDAR_DATE_K_SERVICE_ID_INT ")
             serviceId?.let {
                 append("WHERE $T_SERVICE_IDS.$T_SERVICE_IDS_K_ID = '$it'")
+            }
+            exceptionTypes?.takeIf { it.isNotEmpty() }?.let {
+                append("WHERE $T_CALENDAR_DATE.$T_CALENDAR_DATE_K_EXCEPTION_TYPE IN (${it.joinToString { exceptionType -> "${exceptionType.id}" }})")
             }
         }
         return statement.executeQuery(sql).use { rs ->

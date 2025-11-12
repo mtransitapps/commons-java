@@ -219,7 +219,8 @@ object GTFSCommons {
         appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
     }.build()
 
-    const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule
+    // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
+    const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
     const val EXCEPTION_TYPE_ADDED = 1
     const val EXCEPTION_TYPE_REMOVED = 2
 
