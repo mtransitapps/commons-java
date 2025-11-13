@@ -28,5 +28,8 @@ object FeatureFlags {
     // const val F_AVOID_DATA_CHANGED = false
     const val F_AVOID_DATA_CHANGED = true // WIP
 
+    // const val F_EXPORT_SERVICE_ID_INTS = false
+    const val F_EXPORT_SERVICE_ID_INTS = true // WIP
+
     // @formatter:on
 }

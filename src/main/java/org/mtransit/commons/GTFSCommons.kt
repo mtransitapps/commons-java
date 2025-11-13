@@ -198,6 +198,29 @@ object GTFSCommons {
 
     // endregion Direction Stops
 
+    // region Service IDs
+
+    const val T_SERVICE_IDS = "service_ids"
+    const val T_SERVICE_IDS_K_ID = "id"
+    const val T_SERVICE_IDS_K_ID_INT = "id_int"
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
+        appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT)
+        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT)
+    }.build()
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_IDS).apply {
+        appendColumn(T_SERVICE_IDS_K_ID)
+        appendColumn(T_SERVICE_IDS_K_ID_INT)
+    }.build()
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_SERVICE_IDS)
+
+    // endregion Service IDs
+
     // region Service Dates
 
     const val T_SERVICE_DATES = "service_dates"
