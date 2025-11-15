@@ -201,8 +201,8 @@ object GTFSCommons {
     // region Service IDs
 
     const val T_SERVICE_IDS = "service_ids"
-    const val T_SERVICE_IDS_K_ID = "id"
-    const val T_SERVICE_IDS_K_ID_INT = "id_int"
+    const val T_SERVICE_IDS_K_ID = "service_id"
+    const val T_SERVICE_IDS_K_ID_INT = "service_id_int"
 
     @JvmStatic
     val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
@@ -225,27 +225,36 @@ object GTFSCommons {
 
     const val T_SERVICE_DATES = "service_dates"
     const val T_SERVICE_DATES_K_SERVICE_ID = "service_id"
+    const val T_SERVICE_DATES_K_SERVICE_ID_INT = "service_id_int"
     const val T_SERVICE_DATES_K_DATE = "date"
     const val T_SERVICE_DATES_K_EXCEPTION_TYPE = "exception_type"
 
+    // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
+    const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
+    const val EXCEPTION_TYPE_ADDED = 1
+    const val EXCEPTION_TYPE_REMOVED = 2
+
     @JvmStatic
     val T_SERVICE_DATES_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_DATES).apply {
-        appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
+        }
         appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
         appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
     }.build()
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_DATES).apply {
-        appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID_INT)
+        } else {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
+        }
         appendColumn(T_SERVICE_DATES_K_DATE)
         appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
     }.build()
-
-    // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
-    const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
-    const val EXCEPTION_TYPE_ADDED = 1
-    const val EXCEPTION_TYPE_REMOVED = 2
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_SERVICE_DATES)
