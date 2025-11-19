@@ -206,8 +206,8 @@ object GTFSCommons {
 
     @JvmStatic
     val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
+        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO)
         appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT)
-        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT)
     }.build()
 
     @JvmStatic
