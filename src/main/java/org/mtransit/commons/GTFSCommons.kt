@@ -201,8 +201,8 @@ object GTFSCommons {
     // region Service IDs
 
     const val T_SERVICE_IDS = "service_ids"
-    const val T_SERVICE_IDS_K_ID = "service_id"
     const val T_SERVICE_IDS_K_ID_INT = "service_id_int"
+    const val T_SERVICE_IDS_K_ID = "service_id"
 
     @JvmStatic
     val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
@@ -212,8 +212,8 @@ object GTFSCommons {
 
     @JvmStatic
     val T_SERVICE_IDS_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_IDS).apply {
-        appendColumn(T_SERVICE_IDS_K_ID)
         appendColumn(T_SERVICE_IDS_K_ID_INT)
+        appendColumn(T_SERVICE_IDS_K_ID)
     }.build()
 
     @JvmStatic
