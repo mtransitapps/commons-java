@@ -198,31 +198,66 @@ object GTFSCommons {
 
     // endregion Direction Stops
 
+    // region Service IDs
+
+    const val T_SERVICE_IDS = "service_ids"
+    const val T_SERVICE_IDS_K_ID_INT = "service_id_int"
+    const val T_SERVICE_IDS_K_ID = "service_id"
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
+        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT) // TODO INT_PK_AUTO?
+        appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT, unique = true)
+    }.build()
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_IDS).apply {
+        appendColumn(T_SERVICE_IDS_K_ID_INT)
+        appendColumn(T_SERVICE_IDS_K_ID)
+    }.build()
+
+    @JvmStatic
+    val T_SERVICE_IDS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_SERVICE_IDS)
+
+    // endregion Service IDs
+
     // region Service Dates
 
     const val T_SERVICE_DATES = "service_dates"
     const val T_SERVICE_DATES_K_SERVICE_ID = "service_id"
+    const val T_SERVICE_DATES_K_SERVICE_ID_INT = "service_id_int"
     const val T_SERVICE_DATES_K_DATE = "date"
     const val T_SERVICE_DATES_K_EXCEPTION_TYPE = "exception_type"
-
-    @JvmStatic
-    val T_SERVICE_DATES_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_DATES).apply {
-        appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
-        appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
-        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
-    }.build()
-
-    @JvmStatic
-    val T_SERVICE_DATES_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_DATES).apply {
-        appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
-        appendColumn(T_SERVICE_DATES_K_DATE)
-        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
-    }.build()
 
     // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
     const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
     const val EXCEPTION_TYPE_ADDED = 1
     const val EXCEPTION_TYPE_REMOVED = 2
+
+    @JvmStatic
+    val T_SERVICE_DATES_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_DATES).apply {
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID, SQLUtils.TXT)
+        }
+        appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
+        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendForeignKey(T_SERVICE_DATES_K_SERVICE_ID_INT, T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)
+        }
+    }.build()
+
+    @JvmStatic
+    val T_SERVICE_DATES_SQL_INSERT = SQLInsertBuilder.getNew(T_SERVICE_DATES).apply {
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID_INT)
+        } else {
+            appendColumn(T_SERVICE_DATES_K_SERVICE_ID)
+        }
+        appendColumn(T_SERVICE_DATES_K_DATE)
+        appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE)
+    }.build()
 
     @JvmStatic
     val T_SERVICE_DATES_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_SERVICE_DATES)
