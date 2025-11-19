@@ -13,6 +13,7 @@ object SQLUtils {
     const val INT_PK_AUTO = "$INT_PK AUTOINCREMENT"
     const val TXT = " text"
     const val REAL = " real"
+    const val UNIQUE = " unique"
 
     const val STRING_DELIMITER = "'"
     const val STRING_DELIMITER_ESCAPED = '\''

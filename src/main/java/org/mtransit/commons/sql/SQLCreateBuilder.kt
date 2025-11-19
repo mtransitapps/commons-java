@@ -14,11 +14,15 @@ class SQLCreateBuilder private constructor(table: String) {
 
     private var nbColumn = 0
 
-    fun appendColumn(name: String, type: String): SQLCreateBuilder {
+    @JvmOverloads
+    fun appendColumn(name: String, type: String, unique: Boolean = false): SQLCreateBuilder {
         if (nbColumn > 0) {
             sqlCreateSb.append(SQLUtils.COLUMN_SEPARATOR)
         }
         sqlCreateSb.append(name).append(type)
+        if (unique) {
+            sqlCreateSb.append(SQLUtils.UNIQUE)
+        }
         nbColumn++
         return this
     }

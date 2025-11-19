@@ -207,7 +207,7 @@ object GTFSCommons {
     @JvmStatic
     val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
         appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO)
-        appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT)
+        appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT, unique = true)
     }.build()
 
     @JvmStatic
@@ -243,6 +243,9 @@ object GTFSCommons {
         }
         appendColumn(T_SERVICE_DATES_K_DATE, SQLUtils.INT)
         appendColumn(T_SERVICE_DATES_K_EXCEPTION_TYPE, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendForeignKey(T_SERVICE_DATES_K_SERVICE_ID_INT, T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)
+        }
     }.build()
 
     @JvmStatic
