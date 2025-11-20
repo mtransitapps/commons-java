@@ -31,5 +31,8 @@ object FeatureFlags {
     const val F_EXPORT_SERVICE_ID_INTS = false
     // const val F_EXPORT_SERVICE_ID_INTS = true // WIP
 
+    const val F_EXPORT_STRINGS = false
+    // const val F_EXPORT_STRINGS = true // WIP
+
     // @formatter:on
 }

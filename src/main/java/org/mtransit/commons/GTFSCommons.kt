@@ -264,6 +264,29 @@ object GTFSCommons {
 
     // endregion Service Dates
 
+    // region Strings
+
+    const val T_STRINGS = "strings"
+    const val T_STRINGS_K_ID = "id"
+    const val T_STRINGS_K_STRING = "string"
+
+    @JvmStatic
+    val T_STRINGS_SQL_CREATE = SQLCreateBuilder.getNew(T_STRINGS).apply {
+        appendColumn(T_STRINGS_K_ID, SQLUtils.INT) // TODO INT_PK_AUTO?
+        appendColumn(T_STRINGS_K_STRING, SQLUtils.TXT, unique = true)
+    }.build()
+
+    @JvmStatic
+    val T_STRINGS_SQL_INSERT = SQLInsertBuilder.getNew(T_STRINGS).apply {
+        appendColumn(T_STRINGS_K_ID)
+        appendColumn(T_STRINGS_K_STRING)
+    }.build()
+
+    @JvmStatic
+    val T_STRINGS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STRINGS)
+
+    // endregion Service IDs
+
     @JvmField
     val DEFAULT_ID_HASH: Int? = null
 
