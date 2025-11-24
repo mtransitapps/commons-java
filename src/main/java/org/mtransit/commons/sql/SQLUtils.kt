@@ -196,6 +196,12 @@ object SQLUtils {
             append(P2)
         }
 
+    @JvmName("unquotesUnescapeExt")
+    fun String.unquotesUnescape() = unquotes(this).unescape()
+
+    @JvmName("unescapeExt")
+    fun String.unescape() = unescapeString(this)
+
     @JvmStatic
     fun escapeString(string: String): String {
         return STRING_DELIMITER + string + STRING_DELIMITER
