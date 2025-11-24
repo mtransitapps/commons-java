@@ -292,7 +292,7 @@ object GTFSCommons {
 
     @JvmStatic
     val T_STRINGS_SQL_CREATE = SQLCreateBuilder.getNew(T_STRINGS).apply {
-        appendColumn(T_STRINGS_K_ID, SQLUtils.INT_PK_AUTO) // SQLite will determine next idx based on largest value in table, even after manual insert w/ custom idx value
+        appendColumn(T_STRINGS_K_ID, SQLUtils.INT_PK_AUTO) // SQLite will determine next ID based on largest value in table, even after manual insert w/ custom ID value
         appendColumn(T_STRINGS_K_STRING, SQLUtils.TXT, unique = true)
     }.build()
 
