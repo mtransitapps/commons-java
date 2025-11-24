@@ -23,6 +23,8 @@ object GTFSCommons {
     const val T_ROUTE_K_COLOR = "color"
     const val T_ROUTE_K_ORIGINAL_ID_HASH = "o_id_hash"
     const val T_ROUTE_K_TYPE = "type"
+    @JvmField
+    val T_ROUTE_STRINGS_COLUMN_IDX = intArrayOf(1, 2)
 
     @JvmStatic
     val T_ROUTE_SQL_CREATE = SQLCreateBuilder.getNew(T_ROUTE).apply {
@@ -56,6 +58,8 @@ object GTFSCommons {
     const val T_DIRECTION_K_HEADSIGN_TYPE = "headsign_type"
     const val T_DIRECTION_K_HEADSIGN_VALUE = "headsign_value" // really?
     const val T_DIRECTION_K_ROUTE_ID = "route_id"
+    @JvmField
+    val T_DIRECTION_STRINGS_COLUMN_IDX = intArrayOf(2)
 
     @Deprecated("use T_DIRECTION instead", ReplaceWith("T_DIRECTION"))
     const val T_TRIP = T_DIRECTION
@@ -112,6 +116,8 @@ object GTFSCommons {
     const val T_STOP_K_LNG = "lng"
     const val T_STOP_K_ACCESSIBLE = "a11y"
     const val T_STOP_K_ORIGINAL_ID_HASH = "o_id_hash"
+    @JvmField
+    val T_STOP_STRINGS_COLUMN_IDX = intArrayOf(2)
 
     @JvmStatic
     val T_STOP_SQL_CREATE = SQLCreateBuilder.getNew(T_STOP).apply {
