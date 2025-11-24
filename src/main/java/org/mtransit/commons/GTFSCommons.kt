@@ -272,6 +272,8 @@ object GTFSCommons {
 
     // region Strings
 
+    const val STRINGS_SEPARATOR = " "
+
     const val T_STRINGS = "strings"
     const val T_STRINGS_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_STRINGS_K_STRING = "string"
