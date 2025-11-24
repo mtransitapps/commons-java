@@ -267,7 +267,7 @@ object GTFSCommons {
     // region Strings
 
     const val T_STRINGS = "strings"
-    const val T_STRINGS_K_ID = "id"
+    const val T_STRINGS_K_ID = SQLUtils.BASE_COLUMNS_ID
     const val T_STRINGS_K_STRING = "string"
 
     @JvmStatic
