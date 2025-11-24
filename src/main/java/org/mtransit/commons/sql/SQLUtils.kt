@@ -25,6 +25,7 @@ object SQLUtils {
     const val LT = "<"
     const val EQ = "="
     const val NE = "!="
+    const val COLUMN_SEPARATOR_ = ','
     const val COLUMN_SEPARATOR = ","
     const val LIKE = " LIKE "
     const val ON = " ON "
