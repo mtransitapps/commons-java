@@ -23,6 +23,7 @@ object GTFSCommons {
     const val T_ROUTE_K_COLOR = "color"
     const val T_ROUTE_K_ORIGINAL_ID_HASH = "o_id_hash"
     const val T_ROUTE_K_TYPE = "type"
+
     @JvmField
     val T_ROUTE_STRINGS_COLUMN_IDX = intArrayOf(1, 2)
 
@@ -58,17 +59,22 @@ object GTFSCommons {
     const val T_DIRECTION_K_HEADSIGN_TYPE = "headsign_type"
     const val T_DIRECTION_K_HEADSIGN_VALUE = "headsign_value" // really?
     const val T_DIRECTION_K_ROUTE_ID = "route_id"
+
     @JvmField
     val T_DIRECTION_STRINGS_COLUMN_IDX = intArrayOf(2)
 
     @Deprecated("use T_DIRECTION instead", ReplaceWith("T_DIRECTION"))
     const val T_TRIP = T_DIRECTION
+
     @Deprecated("use T_DIRECTION_K_ID instead", ReplaceWith("T_DIRECTION_K_ID"))
     const val T_TRIP_K_ID = T_DIRECTION_K_ID
+
     @Deprecated("use T_DIRECTION_K_HEADSIGN_TYPE instead", ReplaceWith("T_DIRECTION_K_HEADSIGN_TYPE"))
     const val T_TRIP_K_HEADSIGN_TYPE = T_DIRECTION_K_HEADSIGN_TYPE
+
     @Deprecated("use T_DIRECTION_K_HEADSIGN_VALUE instead", ReplaceWith("T_DIRECTION_K_HEADSIGN_VALUE"))
     const val T_TRIP_K_HEADSIGN_VALUE = T_DIRECTION_K_HEADSIGN_VALUE
+
     @Deprecated("use T_DIRECTION_K_ROUTE_ID instead", ReplaceWith("T_DIRECTION_K_ROUTE_ID"))
     const val T_TRIP_K_ROUTE_ID = T_DIRECTION_K_ROUTE_ID
 
@@ -116,6 +122,7 @@ object GTFSCommons {
     const val T_STOP_K_LNG = "lng"
     const val T_STOP_K_ACCESSIBLE = "a11y"
     const val T_STOP_K_ORIGINAL_ID_HASH = "o_id_hash"
+
     @JvmField
     val T_STOP_STRINGS_COLUMN_IDX = intArrayOf(2)
 
@@ -157,14 +164,19 @@ object GTFSCommons {
 
     @Deprecated("use T_DIRECTION_STOPS instead", ReplaceWith("T_DIRECTION_STOPS"))
     const val T_TRIP_STOPS = T_DIRECTION_STOPS
+
     @Deprecated("use T_DIRECTION_STOPS_K_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_ID"))
     const val T_TRIP_STOPS_K_ID = T_DIRECTION_STOPS_K_ID
+
     @Deprecated("use T_DIRECTION_STOPS_K_DIRECTION_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_DIRECTION_ID"))
     const val T_TRIP_STOPS_K_TRIP_ID = T_DIRECTION_STOPS_K_DIRECTION_ID
+
     @Deprecated("use T_DIRECTION_STOPS_K_STOP_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_STOP_ID"))
     const val T_TRIP_STOPS_K_STOP_ID = T_DIRECTION_STOPS_K_STOP_ID
+
     @Deprecated("use T_DIRECTION_STOPS_K_STOP_SEQUENCE instead", ReplaceWith("T_DIRECTION_STOPS_K_STOP_SEQUENCE"))
     const val T_TRIP_STOPS_K_STOP_SEQUENCE = T_DIRECTION_STOPS_K_STOP_SEQUENCE
+
     @Deprecated("use T_DIRECTION_STOPS_K_NO_PICKUP instead", ReplaceWith("T_DIRECTION_STOPS_K_NO_PICKUP"))
     const val T_TRIP_STOPS_K_NO_PICKUP = T_DIRECTION_STOPS_K_NO_PICKUP
 
@@ -280,20 +292,20 @@ object GTFSCommons {
 
     @JvmStatic
     val T_STRINGS_SQL_CREATE = SQLCreateBuilder.getNew(T_STRINGS).apply {
-        appendColumn(T_STRINGS_K_ID, SQLUtils.INT) // TODO INT_PK_AUTO?
+        appendColumn(T_STRINGS_K_ID, SQLUtils.INT_PK_AUTO) // SQLite will determine next idx based on largest value in table, even after manual insert w/ custom idx value
         appendColumn(T_STRINGS_K_STRING, SQLUtils.TXT, unique = true)
     }.build()
 
     @JvmStatic
     val T_STRINGS_SQL_INSERT = SQLInsertBuilder.getNew(T_STRINGS).apply {
-        appendColumn(T_STRINGS_K_ID)
+        appendColumn(T_STRINGS_K_ID) // need to insert known string IDS+Int (Foreign Key used in other tables)
         appendColumn(T_STRINGS_K_STRING)
     }.build()
 
     @JvmStatic
     val T_STRINGS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_STRINGS)
 
-    // endregion Service IDs
+    // endregion Strings
 
     @JvmField
     val DEFAULT_ID_HASH: Int? = null

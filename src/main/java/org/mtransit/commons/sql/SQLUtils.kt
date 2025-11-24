@@ -25,7 +25,6 @@ object SQLUtils {
     const val LT = "<"
     const val EQ = "="
     const val NE = "!="
-    const val COLUMN_SEPARATOR_ = ','
     const val COLUMN_SEPARATOR = ","
     const val LIKE = " LIKE "
     const val ON = " ON "
@@ -196,6 +195,12 @@ object SQLUtils {
             }
             append(P2)
         }
+
+    @JvmName("unquotesUnescapeExt")
+    fun String.unquotesUnescape() = unquotes(this).unescape()
+
+    @JvmName("unescapeExt")
+    fun String.unescape() = unescapeString(this)
 
     @JvmStatic
     fun escapeString(string: String): String {
