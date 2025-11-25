@@ -34,5 +34,8 @@ object FeatureFlags {
     const val F_EXPORT_STRINGS = false
     // const val F_EXPORT_STRINGS = true // WIP
 
+    const val F_EXPORT_TRIP_ID = false
+    // const val F_EXPORT_TRIP_ID = true // WIP
+
     // @formatter:on
 }
