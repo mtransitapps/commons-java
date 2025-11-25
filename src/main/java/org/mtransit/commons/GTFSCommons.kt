@@ -120,7 +120,7 @@ object GTFSCommons {
 
     @JvmStatic
     val T_TRIP_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP_IDS).apply {
-        appendColumn(T_TRIP_IDS_K_ID_INT, SQLUtils.INT) // TODO INT_PK_AUTO?
+        appendColumn(T_TRIP_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO) // can manual insert, next ID based on largest value in table
         appendColumn(T_TRIP_IDS_K_ID, SQLUtils.TXT, unique = true)
     }.build()
 
@@ -247,7 +247,7 @@ object GTFSCommons {
 
     @JvmStatic
     val T_SERVICE_IDS_SQL_CREATE = SQLCreateBuilder.getNew(T_SERVICE_IDS).apply {
-        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT) // TODO INT_PK_AUTO?
+        appendColumn(T_SERVICE_IDS_K_ID_INT, SQLUtils.INT_PK_AUTO) // can manual insert, next ID based on largest value in table
         appendColumn(T_SERVICE_IDS_K_ID, SQLUtils.TXT, unique = true)
     }.build()
 
@@ -315,7 +315,7 @@ object GTFSCommons {
 
     @JvmStatic
     val T_STRINGS_SQL_CREATE = SQLCreateBuilder.getNew(T_STRINGS).apply {
-        appendColumn(T_STRINGS_K_ID, SQLUtils.INT_PK_AUTO) // SQLite will determine next ID based on largest value in table, even after manual insert w/ custom ID value
+        appendColumn(T_STRINGS_K_ID, SQLUtils.INT_PK_AUTO) // can manual insert, next ID based on largest value in table
         appendColumn(T_STRINGS_K_STRING, SQLUtils.TXT, unique = true)
     }.build()
 
