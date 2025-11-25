@@ -29,13 +29,16 @@ object FeatureFlags {
     const val F_AVOID_DATA_CHANGED = true // WIP
 
     const val F_EXPORT_SERVICE_ID_INTS = false
-    // const val F_EXPORT_SERVICE_ID_INTS = true // WIP
+    // const val F_EXPORT_SERVICE_ID_INTS = true // WIP // only marginal gains in APK size because of Android optimizations
 
     const val F_EXPORT_STRINGS = false
-    // const val F_EXPORT_STRINGS = true // WIP
+    // const val F_EXPORT_STRINGS = true // WIP // only marginal gains in APK size because of Android optimizations
 
-    const val F_EXPORT_TRIP_ID = false
-    // const val F_EXPORT_TRIP_ID = true // WIP
+    const val F_EXPORT_TRIP_ID_INTS = false
+    // const val F_EXPORT_TRIP_ID_INTS = true // WIP // only marginal gains in APK size because of Android optimizations
+
+    const val F_EXPORT_TRIP_ID_ARRIVAL = false
+    // const val F_EXPORT_TRIP_ID_ARRIVAL = true // WIP
 
     // @formatter:on
 }
