@@ -213,7 +213,7 @@ object SQLUtils {
     }
 
     @JvmStatic
-    fun unquotesUnescapeStringOrNull(string: String): String? =
+    fun unquoteUnescapeStringOrNull(string: String): String? =
         unquotes(string).takeIf { it.isNotBlank() }?.let { unescapeString(it) }
 
     @JvmName("escapeStringExt")
