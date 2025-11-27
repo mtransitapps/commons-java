@@ -37,8 +37,11 @@ object FeatureFlags {
     const val F_EXPORT_TRIP_ID_INTS = false
     // const val F_EXPORT_TRIP_ID_INTS = true // WIP // only marginal gains in APK size because of Android optimizations
 
-    const val F_EXPORT_TRIP_ID_ARRIVAL = false
-    // const val F_EXPORT_TRIP_ID_ARRIVAL = true // WIP
+    const val F_EXPORT_TRIP_ID = false
+    // const val F_EXPORT_TRIP_ID = true // WIP
+
+    const val F_EXPORT_ARRIVAL_W_TRIP_ID = false
+    // const val F_EXPORT_ARRIVAL_W_TRIP_ID = F_EXPORT_TRIP_ID && true // WIP
 
     const val F_SCHEDULE_NO_QUOTES = false
     // const val F_SCHEDULE_NO_QUOTES = true // WIP
