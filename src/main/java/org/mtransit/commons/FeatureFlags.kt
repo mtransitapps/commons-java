@@ -40,5 +40,11 @@ object FeatureFlags {
     const val F_EXPORT_TRIP_ID_ARRIVAL = false
     // const val F_EXPORT_TRIP_ID_ARRIVAL = true // WIP
 
+    const val F_SCHEDULE_NO_QUOTES = false
+    // const val F_SCHEDULE_NO_QUOTES = true // WIP
+
+    const val F_SCHEDULE_IN_MINUTES = false
+    // const val F_SCHEDULE_IN_MINUTES = true // WIP
+
     // @formatter:on
 }
