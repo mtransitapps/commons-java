@@ -213,8 +213,8 @@ object SQLUtils {
     }
 
     @JvmStatic
-    fun unescapeStringOrNull(string: String): String? =
-        string.trim { it == '\'' }.takeIf { it.isNotBlank() }?.let { unescapeString(it) }
+    fun unquoteUnescapeStringOrNull(string: String): String? =
+        unquotes(string).takeIf { it.isNotBlank() }?.let { unescapeString(it) }
 
     @JvmName("escapeStringExt")
     fun String.escapeString() = escapeString(this)
