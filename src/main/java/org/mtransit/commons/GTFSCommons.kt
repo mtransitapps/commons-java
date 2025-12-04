@@ -63,21 +63,6 @@ object GTFSCommons {
     @JvmField
     val T_DIRECTION_STRINGS_COLUMN_IDX = intArrayOf(2)
 
-    @Deprecated("use T_DIRECTION instead", ReplaceWith("T_DIRECTION"))
-    const val T_TRIP = T_DIRECTION
-
-    @Deprecated("use T_DIRECTION_K_ID instead", ReplaceWith("T_DIRECTION_K_ID"))
-    const val T_TRIP_K_ID = T_DIRECTION_K_ID
-
-    @Deprecated("use T_DIRECTION_K_HEADSIGN_TYPE instead", ReplaceWith("T_DIRECTION_K_HEADSIGN_TYPE"))
-    const val T_TRIP_K_HEADSIGN_TYPE = T_DIRECTION_K_HEADSIGN_TYPE
-
-    @Deprecated("use T_DIRECTION_K_HEADSIGN_VALUE instead", ReplaceWith("T_DIRECTION_K_HEADSIGN_VALUE"))
-    const val T_TRIP_K_HEADSIGN_VALUE = T_DIRECTION_K_HEADSIGN_VALUE
-
-    @Deprecated("use T_DIRECTION_K_ROUTE_ID instead", ReplaceWith("T_DIRECTION_K_ROUTE_ID"))
-    const val T_TRIP_K_ROUTE_ID = T_DIRECTION_K_ROUTE_ID
-
     @JvmStatic
     val T_DIRECTION_SQL_CREATE = SQLCreateBuilder.getNew(T_DIRECTION).apply {
         appendColumn(T_DIRECTION_K_ID, SQLUtils.INT_PK)
@@ -87,10 +72,6 @@ object GTFSCommons {
         appendForeignKey(T_DIRECTION_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
     }.build()
 
-    @Deprecated("use T_DIRECTION_SQL_CREATE instead", ReplaceWith("T_DIRECTION_SQL_CREATE"))
-    @JvmStatic
-    val T_TRIP_SQL_CREATE = T_DIRECTION_SQL_CREATE
-
     @JvmStatic
     val T_DIRECTION_SQL_INSERT = SQLInsertBuilder.getNew(T_DIRECTION).apply {
         appendColumn(T_DIRECTION_K_ID)
@@ -99,18 +80,44 @@ object GTFSCommons {
         appendColumn(T_DIRECTION_K_ROUTE_ID)
     }.build()
 
-    @Deprecated("use T_DIRECTION_SQL_INSERT instead", ReplaceWith("T_DIRECTION_SQL_INSERT"))
-    @JvmStatic
-    val T_TRIP_SQL_INSERT = T_DIRECTION_SQL_INSERT
-
     @JvmStatic
     val T_DIRECTION_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_DIRECTION)
 
-    @Deprecated("use T_DIRECTION_SQL_DROP instead", ReplaceWith("T_DIRECTION_SQL_DROP"))
-    @JvmStatic
-    val T_TRIP_SQL_DROP = T_DIRECTION_SQL_DROP
-
     // endregion Direction
+
+    // region Trip
+
+    const val T_TRIP = "path" // do not change to avoid breaking compat w/ old modules
+    const val T_TRIP_K_ROUTE_ID = "route_id"
+    const val T_TRIP_K_SERVICE_ID = "service_id"
+    const val T_TRIP_K_ID = SQLUtils.BASE_COLUMNS_ID
+    const val T_TRIP_K_DIRECTION_ID = "direction_id"
+
+    const val T_TRIP_SAME_COLUMNS_COUNT = 3
+    const val T_TRIP_OTHER_COLUMNS_COUNT = 1
+
+    @JvmStatic
+    val T_TRIP_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP).apply {
+        appendColumn(T_TRIP_K_ID, SQLUtils.INT_PK)
+        appendColumn(T_TRIP_K_ROUTE_ID, SQLUtils.INT)
+        appendColumn(T_TRIP_K_SERVICE_ID, SQLUtils.TXT)
+        appendColumn(T_TRIP_K_DIRECTION_ID, SQLUtils.INT)
+        appendForeignKey(T_TRIP_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
+        appendForeignKey(T_TRIP_K_DIRECTION_ID, T_DIRECTION, T_DIRECTION_K_ID)
+    }.build()
+
+    @JvmStatic
+    val T_TRIP_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP).apply {
+        appendColumn(T_TRIP_K_ROUTE_ID)
+        appendColumn(T_TRIP_K_DIRECTION_ID)
+        appendColumn(T_TRIP_K_SERVICE_ID)
+        appendColumn(T_TRIP_K_ID)
+    }.build()
+
+    @JvmStatic
+    val T_TRIP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP)
+
+    // endregion
 
     // region Trip IDs
 
@@ -185,24 +192,6 @@ object GTFSCommons {
     const val T_DIRECTION_STOPS_K_STOP_SEQUENCE = "stop_sequence"
     const val T_DIRECTION_STOPS_K_NO_PICKUP = "decent_only"
 
-    @Deprecated("use T_DIRECTION_STOPS instead", ReplaceWith("T_DIRECTION_STOPS"))
-    const val T_TRIP_STOPS = T_DIRECTION_STOPS
-
-    @Deprecated("use T_DIRECTION_STOPS_K_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_ID"))
-    const val T_TRIP_STOPS_K_ID = T_DIRECTION_STOPS_K_ID
-
-    @Deprecated("use T_DIRECTION_STOPS_K_DIRECTION_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_DIRECTION_ID"))
-    const val T_TRIP_STOPS_K_TRIP_ID = T_DIRECTION_STOPS_K_DIRECTION_ID
-
-    @Deprecated("use T_DIRECTION_STOPS_K_STOP_ID instead", ReplaceWith("T_DIRECTION_STOPS_K_STOP_ID"))
-    const val T_TRIP_STOPS_K_STOP_ID = T_DIRECTION_STOPS_K_STOP_ID
-
-    @Deprecated("use T_DIRECTION_STOPS_K_STOP_SEQUENCE instead", ReplaceWith("T_DIRECTION_STOPS_K_STOP_SEQUENCE"))
-    const val T_TRIP_STOPS_K_STOP_SEQUENCE = T_DIRECTION_STOPS_K_STOP_SEQUENCE
-
-    @Deprecated("use T_DIRECTION_STOPS_K_NO_PICKUP instead", ReplaceWith("T_DIRECTION_STOPS_K_NO_PICKUP"))
-    const val T_TRIP_STOPS_K_NO_PICKUP = T_DIRECTION_STOPS_K_NO_PICKUP
-
     @JvmStatic
     val T_DIRECTION_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_DIRECTION_STOPS).apply {
         appendColumn(T_DIRECTION_STOPS_K_ID, SQLUtils.INT_PK_AUTO)
@@ -214,10 +203,6 @@ object GTFSCommons {
         appendForeignKey(T_DIRECTION_STOPS_K_STOP_ID, T_STOP, T_STOP_K_ID)
     }.build()
 
-    @Deprecated("use T_DIRECTION_STOPS_SQL_CREATE instead", ReplaceWith("T_DIRECTION_STOPS_SQL_CREATE"))
-    @JvmStatic
-    val T_TRIP_STOPS_SQL_CREATE = T_DIRECTION_STOPS_SQL_CREATE
-
     @JvmStatic
     val T_DIRECTION_STOPS_SQL_INSERT = SQLInsertBuilder.getNew(T_DIRECTION_STOPS).apply {
         appendColumn(T_DIRECTION_STOPS_K_DIRECTION_ID)
@@ -226,16 +211,8 @@ object GTFSCommons {
         appendColumn(T_DIRECTION_STOPS_K_NO_PICKUP)
     }.build()
 
-    @Deprecated("use T_DIRECTION_STOPS_SQL_INSERT instead", ReplaceWith("T_DIRECTION_STOPS_SQL_INSERT"))
-    @JvmStatic
-    val T_TRIP_STOPS_SQL_INSERT = T_DIRECTION_STOPS_SQL_INSERT
-
     @JvmStatic
     val T_DIRECTION_STOPS_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_DIRECTION_STOPS)
-
-    @Deprecated("use T_DIRECTION_STOPS_SQL_DROP instead", ReplaceWith("T_DIRECTION_STOPS_SQL_DROP"))
-    @JvmStatic
-    val T_TRIP_STOPS_SQL_DROP = T_DIRECTION_STOPS_SQL_DROP
 
     // endregion Direction Stops
 
@@ -269,6 +246,11 @@ object GTFSCommons {
     const val T_SERVICE_DATES_K_SERVICE_ID_INT = "service_id_int"
     const val T_SERVICE_DATES_K_DATE = "date"
     const val T_SERVICE_DATES_K_EXCEPTION_TYPE = "exception_type"
+
+    @JvmStatic
+    val T_SERVICE_DATES_SAME_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 1 else 0
+    @JvmStatic
+    val T_SERVICE_DATES_OTHER_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 2 else 0
 
     // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
     const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
