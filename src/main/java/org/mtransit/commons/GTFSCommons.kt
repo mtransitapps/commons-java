@@ -89,10 +89,14 @@ object GTFSCommons {
 
     const val T_TRIP = "path" // do not change to avoid breaking compat w/ old modules
     const val T_TRIP_K_ROUTE_ID = "route_id"
-    const val T_TRIP_K_SERVICE_ID = "service_id"
-    const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
-    const val T_TRIP_K_TRIP_ID = "trip_id"
-    const val T_TRIP_K_TRIP_ID_INT = "trip_id_int"
+    private const val T_TRIP_K_SERVICE_ID = "service_id"
+    private const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
+    @JvmStatic
+    val T_TRIP_K_SERVICE_ID_OR_INT = if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) T_TRIP_K_SERVICE_ID_INT else T_TRIP_K_SERVICE_ID
+    private const val T_TRIP_K_TRIP_ID = "trip_id"
+    private const val T_TRIP_K_TRIP_ID_INT = "trip_id_int"
+    @JvmStatic
+    val T_TRIP_K_TRIP_ID_OR_INT = if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) T_TRIP_K_TRIP_ID_INT else T_TRIP_K_TRIP_ID
     const val T_TRIP_K_DIRECTION_ID = "direction_id"
 
     const val T_TRIP_SAME_COLUMNS_COUNT = 3
@@ -274,6 +278,7 @@ object GTFSCommons {
 
     @JvmStatic
     val T_SERVICE_DATES_SAME_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 1 else 0
+
     @JvmStatic
     val T_SERVICE_DATES_OTHER_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 2 else 0
 
