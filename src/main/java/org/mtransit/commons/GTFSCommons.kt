@@ -110,7 +110,6 @@ object GTFSCommons {
             appendColumn(T_TRIP_K_TRIP_ID, SQLUtils.TXT)
         }
         appendColumn(T_TRIP_K_ROUTE_ID, SQLUtils.INT)
-        appendColumn(T_TRIP_K_SERVICE_ID, SQLUtils.TXT)
         if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
             appendColumn(T_TRIP_K_SERVICE_ID_INT, SQLUtils.INT)
         } else {
