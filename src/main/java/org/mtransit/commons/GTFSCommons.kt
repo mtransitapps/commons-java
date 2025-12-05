@@ -90,7 +90,9 @@ object GTFSCommons {
     const val T_TRIP = "path" // do not change to avoid breaking compat w/ old modules
     const val T_TRIP_K_ROUTE_ID = "route_id"
     const val T_TRIP_K_SERVICE_ID = "service_id"
-    const val T_TRIP_K_ID = SQLUtils.BASE_COLUMNS_ID
+    const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
+    const val T_TRIP_K_TRIP_ID = "trip_id"
+    const val T_TRIP_K_TRIP_ID_INT = "trip_id_int"
     const val T_TRIP_K_DIRECTION_ID = "direction_id"
 
     const val T_TRIP_SAME_COLUMNS_COUNT = 3
@@ -98,20 +100,43 @@ object GTFSCommons {
 
     @JvmStatic
     val T_TRIP_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP).apply {
-        appendColumn(T_TRIP_K_ID, SQLUtils.INT_PK)
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendColumn(T_TRIP_K_TRIP_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_TRIP_K_TRIP_ID, SQLUtils.TXT)
+        }
         appendColumn(T_TRIP_K_ROUTE_ID, SQLUtils.INT)
         appendColumn(T_TRIP_K_SERVICE_ID, SQLUtils.TXT)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_TRIP_K_SERVICE_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_TRIP_K_SERVICE_ID, SQLUtils.TXT)
+        }
         appendColumn(T_TRIP_K_DIRECTION_ID, SQLUtils.INT)
         appendForeignKey(T_TRIP_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
         appendForeignKey(T_TRIP_K_DIRECTION_ID, T_DIRECTION, T_DIRECTION_K_ID)
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendForeignKey(T_TRIP_K_TRIP_ID_INT, T_TRIP_IDS, T_TRIP_IDS_K_ID_INT)
+        }
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendForeignKey(T_TRIP_K_SERVICE_ID_INT, T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)
+        }
     }.build()
 
     @JvmStatic
     val T_TRIP_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP).apply {
         appendColumn(T_TRIP_K_ROUTE_ID)
         appendColumn(T_TRIP_K_DIRECTION_ID)
-        appendColumn(T_TRIP_K_SERVICE_ID)
-        appendColumn(T_TRIP_K_ID)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_TRIP_K_SERVICE_ID_INT)
+        } else {
+            appendColumn(T_TRIP_K_SERVICE_ID)
+        }
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendColumn(T_TRIP_K_TRIP_ID_INT)
+        } else {
+            appendColumn(T_TRIP_K_TRIP_ID)
+        }
     }.build()
 
     @JvmStatic
