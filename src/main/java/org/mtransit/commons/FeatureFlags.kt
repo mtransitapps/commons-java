@@ -31,10 +31,16 @@ object FeatureFlags {
     const val F_EXPORT_SERVICE_ID_INTS = false
     // const val F_EXPORT_SERVICE_ID_INTS = true // WIP // only marginal gains in APK size because of Android optimizations
 
+    const val F_EXPORT_FLATTEN_SERVICE_DATES = false
+    // const val F_EXPORT_FLATTEN_SERVICE_DATES = true // WIP
+
     const val F_EXPORT_STRINGS = false
     // const val F_EXPORT_STRINGS = true // WIP // only marginal gains in APK size because of Android optimizations
 
     // region Schedule
+
+    const val F_EXPORT_SCHEDULE_SORTED_BY_ROUTE_DIRECTION = false
+    // const val F_EXPORT_SCHEDULE_SORTED_BY_ROUTE_DIRECTION = true // WIP
 
     const val F_EXPORT_SCHEDULE_STRINGS = false
     // const val F_EXPORT_SCHEDULE_STRINGS = true // WIP
