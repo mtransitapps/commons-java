@@ -19,6 +19,17 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
         columnNameId = T_STOP_IDS_K_ID,
     )
 
+    fun selectStopIds(statement: Statement): List<StopId> {
+        val sql = "SELECT $T_STOP_IDS_K_ID FROM $T_STOP_IDS"
+        return statement.executeQuery(sql).use { rs ->
+            buildList {
+                while (rs.next()) {
+                     add(rs.getString(T_STOP_IDS_K_ID))
+                }
+            }
+        }
+    }
+
     const val T_STOP = "stop"
 
     const val T_STOP_K_ID_INT = "stop_id_int"
