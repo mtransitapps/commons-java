@@ -145,7 +145,7 @@ object GTFSCommons {
     @JvmStatic
     val T_TRIP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP)
 
-    // endregion
+    // endregion Trip
 
     // region Trip IDs
 
