@@ -85,6 +85,70 @@ object GTFSCommons {
 
     // endregion Direction
 
+    // region Trip
+
+    const val T_TRIP = "path" // do not change to avoid breaking compat w/ old modules
+    const val T_TRIP_K_ROUTE_ID = "route_id"
+    private const val T_TRIP_K_SERVICE_ID = "service_id"
+    private const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
+
+    @JvmStatic
+    val T_TRIP_K_SERVICE_ID_OR_INT = if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) T_TRIP_K_SERVICE_ID_INT else T_TRIP_K_SERVICE_ID
+    private const val T_TRIP_K_TRIP_ID = "trip_id"
+    private const val T_TRIP_K_TRIP_ID_INT = "trip_id_int"
+
+    @JvmStatic
+    val T_TRIP_K_TRIP_ID_OR_INT = if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) T_TRIP_K_TRIP_ID_INT else T_TRIP_K_TRIP_ID
+    const val T_TRIP_K_DIRECTION_ID = "direction_id"
+
+    const val T_TRIP_SAME_COLUMNS_COUNT = 3
+    const val T_TRIP_OTHER_COLUMNS_COUNT = 1
+
+    @JvmStatic
+    val T_TRIP_SQL_CREATE = SQLCreateBuilder.getNew(T_TRIP).apply {
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendColumn(T_TRIP_K_TRIP_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_TRIP_K_TRIP_ID, SQLUtils.TXT)
+        }
+        appendColumn(T_TRIP_K_ROUTE_ID, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_TRIP_K_SERVICE_ID_INT, SQLUtils.INT)
+        } else {
+            appendColumn(T_TRIP_K_SERVICE_ID, SQLUtils.TXT)
+        }
+        appendColumn(T_TRIP_K_DIRECTION_ID, SQLUtils.INT)
+        appendForeignKey(T_TRIP_K_ROUTE_ID, T_ROUTE, T_ROUTE_K_ID)
+        appendForeignKey(T_TRIP_K_DIRECTION_ID, T_DIRECTION, T_DIRECTION_K_ID)
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendForeignKey(T_TRIP_K_TRIP_ID_INT, T_TRIP_IDS, T_TRIP_IDS_K_ID_INT)
+        }
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendForeignKey(T_TRIP_K_SERVICE_ID_INT, T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)
+        }
+    }.build()
+
+    @JvmStatic
+    val T_TRIP_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP).apply {
+        appendColumn(T_TRIP_K_ROUTE_ID)
+        appendColumn(T_TRIP_K_DIRECTION_ID)
+        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
+            appendColumn(T_TRIP_K_SERVICE_ID_INT)
+        } else {
+            appendColumn(T_TRIP_K_SERVICE_ID)
+        }
+        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
+            appendColumn(T_TRIP_K_TRIP_ID_INT)
+        } else {
+            appendColumn(T_TRIP_K_TRIP_ID)
+        }
+    }.build()
+
+    @JvmStatic
+    val T_TRIP_SQL_DROP = SQLUtils.getSQLDropIfExistsQuery(T_TRIP)
+
+    // endregion Trip
+
     // region Trip IDs
 
     const val T_TRIP_IDS = "trip_ids"
@@ -212,6 +276,12 @@ object GTFSCommons {
     const val T_SERVICE_DATES_K_SERVICE_ID_INT = "service_id_int"
     const val T_SERVICE_DATES_K_DATE = "date"
     const val T_SERVICE_DATES_K_EXCEPTION_TYPE = "exception_type"
+
+    @JvmStatic
+    val T_SERVICE_DATES_SAME_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 1 else 0
+
+    @JvmStatic
+    val T_SERVICE_DATES_OTHER_COLUMNS_COUNT = if (FeatureFlags.F_EXPORT_FLATTEN_SERVICE_DATES) 2 else 0
 
     // https://gtfs.org/documentation/schedule/reference/#calendar_datestxt
     const val EXCEPTION_TYPE_DEFAULT = 0 // default schedule // added by MT
