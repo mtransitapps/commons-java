@@ -132,16 +132,8 @@ object GTFSCommons {
     val T_TRIP_SQL_INSERT = SQLInsertBuilder.getNew(T_TRIP).apply {
         appendColumn(T_TRIP_K_ROUTE_ID)
         appendColumn(T_TRIP_K_DIRECTION_ID)
-        if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) {
-            appendColumn(T_TRIP_K_SERVICE_ID_INT)
-        } else {
-            appendColumn(T_TRIP_K_SERVICE_ID)
-        }
-        if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) {
-            appendColumn(T_TRIP_K_TRIP_ID_INT)
-        } else {
-            appendColumn(T_TRIP_K_TRIP_ID)
-        }
+        appendColumn(T_TRIP_K_SERVICE_ID_OR_INT)
+        appendColumn(T_TRIP_K_TRIP_ID_OR_INT)
     }.build()
 
     @JvmStatic
