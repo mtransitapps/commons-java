@@ -20,10 +20,10 @@ object StringsCleaner {
     ): String {
         var tripHeadsign = originalTripHeadsign
         if (languages?.contains(Locale.ENGLISH) == true) {
-            if (removeVia) {
-                tripHeadsign = CleanUtils.keepToAndRemoveVia(tripHeadsign)
+            tripHeadsign = if (removeVia) {
+                CleanUtils.keepToAndRemoveVia(tripHeadsign)
             } else {
-                tripHeadsign = CleanUtils.keepTo(tripHeadsign)
+                CleanUtils.keepTo(tripHeadsign)
             }
         }
         if (languages?.contains(Locale.FRENCH) == true) {
