@@ -58,3 +58,6 @@ inline fun <T> Iterable<T>.dropWhile(minSize: Int = 0, predicate: (T) -> Boolean
     }
     return list
 }
+
+inline fun <K, V> Map<out K, V>.mapNotNullToMap(transform: (Map.Entry<K, V>) -> Pair<K, V>?): Map<K, V> =
+    this.mapNotNull(transform).toMap()
