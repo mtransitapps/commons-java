@@ -91,7 +91,7 @@ public final class CleanUtils {
 		label = CLEAN_SPACES.matcher(label).replaceAll(SPACE);
 		label = CLEAN_P1.matcher(label).replaceAll(CLEAN_P1_REPLACEMENT);
 		label = CLEAN_P2.matcher(label).replaceAll(CLEAN_P2_REPLACEMENT);
-		if (locale == Locale.FRENCH) {
+		if (locale.getLanguage().equals(Locale.FRENCH.getLanguage())) {
 			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_FR);
 		} else {
 			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_EN);
