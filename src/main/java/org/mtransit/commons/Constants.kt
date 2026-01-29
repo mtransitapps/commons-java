@@ -4,7 +4,9 @@ package org.mtransit.commons
 object Constants {
 
     // const val DEBUG = true // DEBUG
-    const val DEBUG = false
+    @JvmStatic
+    val DEBUG = System.getenv("MT_DEBUG") == "mt_true" // DEBUG
+    // const val DEBUG = false
 
     const val NEW_LINE = '\n'
     const val SPACE = ' '
