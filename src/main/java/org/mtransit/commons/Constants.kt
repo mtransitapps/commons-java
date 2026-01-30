@@ -3,10 +3,10 @@ package org.mtransit.commons
 @Suppress("unused")
 object Constants {
 
-    // const val DEBUG = true // DEBUG
     @JvmStatic
+    // val DEBUG = true // DEBUG
     val DEBUG = System.getenv("MT_DEBUG") == "mt_true" // DEBUG
-    // const val DEBUG = false
+    // val DEBUG = false
 
     const val NEW_LINE = '\n'
     const val SPACE = ' '
