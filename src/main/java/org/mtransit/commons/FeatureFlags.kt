@@ -1,6 +1,6 @@
 package org.mtransit.commons
 
-@Suppress("unused", "SimplifyBooleanWithConstants")
+@Suppress("unused", "KotlinConstantConditions", "SimplifyBooleanWithConstants")
 object FeatureFlags {
     // @formatter:off
 
