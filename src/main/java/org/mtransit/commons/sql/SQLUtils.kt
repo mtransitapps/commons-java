@@ -40,6 +40,8 @@ object SQLUtils {
     const val AND = " AND "
     const val OR = " OR "
     const val IN = " IN "
+    const val IS = " IS "
+    const val NULL = "NULL"
 
     const val CREATE_TABLE = "CREATE TABLE "
     const val CREATE_TABLE_IF_NOT_EXIST = CREATE_TABLE + "IF NOT EXISTS "
@@ -195,6 +197,13 @@ object SQLUtils {
             }
             append(P2)
         }
+
+    @JvmStatic
+    fun getWhereColumnIsNull(tableColumn: String) = buildString {
+        append(tableColumn)
+        append(IS)
+        append(NULL)
+    }
 
     @JvmName("unquotesUnescapeExt")
     fun String.unquotesUnescape() = unquotes(this).unescape()
