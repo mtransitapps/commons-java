@@ -62,5 +62,8 @@ object FeatureFlags {
 
     // endregion Schedule
 
+    const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = false
+    // const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = true // WIP
+
     // @formatter:on
 }
