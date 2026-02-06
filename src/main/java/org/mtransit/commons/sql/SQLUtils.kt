@@ -107,15 +107,16 @@ object SQLUtils {
     }
 
     @JvmStatic
-    fun getWhereGroup(andOr: String, vararg whereClauses: String): String {
-        val sb = StringBuilder(P1)
+    fun getWhereGroup(andOr: String, vararg whereClauses: String) = buildString {
         for (whereClause in whereClauses) {
-            if (sb.isNotEmpty()) {
-                sb.append(andOr)
+            if (isEmpty()) {
+                append(P1)
+            } else {
+                append(andOr)
             }
-            sb.append(whereClause)
+            append(whereClause)
         }
-        return sb.append(P2).toString()
+        if (isNotEmpty()) append(P2)
     }
 
     @JvmStatic
