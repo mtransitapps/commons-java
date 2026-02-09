@@ -5,8 +5,7 @@ object Constants {
 
     @JvmStatic
     // val DEBUG = true // DEBUG
-    val DEBUG = System.getenv("MT_DEBUG") == "mt_true" // DEBUG
-    // val DEBUG = false
+    val DEBUG = false
 
     const val NEW_LINE = '\n'
     const val SPACE = ' '
