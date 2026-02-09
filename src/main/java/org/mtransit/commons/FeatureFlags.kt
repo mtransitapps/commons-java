@@ -1,6 +1,6 @@
 package org.mtransit.commons
 
-@Suppress("unused", "SimplifyBooleanWithConstants")
+@Suppress("unused", "KotlinConstantConditions", "SimplifyBooleanWithConstants")
 object FeatureFlags {
     // @formatter:off
 
@@ -61,6 +61,9 @@ object FeatureFlags {
     const val F_SCHEDULE_IN_MINUTES = true // WIP
 
     // endregion Schedule
+
+    // const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = false
+    const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = true // WIP
 
     // @formatter:on
 }
