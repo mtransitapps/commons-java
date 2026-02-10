@@ -250,7 +250,7 @@ object SQLUtils {
 
     @JvmStatic
     fun unquotes(string: String): String {
-        return string.trim { it == STRING_DELIMITER_ESCAPED }
+        return string.removeSurrounding(STRING_DELIMITER)
     }
 
     @JvmName("unquotesExt")
