@@ -342,7 +342,7 @@ object GTFSCommons {
     @JvmOverloads
     fun originalIdToId(originalId: String, idCleanupRegex: Pattern? = null) =
         CleanUtils.cleanMergedID(
-            cleanOriginalId(originalId, idCleanupRegex)
+            cleanOriginalString(originalId, idCleanupRegex)
         )
 
     @JvmStatic
@@ -352,7 +352,7 @@ object GTFSCommons {
     }
 
     @JvmStatic
-    fun cleanOriginalId(originalId: String, idCleanupRegex: Pattern? = null) =
+    fun cleanOriginalString(originalId: String, idCleanupRegex: Pattern? = null) =
         idCleanupRegex?.matcher(originalId)?.replaceAll(EMPTY) ?: originalId
 
     @JvmStatic

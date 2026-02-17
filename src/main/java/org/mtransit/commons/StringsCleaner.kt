@@ -53,6 +53,13 @@ object StringsCleaner {
                 string = CleanUtils.cleanNumbers(string)
             }
         }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            if (short) {
+                string = CleanUtils.CLEAN_ET.matcher(string).replaceAll(CleanUtils.CLEAN_ET_REPLACEMENT)
+                string = CleanUtils.SAINT.matcher(string).replaceAll(CleanUtils.SAINT_REPLACEMENT)
+                string = CleanUtils.cleanStreetTypesFRCA(string)
+            }
+        }
         languages?.forEach { language ->
             if (short) {
                 string = CleanUtils.cleanBounds(language, string)
