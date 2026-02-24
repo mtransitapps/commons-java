@@ -4,10 +4,17 @@ import java.util.Locale
 
 object StringsCleaner {
 
+    @JvmOverloads
     @JvmStatic
-    fun cleanRouteLongName(originalRouteLongName: String, languages: List<Locale>?): String {
+    fun cleanRouteLongName(
+        originalRouteLongName: String,
+        languages: List<Locale>?,
+        lowerUCStrings: Boolean = false,
+        lowerUCWords: Boolean = false,
+        vararg ignoredUCWords: String = emptyArray(),
+    ): String {
         var routeLongName = originalRouteLongName
-        routeLongName = cleanString(routeLongName, languages, short = false)
+        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = false)
         return routeLongName
     }
 
@@ -16,6 +23,9 @@ object StringsCleaner {
     fun cleanTripHeadsign(
         originalTripHeadsign: String,
         languages: List<Locale>?,
+        lowerUCStrings: Boolean = false,
+        lowerUCWords: Boolean = false,
+        vararg ignoredUCWords: String = emptyArray(),
         removeVia: Boolean = false,
     ): String {
         var tripHeadsign = originalTripHeadsign
@@ -29,19 +39,40 @@ object StringsCleaner {
         if (languages?.contains(Locale.FRENCH) == true) {
             tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
         }
-        tripHeadsign = cleanString(tripHeadsign, languages, short = true)
+        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = true)
         return tripHeadsign
     }
 
+    @JvmOverloads
     @JvmStatic
-    fun cleanStopName(originalStopName: String, languages: List<Locale>?): String {
+    fun cleanStopName(
+        originalStopName: String,
+        languages: List<Locale>?,
+        lowerUCStrings: Boolean = false,
+        lowerUCWords: Boolean = false,
+        vararg ignoredUCWords: String = emptyArray(),
+    ): String {
         var stopName = originalStopName
-        stopName = cleanString(stopName, languages, short = true)
+        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = true)
         return stopName
     }
 
-    private fun cleanString(originalString: String, languages: List<Locale>?, short: Boolean): String {
+    private fun cleanString(
+        originalString: String,
+        languages: List<Locale>?,
+        lowerUCStrings: Boolean = false,
+        lowerUCWords: Boolean = false,
+        vararg ignoredUCWords: String = emptyArray(),
+        short: Boolean
+    ): String {
         var string = originalString
+        languages?.forEach { language ->
+            if (lowerUCWords) {
+                string = CleanUtils.toLowerCaseUpperCaseWords(language, string, *ignoredUCWords)
+            } else if (lowerUCStrings) {
+                string = CleanUtils.toLowerCaseUpperCaseStrings(language, string)
+            }
+        }
         if (!short) {
             string = CleanUtils.cleanSlashes(string)
         }

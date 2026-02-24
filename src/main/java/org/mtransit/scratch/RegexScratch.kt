@@ -14,20 +14,19 @@ internal object RegexScratch {
         var string: String
         string = ""
         println("string: '$string'.")
-        println("-------")
+        println("=======")
 
         val matcher = pattern.matcher(string)
         while (matcher.find()) {
             println("-------")
-            println("group: '" + matcher.group() + "'.")
-            println("groupCount: '" + matcher.groupCount() + "'.")
+            println("- Found group: '" + matcher.group() + "' (count: '" + matcher.groupCount() + "'):")
             for (g in 0..matcher.groupCount()) {
-                println("group[" + g + "]: '" + matcher.group(g) + "'.")
+                println("  - group[" + g + "]: '" + matcher.group(g) + "'.")
             }
             println("-------")
         }
 
-        println("-------")
+        println("=======")
         var replaceAll: String
         replaceAll = ""
         println("replaceAll: '$replaceAll'.")

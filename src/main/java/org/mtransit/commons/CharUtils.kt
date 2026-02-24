@@ -15,6 +15,12 @@ object CharUtils {
     fun countUpperCase(charArray: CharArray?) = charArray?.count { it.isUpperCase() } ?: 0
 
     @JvmStatic
+    fun countLowerCase(string: String?) = countLowerCase(string?.toCharArray())
+
+    @JvmStatic
+    fun countLowerCase(charArray: CharArray?) = charArray?.count { it.isLowerCase() } ?: 0
+
+    @JvmStatic
     fun isDigitsOnly(str: CharSequence, notEmpty: Boolean): Boolean {
         if (str.isEmpty()) {
             return !notEmpty

@@ -548,10 +548,17 @@ public final class CleanUtils {
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	@NotNull
-	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
-		if (string.isEmpty()) {
-			return string;
+	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string) {
+		if (string.isEmpty()) return string;
+		if (CharUtils.isUppercaseOnly(string, true, true)) {
+			return string.toLowerCase(locale);
 		}
+		return string;
+	}
+
+	@NotNull
+	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
+		if (string.isEmpty()) return string;
 		final float charCount = string.length();
 		final float upperCaseCount = CharUtils.countUpperCase(string);
 		final float percent = upperCaseCount / charCount;
