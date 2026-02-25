@@ -70,7 +70,7 @@ object StringsCleaner {
             if (lowerUCWords) {
                 string = CleanUtils.toLowerCaseUpperCaseWords(language, string, *ignoredUCWords)
             } else if (lowerUCStrings) {
-                string = CleanUtils.toLowerCaseUpperCaseStrings(language, string)
+                string = CleanUtils.toLowerCaseUpperCaseStrings(language, string, *ignoredUCWords)
             }
         }
         if (!short) {

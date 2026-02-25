@@ -15,6 +15,7 @@ import static org.mtransit.commons.RegexUtils.or;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -548,8 +549,9 @@ public final class CleanUtils {
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	@NotNull
-	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string) {
+	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
 		if (string.isEmpty()) return string;
+		if (Arrays.asList(ignoreWords).contains(string)) return string;
 		if (CharUtils.isUppercaseOnly(string, true, true)) {
 			return string.toLowerCase(locale);
 		}
