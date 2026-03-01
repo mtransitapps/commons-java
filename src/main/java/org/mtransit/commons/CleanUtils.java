@@ -695,6 +695,8 @@ public final class CleanUtils {
 		return ID_MERGED.matcher(mergedId).replaceAll(ID_MERGED_REPLACEMENT);
 	}
 
+	static final Pattern LINE = cleanWords("line");
+
 	// http://www.semaphorecorp.com/cgi/abbrev.html
 	private static final Pattern STREET = cleanWords("street");
 	private static final String STREET_REPLACEMENT = cleanWordsReplacement("St");
@@ -762,7 +764,7 @@ public final class CleanUtils {
 	private static final String VIEW_REPLACEMENT = cleanWordsReplacement("Vw");
 	private static final Pattern VILLAGE = cleanWords("village");
 	private static final String VILLAGE_REPLACEMENT = cleanWordsReplacement("Vlg");
-	private static final Pattern STATION = cleanWords("station");
+	static final Pattern STATION = cleanWords("station");
 	private static final String STATION_REPLACEMENT = cleanWordsReplacement("Sta");
 	private static final Pattern RANCH = cleanWords("ranch");
 	private static final String RANCH_REPLACEMENT = cleanWordsReplacement("Rnch");

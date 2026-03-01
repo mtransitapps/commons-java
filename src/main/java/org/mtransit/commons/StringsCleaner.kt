@@ -1,5 +1,6 @@
 package org.mtransit.commons
 
+import org.mtransit.commons.StringUtils.EMPTY
 import java.util.Locale
 
 object StringsCleaner {
@@ -9,11 +10,15 @@ object StringsCleaner {
     fun cleanRouteLongName(
         originalRouteLongName: String,
         languages: List<Locale>?,
+        @Suppress("unused") routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
         vararg ignoredUCWords: String = emptyArray(),
     ): String {
         var routeLongName = originalRouteLongName
+        if (languages?.contains(Locale.ENGLISH) == true) {
+            routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(EMPTY)
+        }
         routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = false)
         return routeLongName
     }
@@ -23,12 +28,22 @@ object StringsCleaner {
     fun cleanTripHeadsign(
         originalTripHeadsign: String,
         languages: List<Locale>?,
+        routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
         vararg ignoredUCWords: String = emptyArray(),
         removeVia: Boolean = false,
     ): String {
         var tripHeadsign = originalTripHeadsign
+        if (languages?.contains(Locale.ENGLISH) == true) {
+            when (routeType) {
+                1, // subway
+                2, // train/rail
+                    -> {
+                    tripHeadsign = CleanUtils.STATION.matcher(tripHeadsign).replaceAll(EMPTY)
+                }
+            }
+        }
         if (languages?.contains(Locale.ENGLISH) == true) {
             tripHeadsign = if (removeVia) {
                 CleanUtils.keepToAndRemoveVia(tripHeadsign)
@@ -48,11 +63,22 @@ object StringsCleaner {
     fun cleanStopName(
         originalStopName: String,
         languages: List<Locale>?,
+        routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
         vararg ignoredUCWords: String = emptyArray(),
     ): String {
         var stopName = originalStopName
+        if (languages?.contains(Locale.ENGLISH) == true) {
+            when (routeType) {
+                1, // subway
+                2, // train/rail
+                    -> {
+                    stopName = CleanUtils.STATION.matcher(stopName).replaceAll(EMPTY)
+                }
+            }
+
+        }
         stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = true)
         return stopName
     }
