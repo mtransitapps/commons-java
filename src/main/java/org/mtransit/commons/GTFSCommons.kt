@@ -213,6 +213,7 @@ object GTFSCommons {
     const val T_DIRECTION_STOPS_K_STOP_ID = "stop_id"
     const val T_DIRECTION_STOPS_K_STOP_SEQUENCE = "stop_sequence"
     const val T_DIRECTION_STOPS_K_NO_PICKUP = "decent_only"
+    const val T_DIRECTION_STOPS_K_ALWAYS_LAST_TRIP_STOP = "last_stop"
 
     @JvmStatic
     val T_DIRECTION_STOPS_SQL_CREATE = SQLCreateBuilder.getNew(T_DIRECTION_STOPS).apply {
@@ -221,6 +222,9 @@ object GTFSCommons {
         appendColumn(T_DIRECTION_STOPS_K_STOP_ID, SQLUtils.INT)
         appendColumn(T_DIRECTION_STOPS_K_STOP_SEQUENCE, SQLUtils.INT)
         appendColumn(T_DIRECTION_STOPS_K_NO_PICKUP, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_DIRECTION_STOP_LAST) {
+            appendColumn(T_DIRECTION_STOPS_K_ALWAYS_LAST_TRIP_STOP, SQLUtils.INT) // as BOOLEAN
+        }
         appendForeignKey(T_DIRECTION_STOPS_K_DIRECTION_ID, T_DIRECTION, T_DIRECTION_K_ID)
         appendForeignKey(T_DIRECTION_STOPS_K_STOP_ID, T_STOP, T_STOP_K_ID)
     }.build()
@@ -231,6 +235,9 @@ object GTFSCommons {
         appendColumn(T_DIRECTION_STOPS_K_STOP_ID)
         appendColumn(T_DIRECTION_STOPS_K_STOP_SEQUENCE)
         appendColumn(T_DIRECTION_STOPS_K_NO_PICKUP)
+        if (FeatureFlags.F_EXPORT_DIRECTION_STOP_LAST) {
+            appendColumn(T_DIRECTION_STOPS_K_ALWAYS_LAST_TRIP_STOP)
+        }
     }.build()
 
     @JvmStatic

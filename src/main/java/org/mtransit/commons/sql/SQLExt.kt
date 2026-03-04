@@ -5,13 +5,9 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
-fun Boolean.toSQL(): Int {
-    return SQLUtils.toSQLBoolean(this)
-}
+fun Boolean.toSQL(): Int = SQLUtils.toSQLBoolean(this)
 
-fun Int.fromSQL(): Boolean {
-    return SQLUtils.fromSQLBoolean(this)
-}
+fun Int.fromSQL(): Boolean = SQLUtils.fromSQLBoolean(this)
 
 fun ResultSet.getStringOrNull(columnLabel: String) = this.getString(columnLabel).takeIf { it != SQL_NULL }?.takeIf { it.isNotBlank() }
 
