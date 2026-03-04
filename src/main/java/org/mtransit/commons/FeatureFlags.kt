@@ -65,5 +65,8 @@ object FeatureFlags {
     // const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = false
     const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = true // WIP
 
+    const val F_EXPORT_DIRECTION_STOP_LAST = false
+    // const val F_EXPORT_DIRECTION_STOP_LAST = true // WIP
+
     // @formatter:on
 }
