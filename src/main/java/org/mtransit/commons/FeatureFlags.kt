@@ -60,6 +60,9 @@ object FeatureFlags {
     // const val F_SCHEDULE_IN_MINUTES = false
     const val F_SCHEDULE_IN_MINUTES = true // WIP
 
+    const val F_EXPORT_STOP_SEQUENCE = false
+    // const val F_EXPORT_STOP_SEQUENCE = true // WIP
+
     // endregion Schedule
 
     // const val F_USE_TRIP_IS_FOR_SERVICE_UPDATES = false
