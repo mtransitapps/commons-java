@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import kotlin.text.Regex;
+
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class CleanUtils {
 
@@ -101,17 +103,19 @@ public final class CleanUtils {
 		return label.trim();
 	}
 
-	private static final String PLACE_CHAR_DE_L = "de l'";
-	private static final String PLACE_CHAR_DE_LA = "de la ";
-	private static final String PLACE_CHAR_D = "d'";
-	private static final String PLACE_CHAR_DE = "de ";
-	private static final String PLACE_CHAR_DES = "des ";
-	private static final String PLACE_CHAR_DU = "du ";
-	private static final String PLACE_CHAR_LA = "la ";
-	private static final String PLACE_CHAR_LE = "le ";
-	private static final String PLACE_CHAR_LES = "les ";
-	private static final String PLACE_CHAR_L = "l'";
+	static final String PLACE_CHAR_DE_L = "de l'";
+	static final String PLACE_CHAR_DE_LA = "de la ";
+	static final String PLACE_CHAR_D = "d'";
+	static final String PLACE_CHAR_DE = "de ";
+	static final String PLACE_CHAR_DES = "des ";
+	static final String PLACE_CHAR_DU = "du ";
+	static final String PLACE_CHAR_LA = "la ";
+	static final String PLACE_CHAR_LE = "le ";
+	static final String PLACE_CHAR_LES = "les ";
+	static final String PLACE_CHAR_L = "l'";
 
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
 	private static final Pattern[] START_WITH_CHARS = new Pattern[]{ //
 			Pattern.compile("^(" + PLACE_CHAR_DE_L + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("^(" + PLACE_CHAR_DE_LA + ")", Pattern.CASE_INSENSITIVE), //
@@ -125,6 +129,8 @@ public final class CleanUtils {
 			Pattern.compile("^(" + PLACE_CHAR_L + ")", Pattern.CASE_INSENSITIVE) //
 	};
 
+	@SuppressWarnings("unused")
+	@Deprecated
 	public static final Pattern[] SPACE_CHARS = new Pattern[]{ //
 			Pattern.compile("( " + PLACE_CHAR_DE_L + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("( " + PLACE_CHAR_DE_LA + ")", Pattern.CASE_INSENSITIVE), //
@@ -138,6 +144,8 @@ public final class CleanUtils {
 			Pattern.compile("( " + PLACE_CHAR_L + ")", Pattern.CASE_INSENSITIVE) //
 	};
 
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
 	private static final Pattern[] SLASH_CHARS = new Pattern[]{//
 			Pattern.compile("(/ " + PLACE_CHAR_DE_L + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("(/ " + PLACE_CHAR_DE_LA + ")", Pattern.CASE_INSENSITIVE), //
@@ -151,19 +159,24 @@ public final class CleanUtils {
 			Pattern.compile("(/ " + PLACE_CHAR_L + ")", Pattern.CASE_INSENSITIVE) //
 	};
 
-	private static final String PLACE_CHAR_ARRONDISSEMENT = "arrondissement ";
-	private static final String PLACE_CHAR_AV = "av ";
-	private static final String PLACE_CHAR_AVENUE = "avenue ";
-	private static final String PLACE_CHAR_BOUL = "boul ";
-	private static final String PLACE_CHAR_BOULEVARD = "boulevard ";
-	private static final String PLACE_CHAR_CH = "ch ";
-	private static final String PLACE_CHAR_CIVIQUE = "civique ";
-	private static final String PLACE_CHAR_CROISS = "croiss ";
-	private static final String PLACE_CHAR_QUARTIER = "quartier ";
-	private static final String PLACE_CHAR_RTE = "rte ";
-	private static final String PLACE_CHAR_RUE = "rue ";
-	private static final String PLACE_CHAR_TSSE = "tsse ";
+	public static final Regex ALL_CHARS_REGEX = CleanUtilsExtKt.makeALL_CHARS_REGEX();
+	public static final String ALL_CHARS_REGEX_REPLACEMENT = CleanUtilsExtKt.makeALL_CHARS_REGEX_REPLACEMENT();
 
+	static final String PLACE_CHAR_ARRONDISSEMENT = "arrondissement ";
+	static final String PLACE_CHAR_AV = "av ";
+	static final String PLACE_CHAR_AVENUE = "avenue ";
+	static final String PLACE_CHAR_BOUL = "boul ";
+	static final String PLACE_CHAR_BOULEVARD = "boulevard ";
+	static final String PLACE_CHAR_CH = "ch ";
+	static final String PLACE_CHAR_CIVIQUE = "civique ";
+	static final String PLACE_CHAR_CROISS = "croiss ";
+	static final String PLACE_CHAR_QUARTIER = "quartier ";
+	static final String PLACE_CHAR_RTE = "rte ";
+	static final String PLACE_CHAR_RUE = "rue ";
+	static final String PLACE_CHAR_TSSE = "tsse ";
+
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
 	private static final Pattern[] START_WITH_ST = new Pattern[]{ //
 			Pattern.compile("^(" + PLACE_CHAR_ARRONDISSEMENT + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("^(" + PLACE_CHAR_AV + ")", Pattern.CASE_INSENSITIVE), //
@@ -179,6 +192,8 @@ public final class CleanUtils {
 			Pattern.compile("^(" + PLACE_CHAR_TSSE + ")", Pattern.CASE_INSENSITIVE) //
 	};
 
+	@SuppressWarnings("unused")
+	@Deprecated
 	public static final Pattern[] SPACE_ST = new Pattern[]{ //
 			Pattern.compile("( " + PLACE_CHAR_ARRONDISSEMENT + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("( " + PLACE_CHAR_AV + ")", Pattern.CASE_INSENSITIVE), //
@@ -194,6 +209,8 @@ public final class CleanUtils {
 			Pattern.compile("( " + PLACE_CHAR_TSSE + ")", Pattern.CASE_INSENSITIVE) //
 	};
 
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
 	private static final Pattern[] SLASH_ST = new Pattern[]{ //
 			Pattern.compile("(/ " + PLACE_CHAR_ARRONDISSEMENT + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("(/ " + PLACE_CHAR_AV + ")", Pattern.CASE_INSENSITIVE), //
@@ -208,6 +225,9 @@ public final class CleanUtils {
 			Pattern.compile("(/ " + PLACE_CHAR_RUE + ")", Pattern.CASE_INSENSITIVE), //
 			Pattern.compile("(/ " + PLACE_CHAR_TSSE + ")", Pattern.CASE_INSENSITIVE) //
 	};
+
+	public static final Regex ALL_ST_REGEX = CleanUtilsExtKt.makeALL_ST_REGEX();
+	public static final String ALL_ST_REGEX_REPLACEMENT = CleanUtilsExtKt.makeALL_ST_REGEX_REPLACEMENT();
 
 	@NotNull
 	public static Pattern cleanWord(@NotNull String word) {
@@ -355,9 +375,13 @@ public final class CleanUtils {
 		label = CLEAN_PARENTHESIS2.matcher(label).replaceAll(CLEAN_PARENTHESIS2_REPLACEMENT);
 		label = SAINT.matcher(label).replaceAll(SAINT_REPLACEMENT);
 		label = removePointsI(label); // after capitalize
+		//noinspection deprecation
 		label = RegexUtils.replaceAllNN(label.trim(), START_WITH_ST, SPACE); // Constants.EMPTY); // SPACE);
+		//noinspection deprecation
 		label = RegexUtils.replaceAllNN(label, SLASH_ST, SLASH_SPACE);
+		//noinspection deprecation
 		label = RegexUtils.replaceAllNN(label.trim(), START_WITH_CHARS, SPACE); // , Constants.EMPTY); //
+		//noinspection deprecation
 		label = RegexUtils.replaceAllNN(label, SLASH_CHARS, SLASH_SPACE);
 		return cleanLabel(Locale.FRENCH, label);
 	}
@@ -594,6 +618,9 @@ public final class CleanUtils {
 		}
 		return false;
 	}
+
+	public static final Regex ALL_FACE_A_REGEX = CleanUtilsExtKt.makeALL_FACE_A_REGEX();
+	public static final String ALL_FACE_A_REGEX_REPLACEMENT = CleanUtilsExtKt.makeALL_FACE_A_REGEX_REPLACEMENT();
 
 	// TODO white-space VS non-word?
 	private static final Pattern FIRST = cleanWords("first");
@@ -960,6 +987,8 @@ public final class CleanUtils {
 	private static final String FR_CA_BOULEVARD_REPLACEMENT = cleanWordsReplacement("Boul");
 	private static final Pattern FR_CA_CARREFOUR = cleanWordsFR("carrefour");
 	private static final String FR_CA_CARREFOUR_REPLACEMENT = cleanWordsReplacement("Carref");
+	private static final Pattern FR_CA_CARRE = cleanWordsFR("carr[é|e]");
+	private static final String FR_CA_CARRE_REPLACEMENT = cleanWordsReplacement("Carr");
 	private static final Pattern FR_CA_MONTAGNE = cleanWordsFR("montagne");
 	private static final String FR_CA_MONTAGNE_REPLACEMENT = cleanWordsReplacement("Mgne");
 	private static final Pattern FR_CA_MONTEE = cleanWordsFR("mont[é|e]e");
@@ -1017,6 +1046,7 @@ public final class CleanUtils {
 		string = FR_CA_AUTOROUTE.matcher(string).replaceAll(FR_CA_AUTOROUTE_REPLACEMENT);
 		string = FR_CA_BOULEVARD.matcher(string).replaceAll(FR_CA_BOULEVARD_REPLACEMENT);
 		string = FR_CA_CARREFOUR.matcher(string).replaceAll(FR_CA_CARREFOUR_REPLACEMENT);
+		string = FR_CA_CARRE.matcher(string).replaceAll(FR_CA_CARRE_REPLACEMENT);
 		string = FR_CA_MONTAGNE.matcher(string).replaceAll(FR_CA_MONTAGNE_REPLACEMENT);
 		string = FR_CA_MONTEE.matcher(string).replaceAll(FR_CA_MONTEE_REPLACEMENT);
 		string = FR_CA_PARC_INDUSTRIEL.matcher(string).replaceAll(FR_CA_PARC_INDUSTRIEL_REPLACEMENT);
