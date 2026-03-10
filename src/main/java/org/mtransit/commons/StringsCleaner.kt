@@ -115,6 +115,10 @@ object StringsCleaner {
                 string = CleanUtils.CLEAN_ET.matcher(string).replaceAll(CleanUtils.CLEAN_ET_REPLACEMENT)
                 string = CleanUtils.SAINT.matcher(string).replaceAll(CleanUtils.SAINT_REPLACEMENT)
                 string = CleanUtils.cleanStreetTypesFRCA(string)
+                string = CleanUtils.removePointsI(string) // BEFORE next regexes
+                string = CleanUtils.ALL_FACE_A_REGEX.replace(string, CleanUtils.ALL_FACE_A_REGEX_REPLACEMENT)
+                string = CleanUtils.ALL_ST_REGEX.replace(string, CleanUtils.ALL_ST_REGEX_REPLACEMENT)
+                string = CleanUtils.ALL_CHARS_REGEX.replace(string, CleanUtils.ALL_CHARS_REGEX_REPLACEMENT)
             }
         }
         languages?.forEach { language ->
