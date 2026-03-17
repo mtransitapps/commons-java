@@ -575,7 +575,7 @@ public final class CleanUtils {
 	@NotNull
 	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
 		if (string.isEmpty()) return string;
-		if (Arrays.asList(ignoreWords).contains(string)) return string;
+		if (Arrays.asList(ignoreWords).contains(string.trim())) return string;
 		if (CharUtils.isUppercaseOnly(string, true, true)) {
 			return string.toLowerCase(locale);
 		}

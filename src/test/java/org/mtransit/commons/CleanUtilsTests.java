@@ -3,6 +3,7 @@ package org.mtransit.commons;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -489,5 +490,11 @@ public class CleanUtilsTests {
 		String result = CleanUtils.removeVia(string);
 		// Assert
 		assertEquals("505 DUNDAS BROADVIEW STN", result);
+	}
+
+	@Test
+	public void test_toLowerCaseUpperCaseStrings() {
+		String result = CleanUtils.toLowerCaseUpperCaseStrings(Locale.ENGLISH, "YMCA ", "YMCA");
+		assertEquals("YMCA ", result);
 	}
 }
