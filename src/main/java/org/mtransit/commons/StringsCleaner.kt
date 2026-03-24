@@ -99,9 +99,7 @@ object StringsCleaner {
                 string = CleanUtils.toLowerCaseUpperCaseStrings(language, string, *ignoredUCWords)
             }
         }
-        if (!short) {
-            string = CleanUtils.cleanSlashes(string)
-        }
+        string = CleanUtils.cleanSlashes(string)
         if (languages?.contains(Locale.ENGLISH) == true) {
             if (short) {
                 string = CleanUtils.CLEAN_AND.matcher(string).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT)
