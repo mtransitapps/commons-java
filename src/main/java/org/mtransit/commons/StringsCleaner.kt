@@ -104,6 +104,7 @@ object StringsCleaner {
             if (short) {
                 string = CleanUtils.CLEAN_AND.matcher(string).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT)
                 string = CleanUtils.CLEAN_AT.matcher(string).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT)
+                string = CleanUtils.fixMcXCase(string)
                 string = CleanUtils.cleanStreetTypes(string)
                 string = CleanUtils.cleanNumbers(string)
             }
