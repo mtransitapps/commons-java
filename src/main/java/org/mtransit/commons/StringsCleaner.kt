@@ -23,6 +23,8 @@ object StringsCleaner {
         return routeLongName
     }
 
+    private const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
+
     @JvmOverloads
     @JvmStatic
     fun cleanTripHeadsign(
@@ -54,9 +56,12 @@ object StringsCleaner {
         if (languages?.contains(Locale.FRENCH) == true) {
             tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
         }
-        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = true)
+        val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH
+        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return tripHeadsign
     }
+
+    private const val STOP_NAME_SHORT_MAX_LENGTH = 17
 
     @JvmOverloads
     @JvmStatic
@@ -79,7 +84,8 @@ object StringsCleaner {
             }
 
         }
-        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = true)
+        val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH
+        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return stopName
     }
 
@@ -101,10 +107,10 @@ object StringsCleaner {
         }
         string = CleanUtils.cleanSlashes(string)
         if (languages?.contains(Locale.ENGLISH) == true) {
+            string = CleanUtils.fixMcXCase(string)
             if (short) {
                 string = CleanUtils.CLEAN_AND.matcher(string).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT)
                 string = CleanUtils.CLEAN_AT.matcher(string).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT)
-                string = CleanUtils.fixMcXCase(string)
                 string = CleanUtils.cleanStreetTypes(string)
                 string = CleanUtils.cleanNumbers(string)
             }
