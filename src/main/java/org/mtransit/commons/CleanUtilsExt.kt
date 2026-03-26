@@ -73,7 +73,7 @@ fun makeALL_CHARS_REGEX_REPLACEMENT() = "$2"
 
 fun makeALL_FACE_A_REGEX() =
     buildString {
-        append("((^\\s*|/\\s*)(") // |\s+ not after another word
+        append("((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
         append(
             listOf(
                 "face à ",
