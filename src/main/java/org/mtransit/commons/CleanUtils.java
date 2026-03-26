@@ -722,7 +722,8 @@ public final class CleanUtils {
 		return ID_MERGED.matcher(mergedId).replaceAll(ID_MERGED_REPLACEMENT);
 	}
 
-	static final Pattern LINE = cleanWords("line");
+	static final Pattern LINE = Pattern.compile("((^|\\s)(line)(\\s|$))", Pattern.CASE_INSENSITIVE);
+	static final String LINE_REPLACEMENT = "$2$4";
 
 	// http://www.semaphorecorp.com/cgi/abbrev.html
 	private static final Pattern STREET = cleanWords("street");

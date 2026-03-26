@@ -17,7 +17,7 @@ object StringsCleaner {
     ): String {
         var routeLongName = originalRouteLongName
         if (languages?.contains(Locale.ENGLISH) == true) {
-            routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(EMPTY)
+            routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
         routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = false)
         return routeLongName
@@ -108,9 +108,9 @@ object StringsCleaner {
         string = CleanUtils.cleanSlashes(string)
         if (languages?.contains(Locale.ENGLISH) == true) {
             string = CleanUtils.fixMcXCase(string)
+            string = CleanUtils.CLEAN_AT.matcher(string).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT)
             if (short) {
                 string = CleanUtils.CLEAN_AND.matcher(string).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT)
-                string = CleanUtils.CLEAN_AT.matcher(string).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT)
                 string = CleanUtils.cleanStreetTypes(string)
                 string = CleanUtils.cleanNumbers(string)
             }
