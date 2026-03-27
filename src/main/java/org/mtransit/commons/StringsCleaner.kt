@@ -22,7 +22,7 @@ object StringsCleaner {
             routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(" ")
-        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = false)
+        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return routeLongName
     }
 
