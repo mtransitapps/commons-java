@@ -5,6 +5,8 @@ import java.util.Locale
 
 object StringsCleaner {
 
+    private const val ROUTE_LONG_NAME_SHORT_MAX_LENGTH = 33
+
     @JvmOverloads
     @JvmStatic
     fun cleanRouteLongName(
@@ -19,7 +21,8 @@ object StringsCleaner {
         if (languages?.contains(Locale.ENGLISH) == true) {
             routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
-        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = false)
+        val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(" ")
+        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return routeLongName
     }
 
@@ -56,7 +59,7 @@ object StringsCleaner {
         if (languages?.contains(Locale.FRENCH) == true) {
             tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
         }
-        val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH
+        val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(" ")
         tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return tripHeadsign
     }
@@ -84,7 +87,7 @@ object StringsCleaner {
             }
 
         }
-        val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH
+        val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(" ")
         stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return stopName
     }
