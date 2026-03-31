@@ -116,8 +116,8 @@ object StringsCleaner {
             if (short) {
                 string = CleanUtils.CLEAN_AND.matcher(string).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT)
                 string = CleanUtils.cleanStreetTypes(string)
-                string = CleanUtils.cleanNumbers(string)
             }
+            string = CleanUtils.cleanNumbers(string)
         }
         if (languages?.contains(Locale.FRENCH) == true) {
             if (short) {
