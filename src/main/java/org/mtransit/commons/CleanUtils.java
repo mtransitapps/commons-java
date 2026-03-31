@@ -386,12 +386,18 @@ public final class CleanUtils {
 		return cleanLabel(Locale.FRENCH, label);
 	}
 
-	private static final Pattern CLEAN_SLASH = Pattern.compile("(\\S)\\s*/\\s*(\\S)");
-	private static final String CLEAN_SLASH_REPLACEMENT = "$1" + " / " + "$2";
+	private static final Pattern SLASHES = Pattern.compile("(\\S)\\s*/\\s*(\\S)");
+	private static final String SLASHES_CLEAN_REPLACEMENT = "$1" + " / " + "$2";
+	private static final String SLASHES_CLEAN_SHORT_REPLACEMENT = "$1" + "/" + "$2";
 
 	@NotNull
 	public static String cleanSlashes(@NotNull String string) {
-		return CLEAN_SLASH.matcher(string).replaceAll(CLEAN_SLASH_REPLACEMENT);
+		return cleanSlashes(string, false);
+	}
+
+	@NotNull
+	public static String cleanSlashes(@NotNull String string, boolean isShort) {
+		return SLASHES.matcher(string).replaceAll(isShort ? SLASHES_CLEAN_SHORT_REPLACEMENT : SLASHES_CLEAN_REPLACEMENT);
 	}
 
 	private static final Pattern _3_POINTS = Pattern.compile("(\\.\\.\\.)");

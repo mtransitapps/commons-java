@@ -61,6 +61,7 @@ object StringsCleaner {
         }
         val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(" ")
         tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
+        tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
         return tripHeadsign
     }
 
