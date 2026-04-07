@@ -1,12 +1,12 @@
 package org.mtransit.commons
 
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class CleanUtilTests {
+class CleanUtilsKtTests {
 
-    @Before
+    @BeforeTest
     fun setUp() {
         CommonsApp.setup(false)
     }
@@ -20,7 +20,7 @@ class CleanUtilTests {
         // Act
         val result = CleanUtils.keepOrRemoveVia(tripHeadsign) { string -> string == tripHeading || string == routeLongName }
         // Assert
-        Assert.assertEquals("via Bbb ccc", result)
+        assertEquals("via Bbb ccc", result)
     }
 
     @Test
@@ -32,7 +32,7 @@ class CleanUtilTests {
         // Act
         val result = CleanUtils.keepOrRemoveVia(tripHeadsign) { string -> string == tripHeading || string == routeLongName }
         // Assert
-        Assert.assertEquals("Aaa", result)
+        assertEquals("Aaa", result)
     }
 
     @Test
@@ -44,7 +44,7 @@ class CleanUtilTests {
         // Act
         val result = CleanUtils.keepOrRemoveVia(tripHeadsign) { string -> string == tripHeading || string == routeLongName }
         // Assert
-        Assert.assertEquals(tripHeadsign, result)
+        assertEquals(tripHeadsign, result)
     }
 
     @Test
@@ -56,7 +56,7 @@ class CleanUtilTests {
         // Act
         val result = CleanUtils.keepOrRemoveVia(tripHeadsign) { string -> string == tripHeading || string == routeLongName }
         // Assert
-        Assert.assertEquals(tripHeadsign, result)
+        assertEquals(tripHeadsign, result)
     }
 
     @Test
@@ -68,6 +68,25 @@ class CleanUtilTests {
         // Act
         val result = CleanUtils.keepOrRemoveVia(tripHeadsign) { string -> string == tripHeading || string == routeLongName }
         // Assert
-        Assert.assertEquals(Constants.EMPTY, result)
+        assertEquals(Constants.EMPTY, result)
+    }
+
+    @Test
+    fun test_cleanSlashes() {
+        "Angora / Gascon / Terrebonne / Cégep Terrebonne".let { string ->
+            CleanUtils.cleanSlashes(string, true)
+        }.let { result ->
+            assertEquals("Angora/Gascon/Terrebonne/Cégep Terrebonne", result)
+        }
+        "Angora/Gascon / Terrebonne/Cégep Terrebonne".let { string ->
+            CleanUtils.cleanSlashes(string, true)
+        }.let { result ->
+            assertEquals("Angora/Gascon/Terrebonne/Cégep Terrebonne", result)
+        }
+        "Angora/Gascon/Terrebonne/Cégep Terrebonne".let { string ->
+            CleanUtils.cleanSlashes(string, true)
+        }.let { result ->
+            assertEquals("Angora/Gascon/Terrebonne/Cégep Terrebonne", result)
+        }
     }
 }

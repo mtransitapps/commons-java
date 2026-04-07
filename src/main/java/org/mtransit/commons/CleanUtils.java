@@ -392,11 +392,13 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String cleanSlashes(@NotNull String string) {
+		if (string.isEmpty()) return string;
 		return cleanSlashes(string, false);
 	}
 
 	@NotNull
 	public static String cleanSlashes(@NotNull String string, boolean isShort) {
+		if (string.isEmpty()) return string;
 		return SLASHES.matcher(string).replaceAll(isShort ? SLASHES_CLEAN_SHORT_REPLACEMENT : SLASHES_CLEAN_REPLACEMENT);
 	}
 

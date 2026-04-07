@@ -21,7 +21,7 @@ object StringsCleaner {
         if (languages?.contains(Locale.ENGLISH) == true) {
             routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
-        val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(" ")
+        val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
         routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return routeLongName
     }
@@ -62,9 +62,11 @@ object StringsCleaner {
                 tripHeadsign = CleanUtils.removeVia(tripHeadsign)
             }
         }
-        val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(" ")
+        val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(' ')
         tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
-        tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
+        if (tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH) {
+            tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
+        }
         return tripHeadsign
     }
 
@@ -91,7 +93,7 @@ object StringsCleaner {
             }
 
         }
-        val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(" ")
+        val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(' ')
         stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
         return stopName
     }
