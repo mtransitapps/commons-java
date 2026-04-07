@@ -58,6 +58,9 @@ object StringsCleaner {
         }
         if (languages?.contains(Locale.FRENCH) == true) {
             tripHeadsign = CleanUtils.keepToFR(tripHeadsign)
+            if (removeVia) {
+                tripHeadsign = CleanUtils.removeVia(tripHeadsign)
+            }
         }
         val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(" ")
         tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
