@@ -42,6 +42,7 @@ object StringsCleaner {
         var tripHeadsign = originalTripHeadsign
         if (languages?.contains(Locale.ENGLISH) == true) {
             when (routeType) {
+                0, // light rail
                 1, // subway
                 2, // train/rail
                     -> {
@@ -85,6 +86,7 @@ object StringsCleaner {
         var stopName = originalStopName
         if (languages?.contains(Locale.ENGLISH) == true) {
             when (routeType) {
+                0, // light rail
                 1, // subway
                 2, // train/rail
                     -> {
