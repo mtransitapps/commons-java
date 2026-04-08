@@ -32,6 +32,9 @@ object SourceUtils {
         "prod",
         "storage",
         "transitapp",
+        "webapps",
+        "webapp",
+        "web",
         "www",
     )
 
