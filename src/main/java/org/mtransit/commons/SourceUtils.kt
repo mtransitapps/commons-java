@@ -26,6 +26,7 @@ object SourceUtils {
         "gtfs",
         "gtfs-static",
         "gtfs-realtime",
+        "gtfs-prod",
         "inter",
         "maps",
         "opendata",
