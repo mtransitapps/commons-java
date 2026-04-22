@@ -22,7 +22,7 @@ object StringsCleaner {
             routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
-        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
+        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = ROUTE_LONG_NAME_SHORT_MAX_LENGTH)
         return routeLongName
     }
 
@@ -64,14 +64,14 @@ object StringsCleaner {
             }
         }
         val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(' ')
-        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
+        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = TRIP_HEADSIGN_SHORT_MAX_LENGTH)
         if (tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH) {
             tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
         }
         return tripHeadsign
     }
 
-    private const val STOP_NAME_SHORT_MAX_LENGTH = 17
+    private const val STOP_NAME_SHORT_MAX_LENGTH = 27 // almost as much space as route long name
 
     @JvmOverloads
     @JvmStatic
@@ -96,7 +96,7 @@ object StringsCleaner {
 
         }
         val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(' ')
-        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter)
+        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = STOP_NAME_SHORT_MAX_LENGTH)
         return stopName
     }
 
@@ -106,7 +106,8 @@ object StringsCleaner {
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
         vararg ignoredUCWords: String = emptyArray(),
-        short: Boolean
+        short: Boolean,
+        shortMaxLength: Int,
     ): String {
         var string = originalString
         languages?.forEach { language ->
@@ -138,7 +139,7 @@ object StringsCleaner {
             }
         }
         languages?.forEach { language ->
-            if (short) {
+            if (short && string.length > shortMaxLength) {
                 string = CleanUtils.cleanBounds(language, string)
             }
             string = CleanUtils.cleanLabel(language, string)
