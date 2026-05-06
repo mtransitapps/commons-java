@@ -733,6 +733,9 @@ public final class CleanUtils {
 	static final Pattern LINE = Pattern.compile("(^|\\s)(line)(\\s|$)", Pattern.CASE_INSENSITIVE);
 	static final String LINE_REPLACEMENT = "$1$3";
 
+	static final Pattern LINE_ = cleanWords("line");
+	static final Pattern FR_CA_LIGNE = cleanWordsFR("ligne");
+
 	// http://www.semaphorecorp.com/cgi/abbrev.html
 	private static final Pattern STREET = cleanWords("street");
 	private static final String STREET_REPLACEMENT = cleanWordsReplacement("St");
@@ -1010,7 +1013,7 @@ public final class CleanUtils {
 	private static final String FR_CA_SECTEURS_REPLACEMENT = cleanWordsReplacementPlural("Sect");
 	private static final Pattern FR_CA_STATION_DE_METRO = cleanWordsFR("Station de m[é|e]tro");
 	private static final String FR_CA_STATION_DE_METRO_REPLACEMENT = cleanWordsReplacement("Ston mét");
-	private static final Pattern FR_CA_STATION = cleanWordsFR("station");
+	static final Pattern FR_CA_STATION = cleanWordsFR("station");
 	private static final String FR_CA_STATION_REPLACEMENT = cleanWordsReplacement("Ston");
 	private static final Pattern FR_CA_STATIONNEMENT = cleanWordsFR("stationnement");
 	private static final String FR_CA_STATIONNEMENT_REPLACEMENT = cleanWordsReplacement("Stat");
