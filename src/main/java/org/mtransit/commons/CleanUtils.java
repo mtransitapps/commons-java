@@ -734,7 +734,7 @@ public final class CleanUtils {
 	static final String LINE_REPLACEMENT = "$1$3";
 
 	static final Pattern LINE_ = cleanWords("line");
-	static final Pattern FR_CA_LIGNE = cleanWords("line");
+	static final Pattern FR_CA_LIGNE = cleanWordsFR("ligne");
 
 	// http://www.semaphorecorp.com/cgi/abbrev.html
 	private static final Pattern STREET = cleanWords("street");
