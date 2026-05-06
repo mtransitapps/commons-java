@@ -19,10 +19,10 @@ object StringsCleaner {
     ): String {
         var routeLongName = originalRouteLongName
         if (languages?.contains(Locale.ENGLISH) == true) {
-            routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
+            routeLongName = CleanUtils.LINE_.matcher(routeLongName).replaceAll(EMPTY)
         }
         if (languages?.contains(Locale.FRENCH) == true) {
-            routeLongName = CleanUtils.LIGNE.matcher(routeLongName).replaceAll(CleanUtils.LIGNE_REPLACEMENT)
+            routeLongName = CleanUtils.FR_CA_LIGNE.matcher(routeLongName).replaceAll(EMPTY)
         }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
         routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = ROUTE_LONG_NAME_SHORT_MAX_LENGTH)
@@ -57,7 +57,7 @@ object StringsCleaner {
             when (routeType) {
                 1, // subway
                     -> {
-                    tripHeadsign = CleanUtils.STATION.matcher(tripHeadsign).replaceAll(EMPTY)
+                    tripHeadsign = CleanUtils.FR_CA_STATION.matcher(tripHeadsign).replaceAll(EMPTY)
                 }
             }
         }
