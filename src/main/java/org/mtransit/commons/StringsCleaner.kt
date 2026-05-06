@@ -21,6 +21,9 @@ object StringsCleaner {
         if (languages?.contains(Locale.ENGLISH) == true) {
             routeLongName = CleanUtils.LINE.matcher(routeLongName).replaceAll(CleanUtils.LINE_REPLACEMENT)
         }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            routeLongName = CleanUtils.LIGNE.matcher(routeLongName).replaceAll(CleanUtils.LIGNE_REPLACEMENT)
+        }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
         routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = ROUTE_LONG_NAME_SHORT_MAX_LENGTH)
         return routeLongName
@@ -45,6 +48,14 @@ object StringsCleaner {
                 0, // light rail
                 1, // subway
                 2, // train/rail
+                    -> {
+                    tripHeadsign = CleanUtils.STATION.matcher(tripHeadsign).replaceAll(EMPTY)
+                }
+            }
+        }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            when (routeType) {
+                1, // subway
                     -> {
                     tripHeadsign = CleanUtils.STATION.matcher(tripHeadsign).replaceAll(EMPTY)
                 }
