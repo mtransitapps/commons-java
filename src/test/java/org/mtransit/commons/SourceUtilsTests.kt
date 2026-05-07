@@ -123,4 +123,18 @@ class SourceUtilsTests {
 
         assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
     }
+
+    @Test
+    fun `test label from URL - google hosts`() {
+        "https://abc.googleapis.com/".let { urlString ->
+            SourceUtils.getSourceLabel(urlString)
+        }.let { result ->
+            assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
+        }
+        "https://drive.google.com/".let { urlString ->
+            SourceUtils.getSourceLabel(urlString)
+        }.let { result ->
+            assertEquals(INVALID_URL, result) // UI not compatible with null source label (2025-03-12)
+        }
+    }
 }
