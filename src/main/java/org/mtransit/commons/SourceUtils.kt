@@ -9,6 +9,7 @@ object SourceUtils {
     private val HOST_BLACK_LIST = listOf(
         "azure-api.net",
         "azurefd.net",
+        "github.com",
         "googleapis.com",
         "google.com",
         "transitapp.com",
