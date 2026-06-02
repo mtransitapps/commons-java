@@ -91,13 +91,20 @@ public final class CleanUtils {
 
 	@NotNull
 	public static String cleanLabel(@NotNull Locale locale, @NotNull String label) {
+		return cleanLabel(locale, label, true);
+	}
+
+	@NotNull
+	public static String cleanLabel(@NotNull Locale locale, @NotNull String label, boolean capitalize) {
 		label = CLEAN_SPACES.matcher(label).replaceAll(SPACE);
 		label = CLEAN_P1.matcher(label).replaceAll(CLEAN_P1_REPLACEMENT);
 		label = CLEAN_P2.matcher(label).replaceAll(CLEAN_P2_REPLACEMENT);
-		if (locale.getLanguage().equals(Locale.FRENCH.getLanguage())) {
-			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_FR);
-		} else {
-			label = WordUtils.capitalize(label, CAPITALIZE_CHARS_EN);
+		if (capitalize) {
+			if (locale.getLanguage().equals(Locale.FRENCH.getLanguage())) {
+				label = WordUtils.capitalize(label, CAPITALIZE_CHARS_FR);
+			} else {
+				label = WordUtils.capitalize(label, CAPITALIZE_CHARS_EN);
+			}
 		}
 		label = removePointsI(label); // after capitalize
 		return label.trim();

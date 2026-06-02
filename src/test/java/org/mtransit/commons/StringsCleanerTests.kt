@@ -1,5 +1,6 @@
 package org.mtransit.commons
 
+import java.util.Locale
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -38,5 +39,30 @@ class StringsCleanerTests {
         }.let { result ->
             assertEquals("Angora/Gascon/Terrebonne/Cégep Terrebonne", result)
         }
+    }
+
+    @Test
+    fun test_cleanRouteLongName() {
+        "Tunney's Pasture <> Bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Tunney's Pasture <> Bridlewood", result)
+        }
+        "Tunney's Pasture <> Bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.FRENCH, Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Tunney's Pasture <> Bridlewood", result)
+        }
+        "Tunney's Pasture <> Bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3)
+        }.let { result ->
+            assertEquals("Tunney's Pasture <> Bridlewood", result)
+        }
+        "Tunney's Pasture <> Bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
+        }.let { result ->
+            assertEquals("Tunney'S Pasture <> Bridlewood", result) // too bad
+        }
+
     }
 }

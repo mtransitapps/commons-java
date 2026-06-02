@@ -149,11 +149,12 @@ object StringsCleaner {
                 string = CleanUtils.ALL_CHARS_REGEX.replace(string, CleanUtils.ALL_CHARS_REGEX_REPLACEMENT)
             }
         }
+        val capitalize = lowerUCStrings || lowerUCWords // only capitalize if lower case was called
         languages?.forEach { language ->
             if (short && string.length > shortMaxLength) {
                 string = CleanUtils.cleanBounds(language, string)
             }
-            string = CleanUtils.cleanLabel(language, string)
+            string = CleanUtils.cleanLabel(language, string, capitalize)
         }
         return string
     }
