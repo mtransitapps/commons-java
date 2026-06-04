@@ -4,8 +4,8 @@ package org.mtransit.commons
 object Constants {
 
     @JvmStatic
-    // val DEBUG = true // DEBUG
-    val DEBUG = false
+    val DEBUG = true // DEBUG
+    // val DEBUG = false
 
     const val NEW_LINE = '\n'
     const val SPACE = ' '
