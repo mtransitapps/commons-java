@@ -1,11 +1,17 @@
 package org.mtransit.commons
 
-import org.mtransit.commons.StringUtils.EMPTY
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.Locale
 
 object StringsCleaner {
 
     private const val ROUTE_LONG_NAME_SHORT_MAX_LENGTH = 33
+
+    private val LINE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)line\s+(\w+)""", RegexOption.IGNORE_CASE)
+    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
+
+    private val FR_LIGNE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)ligne\s+(\w+)""", RegexOption.IGNORE_CASE)
+    private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
 
     @JvmOverloads
     @JvmStatic
@@ -19,17 +25,24 @@ object StringsCleaner {
     ): String {
         var routeLongName = originalRouteLongName
         if (languages?.contains(Locale.ENGLISH) == true) {
-            routeLongName = CleanUtils.LINE_.matcher(routeLongName).replaceAll(EMPTY)
+            routeLongName = LINE_AND_SHORT_NAME.replace(routeLongName, LINE_AND_SHORT_NAME_REPLACEMENT)
         }
         if (languages?.contains(Locale.FRENCH) == true) {
-            routeLongName = CleanUtils.FR_CA_LIGNE.matcher(routeLongName).replaceAll(EMPTY)
+            routeLongName = FR_LIGNE_AND_SHORT_NAME.replace(routeLongName, FR_LIGNE_AND_SHORT_NAME_REPLACEMENT)
         }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
-        routeLongName = cleanString(routeLongName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = ROUTE_LONG_NAME_SHORT_MAX_LENGTH)
+        routeLongName = cleanString(routeLongName, languages, makeShorter, ROUTE_LONG_NAME_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
         return routeLongName
     }
 
-    private const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
+    @VisibleForTesting
+    internal const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
+
+    private val STATION_AND_NAME = Regex("""(?U)(^|\s+)station\s+(\w+)""", RegexOption.IGNORE_CASE)
+    private const val STATION_AND_NAME_REPLACEMENT = "$1$2"
+
+    private val FR_STATION_AND_NAME = Regex("""(?U)(^|\s+)station\s+(\w+)""", RegexOption.IGNORE_CASE)
+    private const val FR_STATION_AND_NAME_REPLACEMENT = "$1$2"
 
     @JvmOverloads
     @JvmStatic
@@ -49,7 +62,7 @@ object StringsCleaner {
                 1, // subway
                 2, // train/rail
                     -> {
-                    tripHeadsign = CleanUtils.STATION.matcher(tripHeadsign).replaceAll(EMPTY)
+                    tripHeadsign = STATION_AND_NAME.replace(tripHeadsign, STATION_AND_NAME_REPLACEMENT)
                 }
             }
         }
@@ -57,7 +70,7 @@ object StringsCleaner {
             when (routeType) {
                 1, // subway
                     -> {
-                    tripHeadsign = CleanUtils.FR_CA_STATION.matcher(tripHeadsign).replaceAll(EMPTY)
+                    tripHeadsign = FR_STATION_AND_NAME.replace(tripHeadsign, FR_STATION_AND_NAME_REPLACEMENT)
                 }
             }
         }
@@ -75,7 +88,7 @@ object StringsCleaner {
             }
         }
         val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(' ')
-        tripHeadsign = cleanString(tripHeadsign, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = TRIP_HEADSIGN_SHORT_MAX_LENGTH)
+        tripHeadsign = cleanString(tripHeadsign, languages, makeShorter, TRIP_HEADSIGN_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
         if (tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH) {
             tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
         }
@@ -101,24 +114,32 @@ object StringsCleaner {
                 1, // subway
                 2, // train/rail
                     -> {
-                    stopName = CleanUtils.STATION.matcher(stopName).replaceAll(EMPTY)
+                    stopName = STATION_AND_NAME.replace(stopName, STATION_AND_NAME_REPLACEMENT)
                 }
             }
-
+        }
+        if (languages?.contains(Locale.FRENCH) == true) {
+            when (routeType) {
+                1, // subway
+                    -> {
+                    stopName = FR_STATION_AND_NAME.replace(stopName, FR_STATION_AND_NAME_REPLACEMENT)
+                }
+            }
         }
         val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(' ')
-        stopName = cleanString(stopName, languages, lowerUCStrings, lowerUCWords, *ignoredUCWords, short = makeShorter, shortMaxLength = STOP_NAME_SHORT_MAX_LENGTH)
+        stopName = cleanString(stopName, languages, makeShorter, STOP_NAME_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
         return stopName
     }
 
-    private fun cleanString(
+    @VisibleForTesting
+    internal fun cleanString(
         originalString: String,
         languages: List<Locale>?,
+        short: Boolean,
+        shortMaxLength: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
         vararg ignoredUCWords: String = emptyArray(),
-        short: Boolean,
-        shortMaxLength: Int,
     ): String {
         var string = originalString
         languages?.forEach { language ->
@@ -149,12 +170,13 @@ object StringsCleaner {
                 string = CleanUtils.ALL_CHARS_REGEX.replace(string, CleanUtils.ALL_CHARS_REGEX_REPLACEMENT)
             }
         }
-        val capitalize = lowerUCStrings || lowerUCWords // only capitalize if lower case was called
         languages?.forEach { language ->
             if (short && string.length > shortMaxLength) {
                 string = CleanUtils.cleanBounds(language, string)
             }
-            string = CleanUtils.cleanLabel(language, string, capitalize)
+        }
+        languages?.firstOrNull()?.let { language ->
+            string = CleanUtils.cleanLabel(language, string, true) // only 1st language
         }
         return string
     }

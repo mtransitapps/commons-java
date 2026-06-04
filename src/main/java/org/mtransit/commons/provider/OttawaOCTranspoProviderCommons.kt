@@ -10,7 +10,7 @@ object OttawaOCTranspoProviderCommons {
     private val FIX_CAIRINE_WILSON_ = CleanUtils.cleanWords("carine wilson")
     private val FIX_CAIRINE_WILSON_REPLACEMENT = CleanUtils.cleanWordsReplacement("Cairine Wilson")
 
-    private val REMOVE_SECOND_LANGUAGE = Pattern.compile("( ~ .*$)") // FIXME i18n head-signs
+    private val REMOVE_SECOND_LANGUAGE = Pattern.compile("(\\s+~\\s+[^<>]+?)(?=\\s*<>|$)") // FIXME i18n head-signs
 
     @JvmStatic
     fun cleanTripHeadsign(tripHeadSign: String, @Suppress("unused") vararg ignoreWords: String): String {

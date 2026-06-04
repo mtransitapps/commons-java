@@ -588,22 +588,12 @@ public final class CleanUtils {
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	@NotNull
-	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
-		if (string.isEmpty()) return string;
-		if (Arrays.asList(ignoreWords).contains(string.trim())) return string;
-		if (CharUtils.isUppercaseOnly(string, true, true)) {
-			return string.toLowerCase(locale);
-		}
-		return string;
-	}
-
-	@NotNull
 	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
 		if (string.isEmpty()) return string;
 		final float charCount = string.length();
 		final float upperCaseCount = CharUtils.countUpperCase(string);
 		final float percent = upperCaseCount / charCount;
-		if (percent < .25f) { // 25%
+		if (percent < .33f) { // 33%
 			return string;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -612,7 +602,7 @@ public final class CleanUtils {
 		while (matcher.find()) {
 			sb.append(matcher.group(1)); // before
 			final String word = matcher.group(2);
-			if (!word.isEmpty()
+			if (word.length() > 1 // do not lower case single letter
 					&& CharUtils.isUppercaseOnly(word, false, true)
 					&& !CharUtils.isRomanDigits(word)
 					&& !containsIgnoreCase(word, ignoreWords)) {
@@ -632,6 +622,16 @@ public final class CleanUtils {
 			}
 		}
 		return false;
+	}
+
+	@NotNull
+	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
+		if (string.isEmpty()) return string;
+		if (Arrays.asList(ignoreWords).contains(string.trim())) return string;
+		if (CharUtils.isUppercaseOnly(string, true, true)) {
+			return string.toLowerCase(locale);
+		}
+		return string;
 	}
 
 	public static final Regex ALL_FACE_A_REGEX = CleanUtilsExtKt.makeALL_FACE_A_REGEX();
