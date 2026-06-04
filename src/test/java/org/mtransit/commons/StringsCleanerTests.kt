@@ -58,10 +58,20 @@ class StringsCleanerTests {
         }.let { result ->
             assertEquals("10", result)
         }
+        " Line 10".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("10", result)
+        }
         "The Line 10".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
             assertEquals("The 10", result)
+        }
+        "Online 10".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Online 10", result)
         }
         "John McCrae H.S <> Half Moon Bay".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
