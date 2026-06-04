@@ -7,11 +7,11 @@ object StringsCleaner {
 
     private const val ROUTE_LONG_NAME_SHORT_MAX_LENGTH = 33
 
-    private val LINE_AND_SHORT_NAME = Regex("(^|\\s*)line\\s+(\\w+)")
-    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2"
+    private val LINE_AND_SHORT_NAME = Regex("(^|\\s*)line\\s+(\\w+)", RegexOption.IGNORE_CASE)
+    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
 
-    private val FR_LIGNE_AND_SHORT_NAME = Regex("(^|\\s*)ligne\\s+(\\w+)")
-    private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$2"
+    private val FR_LIGNE_AND_SHORT_NAME = Regex("(^|\\s*)ligne\\s+(\\w+)", RegexOption.IGNORE_CASE)
+    private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
 
     @JvmOverloads
     @JvmStatic
@@ -38,11 +38,11 @@ object StringsCleaner {
     @VisibleForTesting
     internal const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
 
-    private val STATION_AND_NAME = Regex("(^|\\s*)station\\s+(\\w+)")
-    private const val STATION_AND_NAME_REPLACEMENT = "$2"
+    private val STATION_AND_NAME = Regex("(^|\\s*)station\\s+(\\w+)", RegexOption.IGNORE_CASE)
+    private const val STATION_AND_NAME_REPLACEMENT = "$1$2"
 
-    private val FR_STATION_AND_NAME = Regex("(^|\\s*)station\\s+(\\w+)")
-    private const val FR_STATION_AND_NAME_REPLACEMENT = "$2"
+    private val FR_STATION_AND_NAME = Regex("(^|\\s*)station\\s+(\\w+)", RegexOption.IGNORE_CASE)
+    private const val FR_STATION_AND_NAME_REPLACEMENT = "$1$2"
 
     @JvmOverloads
     @JvmStatic
@@ -176,7 +176,7 @@ object StringsCleaner {
             }
         }
         languages?.forEachIndexed { index, language ->
-            string = CleanUtils.cleanLabel(language, string, index == 0) // lower case only applied once for the 1st language
+            string = CleanUtils.cleanLabel(language, string, index == 0) // capitalize only first language
         }
         return string
     }

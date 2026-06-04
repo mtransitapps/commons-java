@@ -49,14 +49,19 @@ class StringsCleanerTests {
     @Test
     fun test_cleanRouteLongName() {
         "Tenth Line <> Place D'Orléans".let {
-            StringsCleaner.cleanRouteLongName(it, languages = null, routeType = 3)
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
             assertEquals("Tenth Line <> Place D'Orléans", result)
         }
         "Line 10".let {
-            StringsCleaner.cleanRouteLongName(it, languages = null, routeType = 3)
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
-            assertEquals("Line 10", result)
+            assertEquals("10", result)
+        }
+        "The Line 10".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("The 10", result)
         }
         "John McCrae H.S <> Half Moon Bay".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
