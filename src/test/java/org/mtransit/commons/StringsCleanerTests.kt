@@ -13,6 +13,15 @@ class StringsCleanerTests {
     }
 
     @Test
+    fun test_cleanStopName() {
+        "Station Mont-Royal".let { stopName ->
+            StringsCleaner.cleanStopName(stopName, languages = listOf(Locale.FRENCH), routeType = 1) // subway
+        }.let { result ->
+            assertEquals("Mont-Royal", result)
+        }
+    }
+
+    @Test
     fun test_cleanTripHeadsign() {
         "Terrebonne / Mascouche".let { tripHeadsign ->
             StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = null, routeType = 3)

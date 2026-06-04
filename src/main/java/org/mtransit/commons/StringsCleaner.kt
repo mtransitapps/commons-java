@@ -175,8 +175,8 @@ object StringsCleaner {
                 string = CleanUtils.cleanBounds(language, string)
             }
         }
-        languages?.forEachIndexed { index, language ->
-            string = CleanUtils.cleanLabel(language, string, index == 0) // capitalize only first language
+        languages?.firstOrNull()?.let { language ->
+            string = CleanUtils.cleanLabel(language, string, true) // only 1st language
         }
         return string
     }
