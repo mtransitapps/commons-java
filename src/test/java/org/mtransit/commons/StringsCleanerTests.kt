@@ -9,7 +9,7 @@ class StringsCleanerTests {
 
     @BeforeTest
     fun setUp() {
-        CommonsApp.setup(false);
+        CommonsApp.setup(false)
     }
 
     @Test
@@ -43,6 +43,21 @@ class StringsCleanerTests {
 
     @Test
     fun test_cleanRouteLongName() {
+        "Tenth Line <> Place D'Orléans".let {
+            StringsCleaner.cleanRouteLongName(it, languages = null, routeType = 3)
+        }.let { result ->
+            assertEquals("Tenth Line <> Place D'Orléans", result)
+        }
+
+        "Line 10".let {
+            StringsCleaner.cleanRouteLongName(it, languages = null, routeType = 3)
+        }.let { result ->
+            assertEquals("Line 10", result)
+        }
+    }
+
+    @Test
+    fun test_cleanRouteLongName_Capitalize() {
         "Tunney's Pasture <> Bridlewood".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
@@ -61,8 +76,17 @@ class StringsCleanerTests {
         "Tunney's Pasture <> Bridlewood".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
         }.let { result ->
-            assertEquals("Tunney'S Pasture <> Bridlewood", result) // too bad
+            assertEquals("Tunney's Pasture <> Bridlewood", result)
         }
-
+        "tunney's pasture <> bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
+        }.let { result ->
+            assertEquals("Tunney's Pasture <> Bridlewood", result)
+        }
+        "tunney's pasture <> bridlewood".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3)
+        }.let { result ->
+            assertEquals("tunney's pasture <> bridlewood", result)
+        }
     }
 }

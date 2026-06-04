@@ -588,16 +588,6 @@ public final class CleanUtils {
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
 	@NotNull
-	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
-		if (string.isEmpty()) return string;
-		if (Arrays.asList(ignoreWords).contains(string.trim())) return string;
-		if (CharUtils.isUppercaseOnly(string, true, true)) {
-			return string.toLowerCase(locale);
-		}
-		return string;
-	}
-
-	@NotNull
 	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
 		if (string.isEmpty()) return string;
 		final float charCount = string.length();
@@ -632,6 +622,16 @@ public final class CleanUtils {
 			}
 		}
 		return false;
+	}
+
+	@NotNull
+	public static String toLowerCaseUpperCaseStrings(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
+		if (string.isEmpty()) return string;
+		if (Arrays.asList(ignoreWords).contains(string.trim())) return string;
+		if (CharUtils.isUppercaseOnly(string, true, true)) {
+			return string.toLowerCase(locale);
+		}
+		return string;
 	}
 
 	public static final Regex ALL_FACE_A_REGEX = CleanUtilsExtKt.makeALL_FACE_A_REGEX();

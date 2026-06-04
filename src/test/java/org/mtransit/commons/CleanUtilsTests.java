@@ -495,5 +495,11 @@ public class CleanUtilsTests {
 	public void test_toLowerCaseUpperCaseStrings() {
 		String result = CleanUtils.toLowerCaseUpperCaseStrings(Locale.ENGLISH, "YMCA ", "YMCA");
 		assertEquals("YMCA ", result);
+
+		result = CleanUtils.toLowerCaseUpperCaseStrings(Locale.ENGLISH, "1 UPPERCASE, ONLY.");
+		assertEquals("1 uppercase, only.", result);
+
+		result = CleanUtils.toLowerCaseUpperCaseStrings(Locale.ENGLISH, "2 Uppercase, Capitalized.");
+		assertEquals("2 Uppercase, Capitalized.", result);
 	}
 }
