@@ -24,6 +24,11 @@ class CleanUtilsKtTests {
         }.let {
             assertEquals("d'aylmer", it)
         }
+        "Fallowfield <> Limebank & CFIA ~ ACIA".let {
+            CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, it)
+        }.let {
+            assertEquals("Fallowfield <> Limebank & CFIA ~ ACIA", it)
+        }
     }
 
     @Test

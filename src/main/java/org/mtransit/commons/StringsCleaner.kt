@@ -1,5 +1,6 @@
 package org.mtransit.commons
 
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.Locale
 
 object StringsCleaner {
@@ -34,7 +35,8 @@ object StringsCleaner {
         return routeLongName
     }
 
-    private const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
+    @VisibleForTesting
+    internal const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
 
     private val STATION_AND_NAME = Regex("(^|\\s*)station\\s+(\\w+)")
     private const val STATION_AND_NAME_REPLACEMENT = "$2"
@@ -129,7 +131,8 @@ object StringsCleaner {
         return stopName
     }
 
-    private fun cleanString(
+    @VisibleForTesting
+    internal fun cleanString(
         originalString: String,
         languages: List<Locale>?,
         short: Boolean,
@@ -172,9 +175,8 @@ object StringsCleaner {
                 string = CleanUtils.cleanBounds(language, string)
             }
         }
-        val capitalize = (lowerUCStrings || lowerUCWords) && string.none { it.isUpperCase() } // only capitalize if LC enabled & used for this string
         languages?.forEachIndexed { index, language ->
-            string = CleanUtils.cleanLabel(language, string, capitalize && index == 0) // lower case only applied once for the 1st language
+            string = CleanUtils.cleanLabel(language, string, index == 0) // lower case only applied once for the 1st language
         }
         return string
     }
