@@ -8,7 +8,7 @@ object OttawaOCTranspoProviderCommons {
     private val FIX_CAIRINE_WILSON_ = CleanUtils.cleanWords("carine wilson")
     private val FIX_CAIRINE_WILSON_REPLACEMENT = CleanUtils.cleanWordsReplacement("Cairine Wilson")
 
-    private val REMOVE_SECOND_LANGUAGE = """(?U)(\s+~\s+[^<>]+?)(?=\s*<>|$)""".toRegex(RegexOption.IGNORE_CASE) // FIXME i18n head-signs
+    private val REMOVE_SECOND_LANGUAGE = """((^|(?<=<>)\s+)([^~]+)\s+~\s+([^~<]+)(\s+(?=<>)|$))""".toRegex(RegexOption.IGNORE_CASE) // FIXME i18n head-signs
     private const val REMOVE_SECOND_LANGUAGE_REPLACEMENT = "$2$3$5"
 
     @JvmStatic
