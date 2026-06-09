@@ -10,6 +10,7 @@ object SourceUtils {
         "azure-api.net",
         "azurefd.net",
         "github.com",
+        "infra-hubup.fr",
         "googleapis.com",
         "google.com",
         "transitapp.com",
