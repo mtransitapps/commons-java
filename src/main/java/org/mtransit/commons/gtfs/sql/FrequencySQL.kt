@@ -20,8 +20,8 @@ object FrequencySQL : CommonSQL<Frequency>(), TableSQL {
         T_FREQUENCY,
         listOf(
             SQLColumDef(T_FREQUENCY_K_TRIP_ID_INT, SQLUtils.INT, primaryKey = true, SQLForeignKey(TripSQL.T_TRIP_IDS, TripSQL.T_TRIP_IDS_K_ID_INT)),
-            SQLColumDef(T_FREQUENCY_K_START_TIME, SQLUtils.TXT), // TODO int
-            SQLColumDef(T_FREQUENCY_K_END_TIME, SQLUtils.TXT), // TODO int
+            SQLColumDef(T_FREQUENCY_K_START_TIME, SQLUtils.TXT, primaryKey = true), // TODO int
+            SQLColumDef(T_FREQUENCY_K_END_TIME, SQLUtils.TXT, primaryKey = true), // TODO int
             SQLColumDef(T_FREQUENCY_K_HEADWAY_SECS, SQLUtils.INT),
             SQLColumDef(T_FREQUENCY_K_EXACT_TIMES, SQLUtils.INT),
         ),
