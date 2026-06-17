@@ -7,8 +7,8 @@ object StringsCleaner {
 
     private const val ROUTE_LONG_NAME_SHORT_MAX_LENGTH = 33
 
-    private val LINE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)line\s+(\w+)""", RegexOption.IGNORE_CASE)
-    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
+    private val LINE_AND_SHORT_NAME = Regex("""(?U)((^|\s+)line\s+(\w+))|(^((\w+(-|\s+|'))*)(\w+)\s+line(\s*$))""", RegexOption.IGNORE_CASE)
+    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2$3$5$8"
 
     private val FR_LIGNE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)ligne\s+(\w+)""", RegexOption.IGNORE_CASE)
     private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$1$2"

@@ -62,10 +62,35 @@ class StringsCleanerTests {
 
     @Test
     fun test_cleanRouteLongName() {
+        "Yonge-University Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
+        }.let { result ->
+            assertEquals("Yonge-University", result)
+        }
         "Tenth Line <> Place D'Orléans".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
             assertEquals("Tenth Line <> Place D'Orléans", result)
+        }
+        "Place D'Orléans <> Tenth Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Place D'Orléans <> Tenth Line", result)
+        }
+        "Tenth Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Tenth", result)
+        }
+        "Place Orléans Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Place Orléans", result)
+        }
+        "Place D'Orléans Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Place D'Orléans", result)
         }
         "Line 10".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
@@ -91,6 +116,11 @@ class StringsCleanerTests {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH, Locale.FRENCH), routeType = 3, lowerUCWords = true)
         }.let { result ->
             assertEquals("John McCrae HS <> Half Moon Bay", result)
+        }
+        "Ligne Bleue".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.FRENCH), routeType = 1)
+        }.let { result ->
+            assertEquals("Bleue", result)
         }
     }
 
