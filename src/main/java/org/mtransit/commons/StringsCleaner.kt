@@ -7,8 +7,21 @@ object StringsCleaner {
 
     private const val ROUTE_LONG_NAME_SHORT_MAX_LENGTH = 33
 
-    private val LINE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)line\s+(\w+)""", RegexOption.IGNORE_CASE)
-    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
+    private val LINE_AND_SHORT_NAME = Regex(
+        """(?Ux)
+        # Alternative 1: "line <name>" at start or after space
+        ( (^|\s+) line \s+ (\w+) )
+        |
+        # Alternative 2: "<name> line" at the end of the string
+        (
+            ^
+            ( ( \w+ ( - | \s+(?!line\b) | ' | \.\s+(?!line\b) ) )*+ )
+            ( \w+ ) \s+ line ( \s* $ )
+        )
+        """.trimIndent(),
+        RegexOption.IGNORE_CASE
+    )
+    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2$3$5$8"
 
     private val FR_LIGNE_AND_SHORT_NAME = Regex("""(?U)(^|\s+)ligne\s+(\w+)""", RegexOption.IGNORE_CASE)
     private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
@@ -38,8 +51,21 @@ object StringsCleaner {
     @VisibleForTesting
     internal const val TRIP_HEADSIGN_SHORT_MAX_LENGTH = 13
 
-    private val STATION_AND_NAME = Regex("""(?U)(^|\s+)station\s+(\w+)""", RegexOption.IGNORE_CASE)
-    private const val STATION_AND_NAME_REPLACEMENT = "$1$2"
+    private val STATION_AND_NAME = Regex(
+        """(?Ux)
+        # Alternative 1: "station <name>" at start or after space
+        ( (^|\s+) station \s+ (\w+) )
+        |
+        # Alternative 2: "<name> station" at the end of the string
+        (
+            ^
+            ( ( \w+ ( - | \s+(?!station\b) | ' | \.\s+(?!station\b) ) )*+ )
+            ( \w+ ) \s+ station ( \s* $ )
+        )
+        """.trimIndent(),
+        RegexOption.IGNORE_CASE
+    )
+    private const val STATION_AND_NAME_REPLACEMENT = "$2$3$5$8"
 
     private val FR_STATION_AND_NAME = Regex("""(?U)(^|\s+)station\s+(\w+)""", RegexOption.IGNORE_CASE)
     private const val FR_STATION_AND_NAME_REPLACEMENT = "$1$2"

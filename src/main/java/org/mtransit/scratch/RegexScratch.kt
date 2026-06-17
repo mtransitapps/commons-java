@@ -1,27 +1,27 @@
 package org.mtransit.scratch
 
-import java.util.regex.Pattern
+import org.intellij.lang.annotations.Language
 
 @Suppress("JoinDeclarationAndAssignment", "CanBeVal", "UNUSED_VALUE", "KotlinRedundantDiagnosticSuppress")
 internal object RegexScratch {
     @JvmStatic
     fun main(args: Array<String>) {
+        @Language("RegExp")
         var regex: String
         regex = ""
         println("regex: '$regex'.")
-        val pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+        val pattern = Regex(regex, RegexOption.IGNORE_CASE)
 
         var string: String
         string = ""
         println("string: '$string'.")
         println("=======")
 
-        val matcher = pattern.matcher(string)
-        while (matcher.find()) {
+        pattern.findAll(string).forEach { matchResult ->
             println("-------")
-            println("- Found group: '" + matcher.group() + "' (count: '" + matcher.groupCount() + "'):")
-            for (g in 0..matcher.groupCount()) {
-                println("  - group[" + g + "]: '" + matcher.group(g) + "'.")
+            println("- Found group: '${matchResult.value}' (count: '${matchResult.groups.size}'):")
+            matchResult.groupValues.forEachIndexed { g, groupValue ->
+                println("  - group[$g]: '$groupValue'.")
             }
             println("-------")
         }
@@ -30,6 +30,6 @@ internal object RegexScratch {
         var replaceAll: String
         replaceAll = ""
         println("replaceAll: '$replaceAll'.")
-        println("-> '" + pattern.matcher(string).replaceAll(replaceAll) + "'.")
+        println("-> '${pattern.replace(string, replaceAll)}'.")
     }
 }
