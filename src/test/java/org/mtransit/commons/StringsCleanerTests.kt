@@ -29,6 +29,11 @@ class StringsCleanerTests {
         }.let { result ->
             assertEquals("Union", result)
         }
+        "St. George Station".let { stopName ->
+            StringsCleaner.cleanStopName(stopName, languages = listOf(Locale.ENGLISH), routeType = 1) // subway
+        }.let { result ->
+            assertEquals("St George", result)
+        }
     }
 
     @Test
@@ -71,6 +76,16 @@ class StringsCleanerTests {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
         }.let { result ->
             assertEquals("Yonge-University", result)
+        }
+        "Yonge - University Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
+        }.let { result ->
+            assertEquals("Yonge - University Line", result)
+        }
+        "St. Clair Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
+        }.let { result ->
+            assertEquals("St Clair", result)
         }
         "Tenth Line <> Place D'Orléans".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
