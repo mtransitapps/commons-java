@@ -65,7 +65,7 @@ object CollectionUtils {
     }
 
     @JvmStatic
-    fun <T> addAllN(list: MutableList<T>, collection: Collection<T>?) {
+    fun <T> addAllN(list: MutableCollection<T>, collection: Collection<T>?) {
         list.addAllN(collection)
     }
 
