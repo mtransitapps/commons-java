@@ -1,14 +1,14 @@
 package org.mtransit.commons
 
-fun <T> MutableList<T>.addAllN(elements: Collection<T>?): Boolean {
+fun <T> MutableCollection<T>.addAllN(elements: Collection<T>?): Boolean {
     return elements?.let { this.addAll(elements) } ?: false
 }
 
-fun <T> MutableList<T>.addAllNNE(elements: Collection<T?>?): Boolean {
+fun <T> MutableCollection<T>.addAllNNE(elements: Collection<T?>?): Boolean {
     return elements?.let { addAllNE(elements) } ?: false
 }
 
-fun <T> MutableList<T>.addAllNE(elements: Collection<T?>): Boolean {
+fun <T> MutableCollection<T>.addAllNE(elements: Collection<T?>): Boolean {
     return elements.filterNotNull().let { this.addAll(it) }
 }
 
