@@ -587,18 +587,23 @@ public final class CleanUtils {
 			"([^" + WORD_REGEX_FR + "]*)([" + WORD_REGEX_FR + "]+)([^" + WORD_REGEX_FR + "]*)",
 			Pattern.CASE_INSENSITIVE | RegexUtils.fUNICODE_CHARACTER_CLASS() | RegexUtils.fCANON_EQ());
 
+	public static final float DEFAULT_MIN_UPPER_CASE_PCT = .33f;
+
 	@NotNull
 	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, @NotNull String... ignoreWords) {
+		return toLowerCaseUpperCaseWords(locale, string, DEFAULT_MIN_UPPER_CASE_PCT, ignoreWords);
+	}
+
+	@NotNull
+	public static String toLowerCaseUpperCaseWords(@NotNull Locale locale, @NotNull String string, float minUCPct, @NotNull String... ignoreWords) {
 		if (string.isEmpty()) return string;
 		final float charCount = string.length();
 		final float upperCaseCount = CharUtils.countUpperCase(string);
 		final float percent = upperCaseCount / charCount;
-		if (percent < .33f) { // 33%
-			return string;
-		}
-		StringBuilder sb = new StringBuilder();
-		Pattern pattern = locale == Locale.FRENCH ? WORD_NON_WORDS_FR : WORD_NON_WORDS;
-		Matcher matcher = pattern.matcher(string);
+		if (percent < minUCPct) return string;
+		final StringBuilder sb = new StringBuilder();
+		final Pattern pattern = locale == Locale.FRENCH ? WORD_NON_WORDS_FR : WORD_NON_WORDS;
+		final Matcher matcher = pattern.matcher(string);
 		while (matcher.find()) {
 			sb.append(matcher.group(1)); // before
 			final String word = matcher.group(2);

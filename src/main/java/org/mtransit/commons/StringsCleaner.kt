@@ -34,6 +34,7 @@ object StringsCleaner {
         @Suppress("unused") routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
+        lowerUCWordsMinPct: Float? = null,
         vararg ignoredUCWords: String = emptyArray(),
     ): String {
         var routeLongName = originalRouteLongName
@@ -44,7 +45,16 @@ object StringsCleaner {
             routeLongName = FR_LIGNE_AND_SHORT_NAME.replace(routeLongName, FR_LIGNE_AND_SHORT_NAME_REPLACEMENT)
         }
         val makeShorter = routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH && routeLongName.contains(' ')
-        routeLongName = cleanString(routeLongName, languages, makeShorter, ROUTE_LONG_NAME_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
+        routeLongName = cleanString(
+            routeLongName,
+            languages,
+            makeShorter,
+            ROUTE_LONG_NAME_SHORT_MAX_LENGTH,
+            lowerUCStrings,
+            lowerUCWords,
+            lowerUCWordsMinPct,
+            *ignoredUCWords
+        )
         return routeLongName
     }
 
@@ -78,6 +88,7 @@ object StringsCleaner {
         routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
+        lowerUCWordsMinPct: Float? = null,
         vararg ignoredUCWords: String = emptyArray(),
         removeVia: Boolean = false,
     ): String {
@@ -114,7 +125,16 @@ object StringsCleaner {
             }
         }
         val makeShorter = tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH && tripHeadsign.contains(' ')
-        tripHeadsign = cleanString(tripHeadsign, languages, makeShorter, TRIP_HEADSIGN_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
+        tripHeadsign = cleanString(
+            tripHeadsign,
+            languages,
+            makeShorter,
+            TRIP_HEADSIGN_SHORT_MAX_LENGTH,
+            lowerUCStrings,
+            lowerUCWords,
+            lowerUCWordsMinPct,
+            *ignoredUCWords
+        )
         if (tripHeadsign.length > TRIP_HEADSIGN_SHORT_MAX_LENGTH) {
             tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign, true)
         }
@@ -131,6 +151,7 @@ object StringsCleaner {
         routeType: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
+        lowerUCWordsMinPct: Float? = null,
         vararg ignoredUCWords: String = emptyArray(),
     ): String {
         var stopName = originalStopName
@@ -153,7 +174,7 @@ object StringsCleaner {
             }
         }
         val makeShorter = stopName.length > STOP_NAME_SHORT_MAX_LENGTH && stopName.contains(' ')
-        stopName = cleanString(stopName, languages, makeShorter, STOP_NAME_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, *ignoredUCWords)
+        stopName = cleanString(stopName, languages, makeShorter, STOP_NAME_SHORT_MAX_LENGTH, lowerUCStrings, lowerUCWords, lowerUCWordsMinPct, *ignoredUCWords)
         return stopName
     }
 
@@ -165,12 +186,13 @@ object StringsCleaner {
         shortMaxLength: Int,
         lowerUCStrings: Boolean = false,
         lowerUCWords: Boolean = false,
+        lowerUCWordsMinPct: Float? = null,
         vararg ignoredUCWords: String = emptyArray(),
     ): String {
         var string = originalString
         languages?.forEach { language ->
             if (lowerUCWords) {
-                string = CleanUtils.toLowerCaseUpperCaseWords(language, string, *ignoredUCWords)
+                string = CleanUtils.toLowerCaseUpperCaseWords(language, string, lowerUCWordsMinPct ?: CleanUtils.DEFAULT_MIN_UPPER_CASE_PCT, *ignoredUCWords)
             } else if (lowerUCStrings) {
                 string = CleanUtils.toLowerCaseUpperCaseStrings(language, string, *ignoredUCWords)
             }
@@ -187,6 +209,7 @@ object StringsCleaner {
                     }
                     string = CleanUtils.cleanNumbers(string)
                 }
+
                 Locale.FRENCH -> {
                     if (short) {
                         string = CleanUtils.CLEAN_ET.matcher(string).replaceAll(CleanUtils.CLEAN_ET_REPLACEMENT)
