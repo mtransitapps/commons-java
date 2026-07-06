@@ -34,6 +34,4 @@ val Calendar.beginningOfDay: Calendar
         set(Calendar.MILLISECOND, 0)
     }
 
-fun Long.toCalendar()= Calendar.getInstance().apply { timeInMillis = this@toCalendar }
-
-fun Long.toCalendar(timeZone: TimeZone)= Calendar.getInstance(timeZone).apply { timeInMillis = this@toCalendar }
+fun Long.toCalendar(timeZone: TimeZone): Calendar = Calendar.getInstance(timeZone).apply { timeInMillis = this@toCalendar }
