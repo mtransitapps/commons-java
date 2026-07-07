@@ -2,7 +2,7 @@ package org.mtransit.scratch
 
 import org.intellij.lang.annotations.Language
 
-@Suppress("JoinDeclarationAndAssignment", "CanBeVal", "UNUSED_VALUE", "KotlinRedundantDiagnosticSuppress")
+@Suppress("JoinDeclarationAndAssignment", "CanBeVal", "UNUSED_VALUE", "KotlinRedundantDiagnosticSuppress", "UNNECESSARY_SAFE_CALL", "AssignedValueIsNeverRead")
 internal object RegexScratch {
     @JvmStatic
     fun main(args: Array<String>) {
@@ -30,6 +30,12 @@ internal object RegexScratch {
         var replaceAll: String
         replaceAll = ""
         println("replaceAll: '$replaceAll'.")
-        println("-> '${pattern.replace(string, replaceAll)}'.")
+        val result = pattern.replace(string, replaceAll)
+        var expectedResult: String?
+        expectedResult = null
+        println("-> '$result'.")
+        expectedResult?.let {
+            println("-> SUCCESS? ${expectedResult == result}")
+        }
     }
 }
