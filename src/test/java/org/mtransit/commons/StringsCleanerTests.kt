@@ -34,6 +34,11 @@ class StringsCleanerTests {
         }.let { result ->
             assertEquals("St George", result)
         }
+        "des Érables / Émile-Pominville".let { stopName ->
+            StringsCleaner.cleanStopName(stopName, languages = listOf(Locale.FRENCH), routeType = 3) // bus
+        }.let { result ->
+            assertEquals("Érables / Émile-Pominville", result)
+        }
     }
 
     @Test
