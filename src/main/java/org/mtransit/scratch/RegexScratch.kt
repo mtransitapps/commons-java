@@ -35,7 +35,8 @@ internal object RegexScratch {
         expectedResult = null
         println("-> '$result'.")
         expectedResult?.let {
-            println("-> SUCCESS? ${expectedResult == result}")
+            println("-> Success? ${(expectedResult == result).toString().uppercase()}")
         }
+        println("=======")
     }
 }
