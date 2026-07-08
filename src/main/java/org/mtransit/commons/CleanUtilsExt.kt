@@ -27,7 +27,8 @@ import org.mtransit.commons.CleanUtils.PLACE_CHAR_TSSE
 
 fun makeALL_ST_REGEX() =
     buildString {
-        append("(?U)((^\\s*|/\\s*)(") // |\s+ not after another word
+        if (CommonsApp.isAndroid != true) append("(?U)")
+        append("((^\\s*|/\\s*)(") // |\s+ not after another word
         append(
             listOf(
                 PLACE_CHAR_ARRONDISSEMENT,
@@ -51,7 +52,8 @@ fun makeALL_ST_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_CHARS_REGEX() =
     buildString {
-        append("(?U)((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
+        if (CommonsApp.isAndroid == false) append("(?U)")
+        append("((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
         append(
             listOf(
                 PLACE_CHAR_DE_L,
@@ -73,7 +75,8 @@ fun makeALL_CHARS_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_FACE_A_REGEX() =
     buildString {
-        append("(?U)((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
+        if (CommonsApp.isAndroid == false) append("(?U)")
+        append("((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
         append(
             listOf(
                 "face à ",
