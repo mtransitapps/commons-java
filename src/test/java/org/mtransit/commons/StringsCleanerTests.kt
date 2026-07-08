@@ -68,6 +68,31 @@ class StringsCleanerTests {
         }.let { result ->
             assertEquals("Bell HS", result)
         }
+        "SAINT-GAUDENS / LES".let { tripHeadsign ->
+            StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = listOf(Locale.FRENCH), routeType = 3, lowerUCWords = true, lowerUCWordsMinPct = 0.01f)
+        }.let { result ->
+            assertEquals("St-Gaudens/Les", result)
+        }
+        "LES / SAINT-GAUDENS".let { tripHeadsign ->
+            StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = listOf(Locale.FRENCH), routeType = 3, lowerUCWords = true, lowerUCWordsMinPct = 0.01f)
+        }.let { result ->
+            assertEquals("Les/St-Gaudens", result)
+        }
+        "LES 3 / SAINT-GAUDENS".let { tripHeadsign ->
+            StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = listOf(Locale.FRENCH), routeType = 3, lowerUCWords = true, lowerUCWordsMinPct = 0.01f)
+        }.let { result ->
+            assertEquals("3/St-Gaudens", result)
+        }
+        "LES TROIS / SAINT-GAUDENS".let { tripHeadsign ->
+            StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = listOf(Locale.FRENCH), routeType = 3, lowerUCWords = true, lowerUCWordsMinPct = 0.01f)
+        }.let { result ->
+            assertEquals("Trois/St-Gaudens", result)
+        }
+        "RUE VERTE / FACE À LA MAIRIE".let { tripHeadsign ->
+            StringsCleaner.cleanTripHeadsign(tripHeadsign, languages = listOf(Locale.FRENCH), routeType = 3, lowerUCWords = true, lowerUCWordsMinPct = 0.01f)
+        }.let { result ->
+            assertEquals("Verte/Mairie", result)
+        }
     }
 
     @Test

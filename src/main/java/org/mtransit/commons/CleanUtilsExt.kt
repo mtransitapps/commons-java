@@ -44,10 +44,10 @@ fun makeALL_ST_REGEX() =
                 PLACE_CHAR_TSSE,
             ).joinToString("|")
         )
-        append("))")
+        append(")(\\s*\\w+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
-fun makeALL_ST_REGEX_REPLACEMENT() = "$2"
+fun makeALL_ST_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_CHARS_REGEX() =
     buildString {
@@ -66,10 +66,10 @@ fun makeALL_CHARS_REGEX() =
                 PLACE_CHAR_L,
             ).joinToString("|")
         )
-        append("))")
+        append(")(\\s*\\w+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
-fun makeALL_CHARS_REGEX_REPLACEMENT() = "$2"
+fun makeALL_CHARS_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_FACE_A_REGEX() =
     buildString {
@@ -81,7 +81,7 @@ fun makeALL_FACE_A_REGEX() =
                 "face ",
             ).joinToString("|")
         )
-        append("))")
+        append(")(\\s*\\w+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
-fun makeALL_FACE_A_REGEX_REPLACEMENT() = "$2"
+fun makeALL_FACE_A_REGEX_REPLACEMENT() = "$2$4"
