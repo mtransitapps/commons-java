@@ -19,6 +19,7 @@ def generateBuildConfig = tasks.register("generateBuildConfig") {
     outputs.dir(generatedBuildConfigDir)
     doLast {
         def debugDefault = mtDebugDefault.get()
+        println "> Debug default: " + debugDefault
         def outputFile = generatedBuildConfigDir.get().file("org/mtransit/commons/BuildConfig.kt").asFile
         outputFile.parentFile.mkdirs()
         outputFile.text = """package org.mtransit.commons
