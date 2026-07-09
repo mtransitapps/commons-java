@@ -20,7 +20,7 @@ def generateBuildConfig = tasks.register("generateBuildConfig") {
     doLast {
         def debugDefault = mtDebugDefault.get()
         def outputDir = generatedBuildConfigDir.get().asFile
-        project.delete(outputDir)
+        outputDir.deleteDir()
         def outputFile = new File(outputDir, "org/mtransit/commons/BuildConfig.kt")
         outputFile.parentFile.mkdirs()
         outputFile.write("""package org.mtransit.commons
