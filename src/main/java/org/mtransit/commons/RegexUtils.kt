@@ -11,12 +11,21 @@ object RegexUtils {
     const val WHITESPACE_CAR = "\\s"
     const val NON_WHITESPACE_CAR = "\\S"
 
+    const val WHITESPACE_UNICODE = "\\p{Z}"
+
     const val DIGIT_CAR = "\\d"
     const val NON_DIGIT_CAR = "\\D"
+
+    const val DIGIT_CAR_UNICODE = "\\p{N}"
+
+    const val LETTER_CAR = "[a-zA-Z]"
+    const val LETTER_CAR_UNICODE = "\\p{L}"
 
     const val WORD_CAR = "\\w" // [a-zA-Z_0-9]
     const val ALPHA_NUM_CAR = WORD_CAR
     const val NON_WORD_CAR = "\\W"
+
+    const val WORD_CAR_UNICODE = "[\\p{L}\\p{N}]"
 
     const val WORD_BOUNDARY = "\\b"
 
@@ -30,6 +39,8 @@ object RegexUtils {
 
     private const val CANON_EQ = Pattern.CANON_EQ // Android: flag not supported
     private const val UNICODE_CHARACTER_CLASS = 256 // Pattern.UNICODE_CHARACTER_CLASS (Added in Android API level 24) & has no effect on Android.
+
+    private const val UNICODE_FLAG = "(?U)" // DO NOT USE: does NOT work on Android!
 
     @Suppress("FunctionName")
     @JvmStatic

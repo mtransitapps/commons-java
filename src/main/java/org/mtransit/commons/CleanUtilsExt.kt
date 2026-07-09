@@ -27,7 +27,6 @@ import org.mtransit.commons.CleanUtils.PLACE_CHAR_TSSE
 
 fun makeALL_ST_REGEX() =
     buildString {
-        if (CommonsApp.isAndroid != true) append("(?U)")
         append("((^\\s*|/\\s*)(") // |\s+ not after another word
         append(
             listOf(
@@ -45,14 +44,13 @@ fun makeALL_ST_REGEX() =
                 PLACE_CHAR_TSSE,
             ).joinToString("|")
         )
-        append(")(\\s*\\w+))")
+        append(")(\\s*[\\p{L}\\p{N}]+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
 fun makeALL_ST_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_CHARS_REGEX() =
     buildString {
-        if (CommonsApp.isAndroid == false) append("(?U)")
         append("((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
         append(
             listOf(
@@ -68,14 +66,13 @@ fun makeALL_CHARS_REGEX() =
                 PLACE_CHAR_L,
             ).joinToString("|")
         )
-        append(")(\\s*\\w+))")
+        append(")(\\s*[\\p{L}\\p{N}]+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
 fun makeALL_CHARS_REGEX_REPLACEMENT() = "$2$4"
 
 fun makeALL_FACE_A_REGEX() =
     buildString {
-        if (CommonsApp.isAndroid == false) append("(?U)")
         append("((^\\s*|/\\s*|\\s+)(") // |\s+ after another word
         append(
             listOf(
@@ -84,7 +81,7 @@ fun makeALL_FACE_A_REGEX() =
                 "face ",
             ).joinToString("|")
         )
-        append(")(\\s*\\w+))")
+        append(")(\\s*[\\p{L}\\p{N}]+))")
     }.toRegex(setOf(RegexOption.IGNORE_CASE))
 
 fun makeALL_FACE_A_REGEX_REPLACEMENT() = "$2$4"
