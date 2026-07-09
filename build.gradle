@@ -9,6 +9,28 @@ plugins {
 
 def envCI = System.getenv("CI")
 def isCI = envCI != null && envCI != ""
+def envMTDebugDefault = System.getenv("MT_DEBUG_DEFAULT")
+def mtDebugDefault = envMTDebugDefault != null ? envMTDebugDefault.toBoolean() : false
+def generatedBuildConfigDir = layout.buildDirectory.dir("generated/sources/mt/buildConfig")
+
+tasks.register("generateBuildConfig") {
+    outputs.dir(generatedBuildConfigDir)
+    doLast {
+        def outputFile = generatedBuildConfigDir.get().file("org/mtransit/commons/BuildConfig.kt").asFile
+        outputFile.parentFile.mkdirs()
+        outputFile.text = """package org.mtransit.commons
+
+internal object BuildConfig {
+    const val DEBUG_DEFAULT = ${mtDebugDefault}
+}
+"""
+    }
+}
+
+tasks.named("compileKotlin") {
+    dependsOn(tasks.named("generateBuildConfig"))
+    source(generatedBuildConfigDir)
+}
 
 java {
     sourceCompatibility = rootProject.javaVersion
