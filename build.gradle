@@ -19,15 +19,16 @@ def generateBuildConfig = tasks.register("generateBuildConfig") {
     outputs.dir(generatedBuildConfigDir)
     doLast {
         def debugDefault = mtDebugDefault.get()
-        println "> Debug default: " + debugDefault
-        def outputFile = generatedBuildConfigDir.get().file("org/mtransit/commons/BuildConfig.kt").asFile
+        def outputDir = generatedBuildConfigDir.get().asFile
+        project.delete(outputDir)
+        def outputFile = new File(outputDir, "org/mtransit/commons/BuildConfig.kt")
         outputFile.parentFile.mkdirs()
-        outputFile.text = """package org.mtransit.commons
+        outputFile.write("""package org.mtransit.commons
 
 internal object BuildConfig {
     const val DEBUG_DEFAULT = ${debugDefault}
 }
-"""
+""", "UTF-8")
     }
 }
 
