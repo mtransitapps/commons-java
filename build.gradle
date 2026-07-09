@@ -9,27 +9,25 @@ plugins {
 
 def envCI = System.getenv("CI")
 def isCI = envCI != null && envCI != ""
-def envMTDebugDefault = System.getenv("MT_DEBUG_DEFAULT")
-def mtDebugDefault = envMTDebugDefault != null ? envMTDebugDefault.toBoolean() : false
+def mtDebugDefault = providers.environmentVariable("MT_DEBUG_DEFAULT")
+        .map { it.toBoolean() }
+        .orElse(false)
 def generatedBuildConfigDir = layout.buildDirectory.dir("generated/sources/mt/buildConfig")
 
-tasks.register("generateBuildConfig") {
+def generateBuildConfig = tasks.register("generateBuildConfig") {
+    inputs.property("mtDebugDefault", mtDebugDefault)
     outputs.dir(generatedBuildConfigDir)
     doLast {
+        def debugDefault = mtDebugDefault.get()
         def outputFile = generatedBuildConfigDir.get().file("org/mtransit/commons/BuildConfig.kt").asFile
         outputFile.parentFile.mkdirs()
         outputFile.text = """package org.mtransit.commons
 
 internal object BuildConfig {
-    const val DEBUG_DEFAULT = ${mtDebugDefault}
+    const val DEBUG_DEFAULT = ${debugDefault}
 }
 """
     }
-}
-
-tasks.named("compileKotlin") {
-    dependsOn(tasks.named("generateBuildConfig"))
-    source(generatedBuildConfigDir)
 }
 
 java {
@@ -38,6 +36,7 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(rootProject.javaToolchainVersion.toString())
 }
 kotlin {
+    sourceSets.main.kotlin.srcDir(generateBuildConfig)
     compilerOptions {
         jvmTarget = JvmTarget.fromTarget(rootProject.javaVersion.toString())
         // allWarningsAsErrors = true // replaced by "DeprecatedCall" in lint
