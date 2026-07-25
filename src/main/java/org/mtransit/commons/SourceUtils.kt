@@ -27,6 +27,8 @@ object SourceUtils {
         "gis",
         "gismaps",
         "gtfs",
+        "gtfsapi",
+        "gtfs-api",
         "gtfs-static",
         "gtfs-realtime",
         "gtfs-prod",
