@@ -41,8 +41,14 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
     override fun getMainTable() = SQLTableDef(
         T_CALENDAR_DATE,
         listOf(
-            SQLColumDef(T_CALENDAR_DATE_K_SERVICE_ID_INT, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES, SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)),
-            SQLColumDef(T_CALENDAR_DATE_K_DATE, SQLUtils.INT, primaryKey = !CALENDAR_IN_CALENDAR_DATES), // YYYYMMDD
+            SQLColumDef(
+                T_CALENDAR_DATE_K_SERVICE_ID_INT, SQLUtils.INT,
+                primaryKey = !CALENDAR_IN_CALENDAR_DATES, foreignKey = SQLForeignKey(T_SERVICE_IDS, T_SERVICE_IDS_K_ID_INT)
+            ),
+            SQLColumDef(
+                T_CALENDAR_DATE_K_DATE, SQLUtils.INT, // YYYYMMDD
+                primaryKey = !CALENDAR_IN_CALENDAR_DATES
+            ),
             SQLColumDef(T_CALENDAR_DATE_K_EXCEPTION_TYPE, SQLUtils.INT), // 1: added, 2: removed (MT: +0: default)
         ),
         insertAllowReplace = false,

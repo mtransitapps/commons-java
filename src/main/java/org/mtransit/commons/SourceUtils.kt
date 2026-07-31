@@ -44,6 +44,7 @@ object SourceUtils {
         "www",
     )
 
+    @Suppress("PrintStackTrace") // used from JVM & Android
     @JvmStatic
     fun getSourceLabel(urlString: String): String {
         try {
@@ -56,6 +57,7 @@ object SourceUtils {
         }
     }
 
+    @Suppress("PrintStackTrace") // used from JVM & Android
     @JvmStatic
     fun getSourceLabel(url: URL): String {
         try {

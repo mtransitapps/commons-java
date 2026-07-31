@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:StopTimeSQL.kt:StopTimeSQL$fun update: Boolean</ID>
+    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
+    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanTripHeadsign</ID>
+    <ID>EmptyDefaultConstructor:CommonSQL.kt:CommonSQL</ID>
+    <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_CHARS_REGEX_REPLACEMENT</ID>
+    <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_FACE_A_REGEX_REPLACEMENT</ID>
+    <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_ST_REGEX_REPLACEMENT</ID>
+    <ID>LongMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
+    <ID>LoopWithTooManyJumpStatements:CharUtils.kt:CharUtils$for</ID>
+    <ID>MagicNumber:SourceUtils.kt:SourceUtils$3</ID>
+    <ID>NewLineAtEndOfFile:AgencySQL.kt:org.mtransit.commons.gtfs.sql.AgencySQL.kt</ID>
+    <ID>NewLineAtEndOfFile:CaVancouverTransLinkProviderCommons.kt:org.mtransit.commons.provider.CaVancouverTransLinkProviderCommons.kt</ID>
+    <ID>NewLineAtEndOfFile:CalendarDateSQL.kt:org.mtransit.commons.gtfs.sql.CalendarDateSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:CalendarExceptionType.kt:org.mtransit.commons.gtfs.data.CalendarExceptionType.kt</ID>
+    <ID>NewLineAtEndOfFile:CharUtils.kt:org.mtransit.commons.CharUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:CleanerTest.kt:org.mtransit.commons.CleanerTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CollectionsExtTest.kt:org.mtransit.commons.CollectionsExtTest.kt</ID>
+    <ID>NewLineAtEndOfFile:Color.kt:org.mtransit.commons.gtfs.data.Color.kt</ID>
+    <ID>NewLineAtEndOfFile:CommonSQL.kt:org.mtransit.commons.gtfs.sql.CommonSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:CommonsApp.kt:org.mtransit.commons.CommonsApp.kt</ID>
+    <ID>NewLineAtEndOfFile:CommonsMain.kt:org.mtransit.scratch.CommonsMain.kt</ID>
+    <ID>NewLineAtEndOfFile:DirectionSQL.kt:org.mtransit.commons.gtfs.sql.DirectionSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:FrequencySQL.kt:org.mtransit.commons.gtfs.sql.FrequencySQL.kt</ID>
+    <ID>NewLineAtEndOfFile:GTFSCommons.kt:org.mtransit.commons.GTFSCommons.kt</ID>
+    <ID>NewLineAtEndOfFile:OneBusAwayProviderCommons.kt:org.mtransit.commons.provider.OneBusAwayProviderCommons.kt</ID>
+    <ID>NewLineAtEndOfFile:PrimitivesTxt.kt:org.mtransit.commons.PrimitivesTxt.kt</ID>
+    <ID>NewLineAtEndOfFile:Quadruple.kt:org.mtransit.commons.model.Quadruple.kt</ID>
+    <ID>NewLineAtEndOfFile:Quintuple.kt:org.mtransit.commons.model.Quintuple.kt</ID>
+    <ID>NewLineAtEndOfFile:RTCQuebecProviderCommons.kt:org.mtransit.commons.provider.RTCQuebecProviderCommons.kt</ID>
+    <ID>NewLineAtEndOfFile:RegexScratch.kt:org.mtransit.scratch.RegexScratch.kt</ID>
+    <ID>NewLineAtEndOfFile:RegexUtils.kt:org.mtransit.commons.RegexUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:RouteSQL.kt:org.mtransit.commons.gtfs.sql.RouteSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLColumDef.kt:org.mtransit.commons.gtfs.sql.SQLColumDef.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLCreateBuilder.kt:org.mtransit.commons.sql.SQLCreateBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLExt.kt:org.mtransit.commons.sql.SQLExt.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLInsertBuilder.kt:org.mtransit.commons.sql.SQLInsertBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLJoinBuilder.kt:org.mtransit.commons.sql.SQLJoinBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLTableDef.kt:org.mtransit.commons.gtfs.sql.SQLTableDef.kt</ID>
+    <ID>NewLineAtEndOfFile:SQLUtils.kt:org.mtransit.commons.sql.SQLUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:Stop.kt:org.mtransit.commons.gtfs.data.Stop.kt</ID>
+    <ID>NewLineAtEndOfFile:StopSQL.kt:org.mtransit.commons.gtfs.sql.StopSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:StopTime.kt:org.mtransit.commons.gtfs.data.StopTime.kt</ID>
+    <ID>NewLineAtEndOfFile:StopTimeSQL.kt:org.mtransit.commons.gtfs.sql.StopTimeSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:StringUtils.kt:org.mtransit.commons.StringUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:TableSQL.kt:org.mtransit.commons.gtfs.sql.TableSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:Text.kt:org.mtransit.commons.gtfs.data.Text.kt</ID>
+    <ID>NewLineAtEndOfFile:Time.kt:org.mtransit.commons.gtfs.data.Time.kt</ID>
+    <ID>NewLineAtEndOfFile:TripSQL.kt:org.mtransit.commons.gtfs.sql.TripSQL.kt</ID>
+    <ID>NewLineAtEndOfFile:Url.kt:org.mtransit.commons.gtfs.data.Url.kt</ID>
+    <ID>NewLineAtEndOfFile:WinnipegTransitProviderCommons.kt:org.mtransit.commons.provider.WinnipegTransitProviderCommons.kt</ID>
+    <ID>NewLineAtEndOfFile:WordUtils.kt:org.mtransit.commons.WordUtils.kt</ID>
+    <ID>ReturnCount:CharUtils.kt:CharUtils$@JvmStatic fun isUppercaseOnly: Boolean</ID>
+    <ID>ReturnCount:CommonSQL.kt:CommonSQL$fun insertIntoMainTable: Boolean</ID>
+    <ID>ReturnCount:WordUtils.kt:WordUtils$private fun isDelimiter: Boolean</ID>
+    <ID>TooGenericExceptionCaught:CommonSQL.kt:CommonSQL$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SourceUtils.kt:SourceUtils$e: Exception</ID>
+    <ID>TooGenericExceptionThrown:CommonSQL.kt:CommonSQL$throw Exception("Error while counting routes!")</ID>
+    <ID>TooGenericExceptionThrown:CommonSQL.kt:CommonSQL$throw Exception("Error while inserting $mainTableName ID $id!")</ID>
+    <ID>TooGenericExceptionThrown:CommonSQL.kt:CommonSQL$throw Exception("No main table!")</ID>
+    <ID>TooGenericExceptionThrown:PrimitivesTxt.kt:throw Exception("Invalid timestamp in sec '$this'!")</ID>
+    <ID>TooGenericExceptionThrown:RegexUtils.kt:RegexUtils$throw RuntimeException("Platform not set!")</ID>
+    <ID>TooGenericExceptionThrown:RouteSQL.kt:RouteSQL$throw Exception("Can't find agency ID!")</ID>
+    <ID>TooGenericExceptionThrown:SQLExt.kt:throw Exception("SQL error while executing query '$query'!", e)</ID>
+    <ID>TooGenericExceptionThrown:SQLExt.kt:throw Exception("SQL error while executing update '$query'!", e)</ID>
+    <ID>TooManyFunctions:CollectionUtils.kt:CollectionUtils</ID>
+    <ID>TooManyFunctions:CommonSQL.kt:CommonSQL&lt;MainType&gt; : TableSQL</ID>
+    <ID>TooManyFunctions:RegexUtils.kt:RegexUtils</ID>
+    <ID>TooManyFunctions:SQLUtils.kt:SQLUtils</ID>
+  </CurrentIssues>
+</SmellBaseline>

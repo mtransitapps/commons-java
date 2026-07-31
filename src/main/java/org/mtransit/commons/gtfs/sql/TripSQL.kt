@@ -89,7 +89,8 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
             append("FROM $T_TRIP ")
             append("JOIN $T_TRIP_IDS ON $T_TRIP.$T_TRIP_K_ID_INT = $T_TRIP_IDS.$T_TRIP_IDS_K_ID_INT ")
             append("JOIN ${RouteSQL.T_ROUTE_IDS} ON $T_TRIP.${T_TRIP_K_ROUTE_ID_INT} = ${RouteSQL.T_ROUTE_IDS}.${RouteSQL.T_ROUTE_K_ID_INT} ")
-            append("JOIN ${CalendarDateSQL.T_SERVICE_IDS} ON $T_TRIP.${T_TRIP_K_SERVICE_ID_INT} = ${CalendarDateSQL.T_SERVICE_IDS}.${CalendarDateSQL.T_SERVICE_IDS_K_ID_INT} ")
+            append("JOIN ${CalendarDateSQL.T_SERVICE_IDS} ")
+                .append("ON $T_TRIP.${T_TRIP_K_SERVICE_ID_INT} = ${CalendarDateSQL.T_SERVICE_IDS}.${CalendarDateSQL.T_SERVICE_IDS_K_ID_INT} ")
             tripIds?.let {
                 append("WHERE $T_TRIP_IDS.$T_TRIP_IDS_K_ID IN (${it.joinToString { "'$it'" }}) ")
             }
