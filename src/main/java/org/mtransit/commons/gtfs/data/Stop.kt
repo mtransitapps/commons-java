@@ -14,7 +14,7 @@ data class Stop(
     val stopUrl: Url?,
     val locationType: Int?, // TODO Enum
     val parentStationId: StopId?,
-    // stop_timezone
+    val stopTimezone: String?,
     val wheelchairBoarding: Int?, // TODO Enum 0 1 2
     // level_id
     // val platformCode: Text?, // TODO useful!

@@ -40,6 +40,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
     const val T_STOP_K_STOP_URL = "stop_url"
     const val T_STOP_K_LOCATION_TYPE = "location_type"
     const val T_STOP_K_PARENT_STATION_ID_INT = "parent_station_id_int"
+    const val T_STOP_K_STOP_TIMEZONE = "stop_timezone"
     const val T_STOP_K_WHEELCHAIR_BOARDING = "wheelchair_boarding"
 
     override fun getMainTable() = SQLTableDef(
@@ -53,6 +54,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             SQLColumDef(T_STOP_K_STOP_URL, SQLUtils.TXT),
             SQLColumDef(T_STOP_K_LOCATION_TYPE, SQLUtils.INT),
             SQLColumDef(T_STOP_K_PARENT_STATION_ID_INT, SQLUtils.INT, foreignKey = SQLForeignKey(T_STOP_IDS, T_STOP_IDS_K_ID_INT)),
+            SQLColumDef(T_STOP_K_STOP_TIMEZONE, SQLUtils.TXT),
             SQLColumDef(T_STOP_K_WHEELCHAIR_BOARDING, SQLUtils.INT),
         ),
         insertAllowReplace = false,
@@ -68,6 +70,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             stopUrl?.quotesEscape(),
             locationType,
             parentStationId?.let { getOrInsertIdInt(statement, it) },
+            stopTimezone,
             wheelchairBoarding,
         )
     }
@@ -105,6 +108,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             stopUrl = getString(T_STOP_K_STOP_URL),
             locationType = getInt(T_STOP_K_LOCATION_TYPE),
             parentStationId = getString(getAlias(T_STOP_K_PARENT_STATION_ID_INT, T_STOP_IDS_K_ID)),
+            stopTimezone = getString(T_STOP_K_STOP_TIMEZONE),
             wheelchairBoarding = getInt(T_STOP_K_WHEELCHAIR_BOARDING),
         )
     }

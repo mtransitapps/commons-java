@@ -71,5 +71,8 @@ object FeatureFlags {
     // const val F_EXPORT_DIRECTION_STOP_LAST = false
     const val F_EXPORT_DIRECTION_STOP_LAST = true
 
+    const val F_EXPORT_STOP_TIMEZONE_ID = false
+    // const val F_EXPORT_STOP_TIMEZONE_ID = true
+
     // @formatter:on
 }
