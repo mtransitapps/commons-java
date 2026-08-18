@@ -70,7 +70,7 @@ object StopSQL : CommonSQL<Stop>(), TableSQL {
             stopUrl?.quotesEscape(),
             locationType,
             parentStationId?.let { getOrInsertIdInt(statement, it) },
-            stopTimezone,
+            stopTimezone?.quotesEscape(),
             wheelchairBoarding,
         )
     }
