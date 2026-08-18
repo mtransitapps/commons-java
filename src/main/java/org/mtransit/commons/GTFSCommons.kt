@@ -188,7 +188,9 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LNG, SQLUtils.REAL)
         appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
         appendColumn(T_STOP_K_ORIGINAL_ID_HASH, SQLUtils.INT)
-        appendColumn(T_STOP_K_TIMEZONE_ID, SQLUtils.TXT)
+        if (FeatureFlags.F_EXPORT_STOP_TIMEZONE_ID) {
+            appendColumn(T_STOP_K_TIMEZONE_ID, SQLUtils.TXT)
+        }
     }.build()
 
     @JvmStatic
@@ -200,7 +202,9 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LNG)
         appendColumn(T_STOP_K_ACCESSIBLE)
         appendColumn(T_STOP_K_ORIGINAL_ID_HASH)
-        appendColumn(T_STOP_K_TIMEZONE_ID)
+        if (FeatureFlags.F_EXPORT_STOP_TIMEZONE_ID) {
+            appendColumn(T_STOP_K_TIMEZONE_ID)
+        }
     }.build()
 
     @JvmStatic
