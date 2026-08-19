@@ -174,6 +174,7 @@ object GTFSCommons {
     const val T_STOP_K_LNG = "lng"
     const val T_STOP_K_ACCESSIBLE = "a11y"
     const val T_STOP_K_ORIGINAL_ID_HASH = "o_id_hash"
+    const val T_STOP_K_TIMEZONE_ID = "tz"
 
     @JvmField
     val T_STOP_STRINGS_COLUMN_IDX = intArrayOf(2)
@@ -187,6 +188,9 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LNG, SQLUtils.REAL)
         appendColumn(T_STOP_K_ACCESSIBLE, SQLUtils.INT)
         appendColumn(T_STOP_K_ORIGINAL_ID_HASH, SQLUtils.INT)
+        if (FeatureFlags.F_EXPORT_STOP_TIMEZONE_ID) {
+            appendColumn(T_STOP_K_TIMEZONE_ID, SQLUtils.TXT)
+        }
     }.build()
 
     @JvmStatic
@@ -198,6 +202,9 @@ object GTFSCommons {
         appendColumn(T_STOP_K_LNG)
         appendColumn(T_STOP_K_ACCESSIBLE)
         appendColumn(T_STOP_K_ORIGINAL_ID_HASH)
+        if (FeatureFlags.F_EXPORT_STOP_TIMEZONE_ID) {
+            appendColumn(T_STOP_K_TIMEZONE_ID)
+        }
     }.build()
 
     @JvmStatic
