@@ -53,9 +53,6 @@
     <ID>NewLineAtEndOfFile:Url.kt:org.mtransit.commons.gtfs.data.Url.kt</ID>
     <ID>NewLineAtEndOfFile:WinnipegTransitProviderCommons.kt:org.mtransit.commons.provider.WinnipegTransitProviderCommons.kt</ID>
     <ID>NewLineAtEndOfFile:WordUtils.kt:org.mtransit.commons.WordUtils.kt</ID>
-    <ID>ReturnCount:CharUtils.kt:CharUtils$@JvmStatic fun isUppercaseOnly: Boolean</ID>
-    <ID>ReturnCount:CommonSQL.kt:CommonSQL$fun insertIntoMainTable: Boolean</ID>
-    <ID>ReturnCount:WordUtils.kt:WordUtils$private fun isDelimiter: Boolean</ID>
     <ID>TooGenericExceptionCaught:CommonSQL.kt:CommonSQL$e: Exception</ID>
     <ID>TooGenericExceptionCaught:SourceUtils.kt:SourceUtils$e: Exception</ID>
     <ID>TooGenericExceptionThrown:CommonSQL.kt:CommonSQL$throw Exception("Error while counting routes!")</ID>
