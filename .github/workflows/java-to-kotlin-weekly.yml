@@ -1,0 +1,94 @@
+name: "Convert Java to Kotlin Weekly"
+on:
+  schedule:
+    # Run every Wednesday at 0:09 GMT (cron format: minute hour day-of-month month day-of-week)
+    - cron: '9 0 * * 3'
+  workflow_dispatch: # Allow manual triggering for testing
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  convert-java-to-kotlin:
+    name: "Convert 1 Java class to Kotlin"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find Java files to convert
+        id: find-java
+        run: |
+          # Find all Java files (excluding build directories)
+          JAVA_FILES=$(find src -type f -name "*.java" -not -path "*/build/*" | sort)
+          
+          # Count total Java files
+          TOTAL_COUNT=$(echo "$JAVA_FILES" | wc -l)
+          echo "Found $TOTAL_COUNT Java files"
+          
+          if [ $TOTAL_COUNT -eq 0 ]; then
+            echo "No Java files found to convert!"
+            echo "has_files=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Select a file based on the current week number (rotates through files)
+          WEEK_NUM=$(date +%V)
+          FILE_INDEX=$(( ($WEEK_NUM - 1) % $TOTAL_COUNT + 1 ))
+          
+          SELECTED_FILE=$(echo "$JAVA_FILES" | sed -n "${FILE_INDEX}p")
+          echo "Selected file: $SELECTED_FILE"
+          echo "selected_file=$SELECTED_FILE" >> $GITHUB_OUTPUT
+          echo "has_files=true" >> $GITHUB_OUTPUT
+          
+          # Extract class name for issue/PR title
+          CLASS_NAME=$(basename "$SELECTED_FILE" .java)
+          echo "class_name=$CLASS_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create issue for Copilot to convert
+        if: steps.find-java.outputs.has_files == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create an issue and tag @copilot to perform the conversion
+          cat > /tmp/issue_body.md << 'ISSUE_EOF'
+          @copilot Please convert the following Java file to Kotlin and create a pull request:
+
+          **File to convert:** `${{ steps.find-java.outputs.selected_file }}`
+
+          ### Conversion Requirements:
+          1. Preserve all functionality and logic from the Java implementation
+          2. Use Kotlin idioms and best practices (null safety, data classes, properties, etc.)
+          3. Maintain the same package structure
+          4. Keep the same file location (just change extension from .java to .kt)
+          5. Ensure null safety with proper Kotlin annotations
+          6. Use Kotlin data classes where appropriate
+          7. Replace Java patterns with Kotlin equivalents:
+             - Getters/setters → Kotlin properties
+             - Static methods → companion object or top-level functions
+             - Builders → Kotlin default parameters or apply/with
+          8. Delete the original Java file after creating the Kotlin version
+          9. Update any imports in other files if necessary
+          10. Ensure all tests still pass
+
+          ### Steps:
+          - [ ] Read the Java file
+          - [ ] Convert to Kotlin maintaining all functionality
+          - [ ] Save as .kt file in the same location
+          - [ ] Delete the original .java file
+          - [ ] Run tests to verify no regressions
+          - [ ] Create a pull request with the changes
+
+          ---
+          *This issue was automatically created by the weekly Java-to-Kotlin conversion workflow.*
+          *Scheduled to run every Wednesday at 0:09 GMT.*
+          ISSUE_EOF
+
+          gh issue create \
+            --title "Convert ${{ steps.find-java.outputs.class_name }} from Java to Kotlin" \
+            --body-file /tmp/issue_body.md \
+            --label "automation,kotlin,refactoring"
+
+          echo "Issue created successfully for Copilot to handle the conversion."
