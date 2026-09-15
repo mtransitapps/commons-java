@@ -3,13 +3,16 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:StopTimeSQL.kt:StopTimeSQL$fun update: Boolean</ID>
-    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
-    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanTripHeadsign</ID>
     <ID>EmptyDefaultConstructor:CommonSQL.kt:CommonSQL</ID>
     <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_CHARS_REGEX_REPLACEMENT</ID>
     <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_FACE_A_REGEX_REPLACEMENT</ID>
     <ID>FunctionOnlyReturningConstant:CleanUtilsExt.kt:fun makeALL_ST_REGEX_REPLACEMENT</ID>
-    <ID>LongMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
+    <ID>ImplicitDefaultLocale:SQLInsertBuilder.kt:SQLInsertBuilder.Companion$String.format(sqlInjectQuery, values.asList().joinToString(","))</ID>
+    <ID>LongParameterList:StopTimeSQL.kt:StopTimeSQL$fun update: Boolean</ID>
+    <ID>LongParameterList:StringsCleaner.kt:StringsCleaner$@JvmOverloads @JvmStatic fun cleanRouteLongName: String</ID>
+    <ID>LongParameterList:StringsCleaner.kt:StringsCleaner$@JvmOverloads @JvmStatic fun cleanStopName: String</ID>
+    <ID>LongParameterList:StringsCleaner.kt:StringsCleaner$@JvmOverloads @JvmStatic fun cleanTripHeadsign: String</ID>
+    <ID>LongParameterList:StringsCleaner.kt:StringsCleaner$@VisibleForTesting internal fun cleanString: String</ID>
     <ID>LoopWithTooManyJumpStatements:CharUtils.kt:CharUtils$for</ID>
     <ID>MagicNumber:SourceUtils.kt:SourceUtils$3</ID>
     <ID>NewLineAtEndOfFile:AgencySQL.kt:org.mtransit.commons.gtfs.sql.AgencySQL.kt</ID>
@@ -17,8 +20,6 @@
     <ID>NewLineAtEndOfFile:CalendarDateSQL.kt:org.mtransit.commons.gtfs.sql.CalendarDateSQL.kt</ID>
     <ID>NewLineAtEndOfFile:CalendarExceptionType.kt:org.mtransit.commons.gtfs.data.CalendarExceptionType.kt</ID>
     <ID>NewLineAtEndOfFile:CharUtils.kt:org.mtransit.commons.CharUtils.kt</ID>
-    <ID>NewLineAtEndOfFile:CleanerTest.kt:org.mtransit.commons.CleanerTest.kt</ID>
-    <ID>NewLineAtEndOfFile:CollectionsExtTest.kt:org.mtransit.commons.CollectionsExtTest.kt</ID>
     <ID>NewLineAtEndOfFile:Color.kt:org.mtransit.commons.gtfs.data.Color.kt</ID>
     <ID>NewLineAtEndOfFile:CommonSQL.kt:org.mtransit.commons.gtfs.sql.CommonSQL.kt</ID>
     <ID>NewLineAtEndOfFile:CommonsApp.kt:org.mtransit.commons.CommonsApp.kt</ID>
@@ -53,6 +54,12 @@
     <ID>NewLineAtEndOfFile:Url.kt:org.mtransit.commons.gtfs.data.Url.kt</ID>
     <ID>NewLineAtEndOfFile:WinnipegTransitProviderCommons.kt:org.mtransit.commons.provider.WinnipegTransitProviderCommons.kt</ID>
     <ID>NewLineAtEndOfFile:WordUtils.kt:org.mtransit.commons.WordUtils.kt</ID>
+    <ID>NoNameShadowing:RouteSQL.kt:RouteSQL${ "'$it'" }</ID>
+    <ID>NoNameShadowing:StopTimeSQL.kt:StopTimeSQL${ "'$it'" }</ID>
+    <ID>NoNameShadowing:TripSQL.kt:TripSQL${ "'$it'" }</ID>
+    <ID>SpreadOperator:CaVancouverTransLinkProviderCommons.kt:CaVancouverTransLinkProviderCommons$(Locale.ENGLISH, tripHeadsign, *getIgnoredWords())</ID>
+    <ID>SpreadOperator:CommonSQL.kt:CommonSQL$( it, *toInsertColumns(statement, mainObject) )</ID>
+    <ID>SpreadOperator:SQLTableDef.kt:SQLTableDef$(*columns.filter { it.primaryKey }.map { it.columnName }.toTypedArray())</ID>
     <ID>TooGenericExceptionCaught:CommonSQL.kt:CommonSQL$e: Exception</ID>
     <ID>TooGenericExceptionCaught:SourceUtils.kt:SourceUtils$e: Exception</ID>
     <ID>TooGenericExceptionThrown:CommonSQL.kt:CommonSQL$throw Exception("Error while counting routes!")</ID>
@@ -67,5 +74,6 @@
     <ID>TooManyFunctions:CommonSQL.kt:CommonSQL&lt;MainType&gt; : TableSQL</ID>
     <ID>TooManyFunctions:RegexUtils.kt:RegexUtils</ID>
     <ID>TooManyFunctions:SQLUtils.kt:SQLUtils</ID>
+    <ID>UnreachableCode:CommonSQL.kt:CommonSQL$getMainTable()?.let { tableDef -&gt; val sql = "SELECT COUNT(*) AS count FROM ${tableDef.tableName}" return statement.executeQueryMT(sql).use { rs -&gt; if (rs.next()) { return rs.getInt("count") } throw Exception("Error while counting routes!") } } ?: throw Exception("No main table!")</ID>
   </CurrentIssues>
 </SmellBaseline>
