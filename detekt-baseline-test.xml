@@ -2,10 +2,5 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
-    <ID>CyclomaticComplexMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanTripHeadsign</ID>
-    <ID>LongMethod:StringsCleanerTests.kt:StringsCleanerTests$@Test fun test_cleanRouteLongName</ID>
-    <ID>NewLineAtEndOfFile:CleanerTest.kt:org.mtransit.commons.CleanerTest.kt</ID>
-    <ID>NewLineAtEndOfFile:CollectionsExtTest.kt:org.mtransit.commons.CollectionsExtTest.kt</ID>
   </CurrentIssues>
 </SmellBaseline>

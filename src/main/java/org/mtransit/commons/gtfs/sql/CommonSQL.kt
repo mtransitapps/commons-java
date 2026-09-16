@@ -9,7 +9,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 
-abstract class CommonSQL<MainType>() : TableSQL {
+abstract class CommonSQL<MainType> : TableSQL {
 
     // region IDs table
 
@@ -71,7 +71,7 @@ abstract class CommonSQL<MainType>() : TableSQL {
             append((if (allowUpdate) SQLUtils.INSERT_OR_REPLACE_INTO else SQLUtils.INSERT_INTO))
             append(it.tableName)
             append(SQLUtils.VALUES_P1)
-            it.columns.forEachIndexed { i, columnDef ->
+            it.columns.forEachIndexed { i, _ ->
                 if (i > 0) {
                     append(SQLUtils.COLUMN_SEPARATOR)
                 }
@@ -111,15 +111,14 @@ abstract class CommonSQL<MainType>() : TableSQL {
     fun getMainTableSQLDrop() = getMainTable()?.getSQLDropIfExistsQuery()
 
     open fun count(statement: Statement): Int {
-        getMainTable()?.let { tableDef ->
-            val sql = "SELECT COUNT(*) AS count FROM ${tableDef.tableName}"
-            return statement.executeQueryMT(sql).use { rs ->
-                if (rs.next()) {
-                    return rs.getInt("count")
-                }
-                throw Exception("Error while counting routes!")
+        val tableDef = getMainTable() ?: throw Exception("No main table!")
+        val sql = "SELECT COUNT(*) AS count FROM ${tableDef.tableName}"
+        statement.executeQueryMT(sql).use { rs ->
+            if (rs.next()) {
+                return rs.getInt("count")
             }
-        } ?: throw Exception("No main table!")
+            throw Exception("Error while counting routes!")
+        }
     }
 
     // endregion Main table
@@ -136,15 +135,13 @@ abstract class CommonSQL<MainType>() : TableSQL {
 
     abstract fun toInsertColumns(statement: Statement, mainObject: MainType): Array<Any?>
 
-    open fun getSQLInsertOrReplace(statement: Statement, mainObject: MainType, allowUpdate: Boolean = false) = getMainTableSQLInsert(allowUpdate)?.let {
-        SQLInsertBuilder.compile(
-            it,
-            *toInsertColumns(statement, mainObject)
-        )
-    }
+    open fun getSQLInsertOrReplace(statement: Statement, mainObject: MainType, allowUpdate: Boolean = false) =
+        getMainTableSQLInsert(allowUpdate)?.let {
+            SQLInsertBuilder.compile(it, toInsertColumns(statement, mainObject))
+        }
 
     abstract fun fromResultSet(rs: ResultSet): MainType
 
     fun getAlias(sourceColumn: String, valueColumn: String) = "${sourceColumn}_$valueColumn"
-    fun getJoinAlias(sourceColumn: String) = "the_${sourceColumn}"
+    fun getJoinAlias(sourceColumn: String) = "the_$sourceColumn"
 }

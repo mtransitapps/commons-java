@@ -21,9 +21,8 @@ fun Long.isSameDay(other: Long, timeZone: TimeZone): Boolean {
 
 fun Calendar.isSameDay(other: Calendar): Boolean {
     return this[Calendar.ERA] == other[Calendar.ERA]
-            && this[Calendar.YEAR] == other[Calendar.YEAR]
-            && this[Calendar.DAY_OF_YEAR] == other[Calendar.DAY_OF_YEAR]
-
+        && this[Calendar.YEAR] == other[Calendar.YEAR]
+        && this[Calendar.DAY_OF_YEAR] == other[Calendar.DAY_OF_YEAR]
 }
 
 val Calendar.beginningOfDay: Calendar

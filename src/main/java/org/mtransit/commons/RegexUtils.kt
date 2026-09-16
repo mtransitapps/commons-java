@@ -67,7 +67,9 @@ object RegexUtils {
         }
         return if (patterns == null) {
             string
-        } else replaceAllNN(string, patterns, replacement)
+        } else {
+            replaceAllNN(string, patterns, replacement)
+        }
     }
 
     @JvmStatic
