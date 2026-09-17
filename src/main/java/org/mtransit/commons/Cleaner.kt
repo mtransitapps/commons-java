@@ -27,7 +27,7 @@ data class Cleaner @JvmOverloads constructor(
         ignoreCase: Boolean = false,
     ) : this(
         regex = regex.toRegex(
-            options = mutableSetOf<RegexOption>().apply {
+            options = buildSet {
                 if (ignoreCase) add(RegexOption.IGNORE_CASE)
             }
         ),

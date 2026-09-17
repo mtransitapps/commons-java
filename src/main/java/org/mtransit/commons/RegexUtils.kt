@@ -62,14 +62,9 @@ object RegexUtils {
 
     @JvmStatic
     fun replaceAll(string: String?, patterns: Array<Pattern>?, replacement: String): String? {
-        if (string == null) {
-            return null
-        }
-        return if (patterns == null) {
-            string
-        } else {
-            replaceAllNN(string, patterns, replacement)
-        }
+        if (string == null) return null
+        if (patterns == null) return string
+        return replaceAllNN(string, patterns, replacement)
     }
 
     @JvmStatic
