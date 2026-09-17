@@ -64,8 +64,8 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
     )
 
     override fun toInsertColumns(statement: Statement, mainObject: Route) = with(mainObject) {
-        val agencyId = (agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
-            ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId)
+        val agencyId = agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
+            ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId
         arrayOf<Any?>(
             agencyId?.let { agencyId ->
                 AgencySQL.getOrInsertIdInt(statement, agencyId)
