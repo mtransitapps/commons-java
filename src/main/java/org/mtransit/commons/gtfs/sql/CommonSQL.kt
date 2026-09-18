@@ -22,7 +22,7 @@ abstract class CommonSQL<MainType> : TableSQL {
     fun getIdsTableSQLDrop() = getIdsTable()?.getSQLDropIfExistsQuery()
 
     open fun getSQLInsertIds(id: String) = getIdsTableSQLInsert()?.let { sql ->
-        SQLInsertBuilder.compile(sql, id.quotesEscape())
+        SQLInsertBuilder.compile(sql, arrayOf(id.quotesEscape()))
     }
 
     @Suppress("unused")
