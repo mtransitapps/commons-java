@@ -3,8 +3,8 @@ package org.mtransit.commons
 @Suppress("unused")
 object Constants {
 
-    @JvmStatic
     // val DEBUG = true // DEBUG
+    @JvmStatic
     val DEBUG = BuildConfig.DEBUG_DEFAULT
 
     const val NEW_LINE = '\n'

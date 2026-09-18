@@ -1,6 +1,5 @@
 package org.mtransit.commons.sql
 
-
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object SQLUtils {
 

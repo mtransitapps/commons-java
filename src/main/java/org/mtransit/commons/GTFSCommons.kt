@@ -92,10 +92,12 @@ object GTFSCommons {
     const val T_TRIP_K_ROUTE_ID = "route_id"
     private const val T_TRIP_K_SERVICE_ID = "service_id"
     private const val T_TRIP_K_SERVICE_ID_INT = "service_id_int"
+
     @JvmStatic
     val T_TRIP_K_SERVICE_ID_OR_INT = if (FeatureFlags.F_EXPORT_SERVICE_ID_INTS) T_TRIP_K_SERVICE_ID_INT else T_TRIP_K_SERVICE_ID
     private const val T_TRIP_K_TRIP_ID = "trip_id"
     private const val T_TRIP_K_TRIP_ID_INT = "trip_id_int"
+
     @JvmStatic
     val T_TRIP_K_TRIP_ID_OR_INT = if (FeatureFlags.F_EXPORT_TRIP_ID_INTS) T_TRIP_K_TRIP_ID_INT else T_TRIP_K_TRIP_ID
     const val T_TRIP_K_DIRECTION_ID = "direction_id"

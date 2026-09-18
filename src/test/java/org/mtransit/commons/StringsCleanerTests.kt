@@ -46,6 +46,7 @@ class StringsCleanerTests {
         }
     }
 
+    @Suppress("CyclomaticComplexMethod")
     @Test
     fun test_cleanTripHeadsign() {
         "Terrebonne / Mascouche".let { tripHeadsign ->
@@ -105,6 +106,7 @@ class StringsCleanerTests {
         }
     }
 
+    @Suppress("CyclomaticComplexMethod")
     @Test
     fun test_cleanRouteLongName() {
         "Yonge-University Line".let {

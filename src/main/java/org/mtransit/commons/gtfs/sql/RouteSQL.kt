@@ -64,13 +64,12 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
     )
 
     override fun toInsertColumns(statement: Statement, mainObject: Route) = with(mainObject) {
+        val agencyId = agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
+            ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId
         arrayOf<Any?>(
-            (agencyId.takeIf { it.isNotEmpty() } // agency ID // 1st
-                ?: AgencySQL.select(null, statement).singleOrNull()?.agencyId)
-                ?.let { agencyId ->
-                    AgencySQL.getOrInsertIdInt(statement, agencyId)
-                }
-                ?: throw Exception("Can't find agency ID!"),
+            agencyId?.let { agencyId ->
+                AgencySQL.getOrInsertIdInt(statement, agencyId)
+            } ?: throw Exception("Can't find agency ID!"),
             getOrInsertIdInt(statement, routeId), // route ID // 2nd
             originalRouteId.quotesEscape(),
             routeShortName.quotesEscape(),
@@ -96,8 +95,8 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
             append("FROM $T_ROUTE ")
             append("JOIN $T_ROUTE_IDS ON $T_ROUTE.$T_ROUTE_K_ID_INT = $T_ROUTE_IDS.$T_ROUTE_K_ID_INT ")
             append("JOIN ${AgencySQL.T_AGENCY_IDS} ON $T_ROUTE.$T_ROUTE_K_AGENCY_ID_INT = ${AgencySQL.T_AGENCY_IDS}.${AgencySQL.T_AGENCY_K_ID_INT} ")
-            routeIds?.let {
-                append("WHERE $T_ROUTE_IDS.$T_ROUTE_IDS_K_ID IN (${it.joinToString { "'$it'" }}) ")
+            routeIds?.let { rIds ->
+                append("WHERE $T_ROUTE_IDS.$T_ROUTE_IDS_K_ID IN (${rIds.joinToString { "'$it'" }}) ")
             }
             agencyId?.let {
                 append("WHERE ${AgencySQL.T_AGENCY_IDS}.${AgencySQL.T_AGENCY_IDS_K_ID} = '$it' ")
@@ -117,17 +116,17 @@ object RouteSQL : CommonSQL<Route>(), TableSQL {
 
     override fun fromResultSet(rs: ResultSet) = with(rs) {
         Route(
-            routeId = rs.getString(T_ROUTE_IDS_K_ID),
-            originalRouteId = rs.getString(T_ROUTE_K_ORIGINAL_ROUTE_ID),
-            agencyId = rs.getString(AgencySQL.T_AGENCY_IDS_K_ID),
-            routeShortName = rs.getString(T_ROUTE_K_ROUTE_SHORT_NAME),
-            routeLongName = rs.getString(T_ROUTE_K_ROUTE_LONG_NAME),
-            routeDesc = rs.getString(T_ROUTE_K_ROUTE_DESC),
-            routeType = rs.getInt(T_ROUTE_K_ROUTE_TYPE),
-            routeUrl = rs.getString(T_ROUTE_K_ROUTE_URL),
-            routeColor = rs.getString(T_ROUTE_K_ROUTE_COLOR),
-            routeTextColor = rs.getString(T_ROUTE_K_ROUTE_TEXT_COLOR),
-            routeSortOrder = rs.getInt(T_ROUTE_K_ROUTE_SORT_ORDER)
+            routeId = getString(T_ROUTE_IDS_K_ID),
+            originalRouteId = getString(T_ROUTE_K_ORIGINAL_ROUTE_ID),
+            agencyId = getString(AgencySQL.T_AGENCY_IDS_K_ID),
+            routeShortName = getString(T_ROUTE_K_ROUTE_SHORT_NAME),
+            routeLongName = getString(T_ROUTE_K_ROUTE_LONG_NAME),
+            routeDesc = getString(T_ROUTE_K_ROUTE_DESC),
+            routeType = getInt(T_ROUTE_K_ROUTE_TYPE),
+            routeUrl = getString(T_ROUTE_K_ROUTE_URL),
+            routeColor = getString(T_ROUTE_K_ROUTE_COLOR),
+            routeTextColor = getString(T_ROUTE_K_ROUTE_TEXT_COLOR),
+            routeSortOrder = getInt(T_ROUTE_K_ROUTE_SORT_ORDER)
         )
     }
 }

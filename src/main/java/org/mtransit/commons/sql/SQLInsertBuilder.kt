@@ -10,10 +10,8 @@ class SQLInsertBuilder private constructor(table: String, allowReplace: Boolean 
             return SQLInsertBuilder(table, allowReplace)
         }
 
-        fun compile(
-            sqlInjectQuery: String,
-            vararg values: Any?
-        ) = String.format(sqlInjectQuery, values.asList().joinToString(","))
+        fun compile(sqlInjectQuery: String, values: Array<Any?>) =
+            String.format(sqlInjectQuery, values.joinToString(","))
     }
 
     private val sqlInsertSb: StringBuilder = StringBuilder(

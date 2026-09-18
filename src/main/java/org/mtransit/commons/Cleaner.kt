@@ -26,9 +26,11 @@ data class Cleaner @JvmOverloads constructor(
         replacement: String = EMPTY,
         ignoreCase: Boolean = false,
     ) : this(
-        regex = regex.toRegex(options = mutableSetOf<RegexOption>().apply {
-            if (ignoreCase) add(RegexOption.IGNORE_CASE)
-        }),
+        regex = regex.toRegex(
+            options = buildSet {
+                if (ignoreCase) add(RegexOption.IGNORE_CASE)
+            }
+        ),
         replacement = replacement,
     )
 
@@ -72,8 +74,8 @@ data class Cleaner @JvmOverloads constructor(
         @JvmStatic
         fun matchWords(vararg wordsRegex: String) = group(
             group(WORD_BOUNDARY)
-                    + groupOr(*wordsRegex)
-                    + group(WORD_BOUNDARY)
+                + groupOr(*wordsRegex)
+                + group(WORD_BOUNDARY)
         )
     }
 }

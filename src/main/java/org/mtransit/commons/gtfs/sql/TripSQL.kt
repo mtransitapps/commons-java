@@ -166,5 +166,4 @@ object TripSQL : CommonSQL<Trip>(), TableSQL {
         }
         return statement.executeUpdateMT(sql)
     }
-
 }

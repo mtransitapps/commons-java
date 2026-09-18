@@ -43,7 +43,8 @@ data class SQLTableDef(
             columnNameIdInt: String = "${tableName}_id_int",
             columnNameId: String = "${tableName}_id",
         ) = SQLTableDef(
-            tableName, listOf(
+            tableName,
+            listOf(
                 SQLColumDef(columnNameIdInt, SQLUtils.INT_PK_AUTO),
                 SQLColumDef(columnNameId, SQLUtils.TXT),
             )
