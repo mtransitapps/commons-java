@@ -9,7 +9,7 @@ class CleanUtilsKtTests {
 
     @BeforeTest
     fun setUp() {
-        CommonsApp.setup(false)
+        CommonsApp.setup(isAndroidPlatform = false)
     }
 
     @Test
