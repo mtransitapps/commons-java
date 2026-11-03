@@ -117,7 +117,7 @@ class StringsCleanerTests {
         "Yonge - University Line".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
         }.let { result ->
-            assertEquals("Yonge - University Line", result)
+            assertEquals("Yonge - University", result)
         }
         "St. Clair Line".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 1)
@@ -137,7 +137,7 @@ class StringsCleanerTests {
         "Tenth Line".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
-            assertEquals("Tenth", result)
+            assertEquals("Tenth Line", result)
         }
         "Place Orléans Line".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
@@ -145,6 +145,11 @@ class StringsCleanerTests {
             assertEquals("Place Orléans", result)
         }
         "Place D'Orléans Line".let {
+            StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
+        }.let { result ->
+            assertEquals("Place D'Orléans", result)
+        }
+        "Line Place D'Orléans".let {
             StringsCleaner.cleanRouteLongName(it, languages = listOf(Locale.ENGLISH), routeType = 3)
         }.let { result ->
             assertEquals("Place D'Orléans", result)

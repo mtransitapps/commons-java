@@ -11,17 +11,24 @@ object StringsCleaner {
         """(?x)
         # Alternative 1: "line <name>" at start or after space
         ( (^|\s+) line \s+ ([\p{L}\p{N}]+) )
-        |
+        """.trimIndent(),
+        RegexOption.IGNORE_CASE
+    )
+    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2$3"
+
+    private const val SHORT_NAME_AND_LINE_MIN_LENGTH = ROUTE_LONG_NAME_SHORT_MAX_LENGTH.div(3)
+    private val SHORT_NAME_AND_LINE = Regex(
+        """(?x)
         # Alternative 2: "<name> line" at the end of the string
         (
             ^
-            ( ( [\p{L}\p{N}]+ ( - | \s+(?!line\b) | ' | \.\s+(?!line\b) ) )*+ )
+            ( ( [\p{L}\p{N}]+ ( \s*-\s* | \s+(?!line\b) | ' | \.\s+(?!line\b) ) )*+ )
             ( [\p{L}\p{N}]+ ) \s+ line ( \s* $ )
         )
         """.trimIndent(),
         RegexOption.IGNORE_CASE
     )
-    private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2$3$5$8"
+    private const val SHORT_NAME_AND_LINE_REPLACEMENT = "$2$5"
 
     private val FR_LIGNE_AND_SHORT_NAME = Regex("""(^|\s+)ligne\s+([\p{L}\p{N}]+)""", RegexOption.IGNORE_CASE)
     private const val FR_LIGNE_AND_SHORT_NAME_REPLACEMENT = "$1$2"
@@ -40,6 +47,9 @@ object StringsCleaner {
         var routeLongName = originalRouteLongName
         if (languages?.contains(Locale.ENGLISH) == true) {
             routeLongName = LINE_AND_SHORT_NAME.replace(routeLongName, LINE_AND_SHORT_NAME_REPLACEMENT)
+            if (routeLongName.length > SHORT_NAME_AND_LINE_MIN_LENGTH && routeLongName.contains(' ')) { // avoid 'Tenth line' -> 'Tenth'
+                routeLongName = SHORT_NAME_AND_LINE.replace(routeLongName, SHORT_NAME_AND_LINE_REPLACEMENT)
+            }
         }
         if (languages?.contains(Locale.FRENCH) == true) {
             routeLongName = FR_LIGNE_AND_SHORT_NAME.replace(routeLongName, FR_LIGNE_AND_SHORT_NAME_REPLACEMENT)
