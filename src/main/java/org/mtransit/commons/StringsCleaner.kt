@@ -15,6 +15,8 @@ object StringsCleaner {
         RegexOption.IGNORE_CASE
     )
     private const val LINE_AND_SHORT_NAME_REPLACEMENT = "$2$3"
+
+    private const val SHORT_NAME_AND_LINE_MIN_LENGTH = ROUTE_LONG_NAME_SHORT_MAX_LENGTH.div(3)
     private val SHORT_NAME_AND_LINE = Regex(
         """(?x)
         # Alternative 2: "<name> line" at the end of the string
@@ -23,7 +25,7 @@ object StringsCleaner {
             ( ( [\p{L}\p{N}]+ ( \s*-\s* | \s+(?!line\b) | ' | \.\s+(?!line\b) ) )*+ )
             ( [\p{L}\p{N}]+ ) \s+ line ( \s* $ )
         )
-       """.trimIndent(),
+        """.trimIndent(),
         RegexOption.IGNORE_CASE
     )
     private const val SHORT_NAME_AND_LINE_REPLACEMENT = "$2$5"
@@ -45,7 +47,7 @@ object StringsCleaner {
         var routeLongName = originalRouteLongName
         if (languages?.contains(Locale.ENGLISH) == true) {
             routeLongName = LINE_AND_SHORT_NAME.replace(routeLongName, LINE_AND_SHORT_NAME_REPLACEMENT)
-            if (routeLongName.length > ROUTE_LONG_NAME_SHORT_MAX_LENGTH.div(3) && routeLongName.contains(' ')) { // avoid 'Tenth line' -> 'Tenth'
+            if (routeLongName.length > SHORT_NAME_AND_LINE_MIN_LENGTH && routeLongName.contains(' ')) { // avoid 'Tenth line' -> 'Tenth'
                 routeLongName = SHORT_NAME_AND_LINE.replace(routeLongName, SHORT_NAME_AND_LINE_REPLACEMENT)
             }
         }
