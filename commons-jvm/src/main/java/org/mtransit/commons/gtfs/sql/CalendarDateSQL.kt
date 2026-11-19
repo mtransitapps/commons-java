@@ -96,12 +96,14 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         )
     }
 
+    const val DELETE_CHUNK_SIZE = 1000
+
     fun delete(statement: Statement, calendarDates: Collection<CalendarDate>? = null): Int {
         if (calendarDates.isNullOrEmpty()) {
             return statement.executeUpdate("DELETE FROM $T_CALENDAR_DATE")
         }
         var count = 0
-        calendarDates.chunked(1000).forEach { cCalendarDates ->
+        calendarDates.chunked(DELETE_CHUNK_SIZE).forEach { cCalendarDates ->
             if (cCalendarDates.isEmpty()) return@forEach
             val sql = buildString {
                 append("DELETE FROM $T_CALENDAR_DATE")
