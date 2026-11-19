@@ -96,7 +96,7 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         )
     }
 
-    const val DELETE_CHUNK_SIZE = 1000
+    private const val DELETE_CHUNK_SIZE = 1000
 
     fun delete(statement: Statement, calendarDates: Collection<CalendarDate>? = null): Int {
         if (calendarDates == null) {
@@ -107,11 +107,21 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
             val sql = buildString {
                 append("DELETE FROM $T_CALENDAR_DATE")
                 append(" WHERE ($T_CALENDAR_DATE_K_SERVICE_ID_INT,$T_CALENDAR_DATE_K_DATE,$T_CALENDAR_DATE_K_EXCEPTION_TYPE) IN (")
-                append(
-                    cCalendarDates.joinToString(separator = ",") { calendarDate ->
-                        "(${getOrInsertIdInt(statement, calendarDate.serviceId)},${calendarDate.date},${calendarDate.exceptionType.id})"
+                var first = true
+                for (calendarDate in cCalendarDates) {
+                    if (first) {
+                        first = false
+                    } else {
+                        append(",")
                     }
-                )
+                    append("(")
+                    append(getOrInsertIdInt(statement, calendarDate.serviceId))
+                    append(",")
+                    append(calendarDate.date)
+                    append(",")
+                    append(calendarDate.exceptionType.id)
+                    append(")")
+                }
                 append(")")
             }
             count += statement.executeUpdate(sql)
