@@ -104,17 +104,12 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         }
         var count = 0
         calendarDates.chunked(DELETE_CHUNK_SIZE).forEach { cCalendarDates ->
-            if (cCalendarDates.isEmpty()) return@forEach
             val sql = buildString {
                 append("DELETE FROM $T_CALENDAR_DATE")
                 append(" WHERE ($T_CALENDAR_DATE_K_SERVICE_ID_INT,$T_CALENDAR_DATE_K_DATE,$T_CALENDAR_DATE_K_EXCEPTION_TYPE) IN (")
                 append(
                     cCalendarDates.joinToString(separator = ",") { calendarDate ->
-                        listOf(
-                            getOrInsertIdInt(statement, calendarDate.serviceId),
-                            calendarDate.date,
-                            calendarDate.exceptionType.id,
-                        ).joinToString(separator = ",", prefix = "(", postfix = ")")
+                        "(${getOrInsertIdInt(statement, calendarDate.serviceId)},${calendarDate.date},${calendarDate.exceptionType.id})"
                     }
                 )
                 append(")")
