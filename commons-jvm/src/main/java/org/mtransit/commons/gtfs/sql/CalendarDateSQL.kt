@@ -99,7 +99,7 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
     const val DELETE_CHUNK_SIZE = 1000
 
     fun delete(statement: Statement, calendarDates: Collection<CalendarDate>? = null): Int {
-        if (calendarDates.isNullOrEmpty()) {
+        if (calendarDates == null) {
             return statement.executeUpdate("DELETE FROM $T_CALENDAR_DATE")
         }
         var count = 0
