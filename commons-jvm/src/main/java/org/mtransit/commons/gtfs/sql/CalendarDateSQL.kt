@@ -96,15 +96,36 @@ object CalendarDateSQL : CommonSQL<CalendarDate>(), TableSQL {
         )
     }
 
-    fun delete(statement: Statement, calendarDate: CalendarDate? = null): Int {
-        val sql = buildString {
-            append("DELETE FROM $T_CALENDAR_DATE")
-            calendarDate?.let {
-                append(" WHERE $T_CALENDAR_DATE_K_SERVICE_ID_INT = ${getOrInsertIdInt(statement, calendarDate.serviceId)}")
-                append(" AND $T_CALENDAR_DATE_K_DATE = ${calendarDate.date}")
-                append(" AND $T_CALENDAR_DATE_K_EXCEPTION_TYPE = ${calendarDate.exceptionType.id}")
-            }
+    private const val DELETE_CHUNK_SIZE = 1000
+
+    fun delete(statement: Statement, calendarDates: Collection<CalendarDate>? = null): Int {
+        if (calendarDates == null) {
+            return statement.executeUpdate("DELETE FROM $T_CALENDAR_DATE")
         }
-        return statement.executeUpdate(sql)
+        var count = 0
+        calendarDates.chunked(DELETE_CHUNK_SIZE).forEach { cCalendarDates ->
+            val sql = buildString {
+                append("DELETE FROM $T_CALENDAR_DATE")
+                append(" WHERE ($T_CALENDAR_DATE_K_SERVICE_ID_INT,$T_CALENDAR_DATE_K_DATE,$T_CALENDAR_DATE_K_EXCEPTION_TYPE) IN (")
+                var first = true
+                for (calendarDate in cCalendarDates) {
+                    if (first) {
+                        first = false
+                    } else {
+                        append(",")
+                    }
+                    append("(")
+                    append(getOrInsertIdInt(statement, calendarDate.serviceId))
+                    append(",")
+                    append(calendarDate.date)
+                    append(",")
+                    append(calendarDate.exceptionType.id)
+                    append(")")
+                }
+                append(")")
+            }
+            count += statement.executeUpdate(sql)
+        }
+        return count
     }
 }
