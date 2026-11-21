@@ -22,6 +22,9 @@ object FeatureFlags {
     const val F_MODULE_AUTO_OPEN = false
     // const val F_MODULE_AUTO_OPEN = true // WIP
 
+    const val F_EXPORT_PROVIDER_CONFIG = false
+    // const val F_EXPORT_PROVIDER_CONFIG = true // WIP
+
     // const val F_USE_ROUTE_TYPE_FILTER = false
     // TODO @Deprecated("remove this flag", ReplaceWith("true"))
     const val F_USE_ROUTE_TYPE_FILTER = true // WIP
