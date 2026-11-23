@@ -40,6 +40,11 @@ fun Any?.toJsonPrimitive(): JsonPrimitive = when (this) {
     else -> throw IllegalArgumentException("Cannot convert ${this::class} to JsonPrimitive")
 }
 
+val JsonElement.jsonPrimitiveOrNull get() = this as? JsonPrimitive
+val JsonElement.jsonObjectOrNull get() = this as? JsonObject
+val JsonElement.jsonArrayOrNull get() = this as? JsonArray
+val JsonElement.jsonNullOrNull get() = this as? JsonNull
+
 fun JsonElement.toAny(): Any? = when (this) {
     is JsonNull -> null
     is JsonPrimitive -> when {
