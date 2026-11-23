@@ -4,9 +4,11 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.long
@@ -49,4 +51,11 @@ fun JsonElement.toAny(): Any? = when (this) {
     }
     is JsonObject -> mapValues { it.value.toAny() }
     is JsonArray -> map { it.toAny() }
+}
+
+inline fun JsonObject.edit(builderAction: JsonObjectBuilder.() -> Unit): JsonObject {
+    return buildJsonObject {
+        forEach { (key, value) -> put(key, value) }
+        builderAction()
+    }
 }
