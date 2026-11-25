@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.mtransit.commons
 
 import kotlinx.serialization.json.JsonArray
@@ -6,14 +8,12 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.long
 import kotlinx.serialization.json.longOrNull
 
+@Suppress("CyclomaticComplexMethod")
 fun Any?.toJsonElement(): JsonElement = when (this) {
     null -> JsonNull
     is JsonElement -> this
@@ -27,6 +27,14 @@ fun Any?.toJsonElement(): JsonElement = when (this) {
 
     is Iterable<*> -> JsonArray(this.map { it.toJsonElement() })
     is Array<*> -> JsonArray(this.map { it.toJsonElement() })
+    is ByteArray -> JsonArray(this.map { it.toJsonElement() })
+    is ShortArray -> JsonArray(this.map { it.toJsonElement() })
+    is IntArray -> JsonArray(this.map { it.toJsonElement() })
+    is LongArray -> JsonArray(this.map { it.toJsonElement() })
+    is FloatArray -> JsonArray(this.map { it.toJsonElement() })
+    is DoubleArray -> JsonArray(this.map { it.toJsonElement() })
+    is BooleanArray -> JsonArray(this.map { it.toJsonElement() })
+    is CharArray -> JsonArray(this.map { it.toJsonElement() })
     else -> throw IllegalArgumentException("Unsupported type for JsonElement: ${this::class}")
 }
 
@@ -47,18 +55,17 @@ val JsonElement.jsonNullOrNull get() = this as? JsonNull
 
 fun JsonElement.toAny(): Any? = when (this) {
     is JsonNull -> null
-    is JsonPrimitive -> when {
-        isString -> content
-        booleanOrNull != null -> boolean
-        longOrNull != null -> long
-        doubleOrNull != null -> double
-        else -> content
+    is JsonPrimitive -> if (isString) {
+        content
+    } else {
+        booleanOrNull ?: longOrNull ?: doubleOrNull ?: content
     }
+
     is JsonObject -> mapValues { it.value.toAny() }
     is JsonArray -> map { it.toAny() }
 }
 
-inline fun JsonObject.edit(builderAction: JsonObjectBuilder.() -> Unit): JsonObject {
+inline fun JsonObject.copy(builderAction: JsonObjectBuilder.() -> Unit): JsonObject {
     return buildJsonObject {
         forEach { (key, value) -> put(key, value) }
         builderAction()
