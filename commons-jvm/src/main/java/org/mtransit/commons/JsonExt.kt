@@ -20,6 +20,7 @@ fun Any?.toJsonElement(): JsonElement = when (this) {
     is Number -> JsonPrimitive(this)
     is Boolean -> JsonPrimitive(this)
     is String -> JsonPrimitive(this)
+    is Char -> JsonPrimitive(this.toString())
     is Enum<*> -> JsonPrimitive(this.name)
     is Map<*, *> -> JsonObject(
         this.entries.associate { (k, v) -> k.toString() to v.toJsonElement() }
@@ -44,6 +45,7 @@ fun Any?.toJsonPrimitive(): JsonPrimitive = when (this) {
     is Number -> JsonPrimitive(this)
     is Boolean -> JsonPrimitive(this)
     is String -> JsonPrimitive(this)
+    is Char -> JsonPrimitive(this.toString())
     is Enum<*> -> JsonPrimitive(this.name)
     else -> throw IllegalArgumentException("Cannot convert ${this::class} to JsonPrimitive")
 }
