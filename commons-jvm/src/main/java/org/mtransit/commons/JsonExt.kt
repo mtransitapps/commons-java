@@ -69,7 +69,7 @@ fun JsonElement.toAny(): Any? = when (this) {
 
 inline fun JsonObject.copy(builderAction: JsonObjectBuilder.() -> Unit): JsonObject {
     return buildJsonObject {
-        forEach { (key, value) -> put(key, value) }
+        this@copy.forEach { (key, value) -> put(key, value) }
         builderAction()
     }
 }
