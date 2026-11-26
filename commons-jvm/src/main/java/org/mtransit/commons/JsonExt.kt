@@ -28,14 +28,14 @@ fun Any?.toJsonElement(): JsonElement = when (this) {
 
     is Iterable<*> -> JsonArray(this.map { it.toJsonElement() })
     is Array<*> -> JsonArray(this.map { it.toJsonElement() })
-    is ByteArray -> JsonArray(this.map { it.toJsonElement() })
-    is ShortArray -> JsonArray(this.map { it.toJsonElement() })
-    is IntArray -> JsonArray(this.map { it.toJsonElement() })
-    is LongArray -> JsonArray(this.map { it.toJsonElement() })
-    is FloatArray -> JsonArray(this.map { it.toJsonElement() })
-    is DoubleArray -> JsonArray(this.map { it.toJsonElement() })
-    is BooleanArray -> JsonArray(this.map { it.toJsonElement() })
-    is CharArray -> JsonArray(this.map { it.toJsonElement() })
+    is ByteArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is ShortArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is IntArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is LongArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is FloatArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is DoubleArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is BooleanArray -> JsonArray(this.map { JsonPrimitive(it) })
+    is CharArray -> JsonArray(this.map { JsonPrimitive(it.toString()) })
     else -> throw IllegalArgumentException("Unsupported type for JsonElement: ${this::class}")
 }
 
