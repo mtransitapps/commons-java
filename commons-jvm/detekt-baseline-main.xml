@@ -10,7 +10,6 @@
     <ID>ImplicitDefaultLocale:SQLInsertBuilder.kt:SQLInsertBuilder.Companion$String.format(sqlInjectQuery, values.joinToString(","))</ID>
     <ID>LoopWithTooManyJumpStatements:CharUtils.kt:CharUtils$for</ID>
     <ID>MagicNumber:SourceUtils.kt:SourceUtils$3</ID>
-    <ID>NoNameShadowing:RouteSQL.kt:RouteSQL${ "'$it'" }</ID>
     <ID>NoNameShadowing:StopTimeSQL.kt:StopTimeSQL${ "'$it'" }</ID>
     <ID>NoNameShadowing:TripSQL.kt:TripSQL${ "'$it'" }</ID>
     <ID>SpreadOperator:CaVancouverTransLinkProviderCommons.kt:CaVancouverTransLinkProviderCommons$(Locale.ENGLISH, tripHeadsign, *getIgnoredWords())</ID>
