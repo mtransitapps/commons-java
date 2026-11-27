@@ -10,7 +10,9 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.longOrNull
 
 @Suppress("CyclomaticComplexMethod")
@@ -60,7 +62,7 @@ fun JsonElement.toAny(): Any? = when (this) {
     is JsonPrimitive -> if (isString) {
         content
     } else {
-        booleanOrNull ?: longOrNull ?: doubleOrNull ?: content
+        booleanOrNull ?: intOrNull ?: longOrNull ?: doubleOrNull ?: contentOrNull
     }
 
     is JsonObject -> mapValues { it.value.toAny() }
